@@ -1,7 +1,9 @@
 <?php
 namespace backend\controllers;
 
+use common\models\User;
 use Yii;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;

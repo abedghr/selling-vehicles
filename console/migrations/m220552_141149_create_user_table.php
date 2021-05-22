@@ -2,9 +2,9 @@
 
 use yii\db\Migration;
 
-class m130524_201442_init extends Migration
+class m220552_141149_create_user_table extends Migration
 {
-    public function up()
+    public function SafeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -19,14 +19,24 @@ class m130524_201442_init extends Migration
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),
             'email' => $this->string()->notNull()->unique(),
-
+            'type' => $this->string(100)->notNull(),
+            'phone' => $this->string(15)->notNull(),
+            'phone2' => $this->string(15)->null(),
+            'city_id' => $this->integer()->null(),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
+            'deleted_at' => $this->tinyInteger()->notNull()->defaultValue(0),
+            'created_at' => $this->timestamp()->null()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->null()->defaultExpression('CURRENT_TIMESTAMP'),
         ], $tableOptions);
+
+        $this->createIndex('username_index','user','username');
+        $this->createIndex('email_index','user','email');
+        $this->createIndex('phone_index','user','phone');
+
+        $this->addForeignKey('tax_city_id_FK','user','city_id','taxonomy','id','SET NULL','cascade');
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%user}}');
     }
