@@ -26,8 +26,8 @@ class m220552_141149_create_user_table extends Migration
             'location' => $this->string(500)->null(),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'is_deleted' => $this->tinyInteger()->notNull()->defaultValue(0),
-            'created_at' => $this->timestamp()->null()->defaultExpression('CURRENT_TIMESTAMP'),
-            'updated_at' => $this->timestamp()->null()->defaultExpression('CURRENT_TIMESTAMP'),
+            'created_at' => $this->integer()->null(),
+            'updated_at' => $this->integer()->null(),
         ], $tableOptions);
 
         $this->createIndex('username_index','user','username');
