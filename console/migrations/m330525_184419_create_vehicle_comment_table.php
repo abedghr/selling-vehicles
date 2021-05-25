@@ -17,9 +17,9 @@ class m330525_184419_create_vehicle_comment_table extends Migration
             'comment_id' => $this->integer()->notNull()
         ]);
 
-        $this->addPrimaryKey('vehicle_and_comment_PK','vehicle_comment',['vehicle_id','comment_id']);
-        $this->addForeignKey('vc_vehicle_id_FK','vehicle_comment','vehicle_id','vehicle','id');
-        $this->addForeignKey('vc_comment_id_FK','vehicle_comment','comment_id','comment','id');
+        $this->addPrimaryKey('vehicle_and_comment_PK', 'vehicle_comment', ['vehicle_id', 'comment_id']);
+        $this->addForeignKey('vc_vehicle_id_FK', 'vehicle_comment', 'vehicle_id', 'vehicle', 'id');
+        $this->addForeignKey('vc_comment_id_FK', 'vehicle_comment', 'comment_id', 'comment', 'id');
 
     }
 
