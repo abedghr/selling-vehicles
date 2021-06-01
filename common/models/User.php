@@ -24,20 +24,25 @@ use yii\web\IdentityInterface;
  */
 class User extends \common\models\BaseModels\User
 {
-    const INDVIDUAL_USER_TYPE = 'individual';
-    const COMPANY_TYPE = 'company';
+    const INDVIDUAL_USER_TYPE = 'Individual';
+    const COMPANY_TYPE = 'Company';
 
     public function userTypeList(){
         return [
-            self::INDVIDUAL_USER_TYPE => 'Individual User',
+            self::INDVIDUAL_USER_TYPE => 'Individual',
             self::COMPANY_TYPE => 'Company',
         ];
     }
 
-    public function registerUser(){
+    public function registerUser($user){
+        $transaction = Yii::$app->db->beginTransaction();
         $this->generateAuthKey();
         $this->generateEmailVerificationToken();
-        if($this->save())
+        if($this->save() && $user->save()){
+            $transaction->commit();
             return true;
+        }
+            $transaction->rollBack();
+            return false;
     }
 }

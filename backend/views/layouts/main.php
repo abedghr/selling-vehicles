@@ -57,14 +57,16 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-    <div class="content d-flex">
+    <div class="content d-flex min-vh-100">
         <main class="w-25 bg-light">
             <ul class="list-group">
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
+                <a href=""><li class="list-group-item">User</li></a>
+                <a href=""><li class="list-group-item">User</li></a>
+                <a href=""><li class="list-group-item">User</li></a>
+                <a href=""><li class="list-group-item">User</li></a>
+                <a href=""><li class="list-group-item">User</li></a>
+                <a href=""><li class="list-group-item">User</li></a>
+                <a href=""><li class="list-group-item">User</li></a>
             </ul>
         </main>
         <div class="container-fluid w-100 mt-5">

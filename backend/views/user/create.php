@@ -4,27 +4,19 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
+/* @var $user \common\models\IndividualUser|\common\models\Company */
 
 $this->title = Yii::t('app', 'Create User');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $this->title . ' ' . $model->type;
 ?>
-<div class="user-create">
+<div class="user-create container-fluid">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="container">
-        <div class="row">
-            <?php foreach ($model->userTypeList() as $type){ ?>
-                <div class="">
-                    <a href="" class="col-auto mt-2 mb-4 mr-2 btn btn-success"><?= Html::encode($type) ?></a>
-                </div>
-            <?php } ?>
-        </div>
-    </div>
+    <h1 class="mb-3"><?= Html::encode($this->title.' '.$model->type) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
+        'user' => $user
     ]) ?>
 
 </div>

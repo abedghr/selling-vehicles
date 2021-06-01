@@ -14,9 +14,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create User'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div class="container-fluid">
+        <div class="row">
+            <?php foreach ($searchModel->userTypeList() as $type){ ?>
+                <div class="">
+                    <a href="<?= \yii\helpers\Url::to(['/user/create','type'=>$type]) ?>" class="col-auto mt-2 mb-4 mr-2 btn btn-success"><?= Html::encode($type) ?></a>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
 
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
