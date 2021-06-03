@@ -4,6 +4,8 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
+/* @var $cities array */
+/* @var $vehicle_types array */
 /* @var $user \common\models\IndividualUser|\common\models\Company */
 
 $this->title = Yii::t('app', 'Create User');
@@ -16,7 +18,9 @@ $this->params['breadcrumbs'][] = $this->title . ' ' . $model->type;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'user' => $user
+        'user' => $user,
+        'cities' => $cities,
+        'vehicle_types' => $vehicle_types
     ]) ?>
 
 </div>
