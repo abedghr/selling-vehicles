@@ -136,9 +136,11 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $delete = $this->findModel($id);
+        $delete->is_deleted = 1;
+        if($delete->save()){
+            return $this->redirect(['index']);
+        }
     }
 
     /**

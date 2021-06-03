@@ -53,8 +53,22 @@ $this->params['breadcrumbs'][] = $model->username;
             'company.description',
             'company.description_en',
             'company.branch_number',
-            'company.image',
+            [
 
+                'attribute' => 'image',
+
+                'format' => 'html',
+
+                'label' => 'Image',
+
+                'value' => function ($model) {
+                    if($model->company->image) {
+                        return Html::img('/uploads/company/' . $model->company->image,
+                            ['width' => '250px']);
+                    }
+                },
+
+            ],
         ]);
     }
 
