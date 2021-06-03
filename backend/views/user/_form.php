@@ -5,19 +5,21 @@ use yii\bootstrap4\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
+/* @var $cities array */
+/* @var $vehicle_types array */
 /* @var $user common\models\IndividualUser|\common\models\Company */
 /* @var $form yii\bootstrap4\ActiveForm */
 ?>
 
 <div class="user-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <div class="row">
         <div class="col-lg-6">
             <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-lg-6">
-            <?= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'password_hash')->passwordInput(['maxlength' => true]) ?>
         </div>
     </div>
     <div class="row">
@@ -25,7 +27,7 @@ use yii\bootstrap4\ActiveForm;
             <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-lg-6">
-            <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'type')->textInput(['maxlength' => true , 'readonly'=>true]) ?>
         </div>
     </div>
     <div class="row">
@@ -38,10 +40,10 @@ use yii\bootstrap4\ActiveForm;
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <?= $form->field($model, 'city_id')->textInput() ?>
+            <?= $form->field($model, 'city_id')->dropdownList(\yii\helpers\ArrayHelper::map($cities,'id','title')) ?>
         </div>
         <div class="col-lg-6">
-            <?= $form->field($model, 'status')->textInput() ?>
+            <?= $form->field($model, 'status')->dropdownList($model->userStatusList()) ?>
         </div>
     </div>
     <div class="row">
@@ -81,10 +83,10 @@ use yii\bootstrap4\ActiveForm;
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <?= $form->field($user, 'vehicles_type')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($user, 'vehicles_type')->dropdownList($vehicle_types) ?>
             </div>
             <div class="col-lg-6">
-                <?= $form->field($user, 'image')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($user, 'imageFile')->fileInput(['class' => 'form-control']) ?>
             </div>
         </div>
         <div class="row">

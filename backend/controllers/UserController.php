@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use common\models\Company;
 use common\models\IndividualUser;
+use common\models\Taxonomy;
+use common\models\Vehicle;
 use Yii;
 use common\models\User;
 use common\models\UserSearch;
@@ -68,13 +70,18 @@ class UserController extends Controller
     public function actionCreate($type)
     {
         $model = new User();
+        $taxonomy = new Taxonomy();
+        $vehicle = new Vehicle();
+        $cities = $taxonomy->getAllCity();
+        $vehicle_types = $vehicle->vehicleTypeList();
+        $user = null;
         if ($type == User::INDVIDUAL_USER_TYPE) {
             $model->type = $type;
             $user = new IndividualUser();
         }
         if ($type == User::COMPANY_TYPE) {
             $model->type = $type;
-            $user = new Company();
+            $user = new Company(['scenario'=>Company::SCENARIO_CREATE]);
         }
 
         $form_data = Yii::$app->request->post();
@@ -85,7 +92,9 @@ class UserController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'user' => $user
+            'user' => $user,
+            'cities' => $cities,
+            'vehicle_types' => $vehicle_types
         ]);
     }
 
