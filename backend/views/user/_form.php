@@ -52,11 +52,6 @@ use yii\bootstrap4\ActiveForm;
 
     <?php if ($model->type == \common\models\User::INDVIDUAL_USER_TYPE) { ?>
         <div class="row">
-            <div class="col-lg-12">
-                <?= $form->field($user, 'user_id')->textInput() ?>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-lg-6">
                 <?= $form->field($user, 'first_name')->textInput(['maxlength' => true]) ?>
             </div>
@@ -76,11 +71,6 @@ use yii\bootstrap4\ActiveForm;
     <?php } ?>
     <?php if ($model->type == \common\models\User::COMPANY_TYPE) { ?>
 
-        <div class="row">
-            <div class="col-lg-12">
-                <?= $form->field($user, 'user_id')->textInput() ?>
-            </div>
-        </div>
         <div class="row">
             <div class="col-lg-6">
                 <?= $form->field($user, 'name')->textInput(['maxlength' => true]) ?>

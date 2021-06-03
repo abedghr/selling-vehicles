@@ -54,6 +54,7 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
+        $user = User::find()->where(['id'=>$id])->With('individualUser')->one();
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -67,7 +68,6 @@ class UserController extends Controller
     public function actionCreate($type)
     {
         $model = new User();
-        $user = null;
         if ($type == User::INDVIDUAL_USER_TYPE) {
             $model->type = $type;
             $user = new IndividualUser();
@@ -76,6 +76,7 @@ class UserController extends Controller
             $model->type = $type;
             $user = new Company();
         }
+
         $form_data = Yii::$app->request->post();
         if ($model->load($form_data) && $user->load($form_data)) {
             if ($model->registerUser($user))
@@ -97,14 +98,23 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = User::find()->where(['id'=>$id])->with('company','individualUser')->one();
+        $user = null;
+        if($model->type == User::INDVIDUAL_USER_TYPE){
+            $user = $model->individualUser;
+        }
+        if($model->type == User::COMPANY_TYPE){
+            $user = $model->company;
+        }
+        if ($model->load(Yii::$app->request->post()) && $user->load(Yii::$app->request->post())) {
+            if($model->save() && $user->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'user' => $user
         ]);
     }
 
