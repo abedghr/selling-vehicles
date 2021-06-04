@@ -36,10 +36,10 @@ AppAsset::register($this);
                 <p>Selling vehicles Admin Dashboard</p>
             </div>
             <ul class="list-group" style="list-style:none; background-color: #0d1d2cc7 !important;">
-                <a href="<?= Url::to(['/user/index']) ?>" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 26px;">Manage User</li></a>
-                <a href="<?= Url::to(['/taxonomy/index']) ?>" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 26px;">Manage Taxonomy</li></a>
-                <a href="" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 26px;">Manage New Vehicles</li></a>
-                <a href="" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 26px;">Manage Used Vehicles</li></a>
+                <a href="<?= Url::to(['/user/index']) ?>" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px;">Manage User</li></a>
+                <a href="<?= Url::to(['/taxonomy/index']) ?>" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px;">Manage Taxonomy</li></a>
+                <a href="" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px;">Manage New Vehicles</li></a>
+                <a href="" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px;">Manage Used Vehicles</li></a>
             </ul>
         </main>
         <div class="w-100 d-flex flex-column">
