@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
+use \yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Taxonomy */
@@ -15,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?php if ($type == \common\models\Taxonomy::MODEL) { ?>
 
-        <?= $form->field($model, 'parent_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Taxonomy::find()->where(['type' => \common\models\Taxonomy::MAKE])->all(), 'id', 'title_en')) ?>
+        <?= $form->field($model, 'parent_id')->dropDownList(ArrayHelper::map(\common\models\Taxonomy::find()->where(['type' => \common\models\Taxonomy::MAKE])->all(), 'id', 'title_en')) ?>
 
     <?php } ?>
 

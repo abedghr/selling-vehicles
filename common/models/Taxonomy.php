@@ -51,6 +51,8 @@ class Taxonomy extends \common\models\BaseModels\Taxonomy
     const GASOLINE_AMOUNT = 'gasoline_amount';
     const MILEAGE = 'mileage';
     const VEHICLE_CHECKING = 'vehicle_checking';
+    const GEAR_BOX = 'gear_box';
+    const WHEELS_SIZE = 'wheels_size';
 
     public $imageFile;
 
@@ -71,6 +73,8 @@ class Taxonomy extends \common\models\BaseModels\Taxonomy
             self::GASOLINE_AMOUNT => Yii::t('app','gasoline amount'),
             self::MILEAGE => Yii::t('app','mileage'),
             self::VEHICLE_CHECKING => Yii::t('app','vehicle checking'),
+            self::GEAR_BOX => Yii::t('app','gear box'),
+            self::WHEELS_SIZE => Yii::t('app','wheels size'),
         ];
     }
 
