@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $model->username;
         $all_columns = array_merge($columns, [
             'company.name',
             'company.name_en',
-            'company.vehicle_type',
+            'company.vehicles_type',
             'company.description',
             'company.description_en',
             'company.branch_number',

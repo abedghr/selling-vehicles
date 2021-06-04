@@ -12,6 +12,7 @@ use common\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -56,7 +57,6 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
-        $user = User::find()->where(['id'=>$id])->With('individualUser')->one();
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -108,6 +108,10 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = User::find()->where(['id'=>$id])->with('company','individualUser')->one();
+        $taxonomy = new Taxonomy();
+        $vehicle = new Vehicle();
+        $cities = $taxonomy->getAllCity();
+        $vehicle_types = $vehicle->vehicleTypeList();
         $user = null;
         if($model->type == User::INDVIDUAL_USER_TYPE){
             $user = $model->individualUser;
@@ -116,14 +120,19 @@ class UserController extends Controller
             $user = $model->company;
         }
         if ($model->load(Yii::$app->request->post()) && $user->load(Yii::$app->request->post())) {
+            $transaction = Yii::$app->db->beginTransaction();
             if($model->save() && $user->save()){
+                $transaction->commit();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
+            $transaction->rollBack();
         }
 
         return $this->render('update', [
             'model' => $model,
-            'user' => $user
+            'user' => $user,
+            'cities' => $cities,
+            'vehicle_type' => $vehicle_types
         ]);
     }
 
