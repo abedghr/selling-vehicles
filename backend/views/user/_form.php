@@ -40,7 +40,7 @@ use yii\bootstrap4\ActiveForm;
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <?= $form->field($model, 'city_id')->dropdownList(\yii\helpers\ArrayHelper::map($cities,'id','title')) ?>
+            <?= $form->field($model, 'city_id')->dropdownList(\yii\helpers\ArrayHelper::map($cities,'id','title_en')) ?>
         </div>
         <div class="col-lg-6">
             <?= $form->field($model, 'status')->dropdownList($model->userStatusList()) ?>
