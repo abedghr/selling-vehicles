@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Media;
 use common\models\NewVehicle;
 use common\models\UsedVehicle;
 use common\models\User;
@@ -69,6 +70,7 @@ class VehicleController extends Controller
     public function actionCreate($type)
     {
         $model = new Vehicle();
+        $media = new Media(['scenario' => Media::SCENARIO_CREATE]);
         $model->type = $type;
         $vehicle = null;
         $users = User::find()->where(['type' => User::COMPANY_TYPE ])->all();
@@ -79,16 +81,24 @@ class VehicleController extends Controller
             $vehicle = new UsedVehicle();
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $vehicle->load((Yii::$app->request->post()))) {
+            $transaction = Yii::$app->db->beginTransaction();
+            if ($model->save()) {
+                $vehicle->vehicle_id = $model->id;
+                if($vehicle->save()){
+                    $transaction->commit();
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+                $transaction->rollBack();
+            }
+            $transaction->rollBack();
         }
-
-
 
         return $this->render('create', [
             'model' => $model,
             'vehicle' => $vehicle,
-            'users' => $users
+            'users' => $users,
+            'media' => $media
         ]);
     }
 

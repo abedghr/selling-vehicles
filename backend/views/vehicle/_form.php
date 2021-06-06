@@ -7,6 +7,7 @@ use \common\models\Taxonomy;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Vehicle */
+/* @var $media common\models\Media */
 /* @var $vehicle \common\models\NewVehicle|\common\models\UsedVehicle */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $users array */
@@ -61,15 +62,17 @@ use \common\models\Taxonomy;
             <?= $form->field($model, 'main_image')->fileInput(['class' => 'form-control']) ?>
         </div>
         <div class="col-lg-6">
-            <?= $form->field($model, 'type')->textInput(['maxlength' => true , 'readonly' => true ]) ?>
+            <?= $form->field($media, 'imageFile')->fileInput(['multiple' => true, 'accept' => 'image/*','class' => 'form-control']) ?>
         </div>
-
     </div>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'type')->textInput(['maxlength' => true , 'readonly' => true ]) ?>
+        </div>
+        <div class="col-lg-4">
             <?= $form->field($model, 'status')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <?= $form->field($model, 'manufacturing_year')->textInput(['maxlength' => true]) ?>
         </div>
     </div>

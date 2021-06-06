@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Vehicle */
+/* @var $media common\models\Media */
 /* @var $users array */
 /* @var $vehicle \common\models\NewVehicle|\common\models\UsedVehicle */
 
@@ -18,7 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
         'vehicle' => $vehicle,
-        'users' => $users
+        'users' => $users,
+        'media' => $media
     ]) ?>
 
 </div>
