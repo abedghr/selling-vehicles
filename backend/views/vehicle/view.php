@@ -53,9 +53,24 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]) ?>
-    <?php foreach ($vehicle_media as $media) { ?>
-        <div class="col-auto">
-            <?= HTML::img('/uploads/vehicle/'.$media->media->image,['width'=>'100','height' => '100']) ?>
+
+    <?php if (isset($vehicle_media)) { ?>
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3>Vehicle Images</h3>
+            </div>
+            <div class="card-body container-fluid pb-5">
+                <div class="row">
+                    <?php foreach ($vehicle_media as $v_media) { ?>
+
+                        <div class="col-auto mt-4">
+                            <a class="bg-info p-1 pl-2 pr-2 rounded" style="position: absolute; top: 10px; right: 27px"><i class="fa fa-eye fa-lg text-light"></i></a>
+                            <?= HTML::img('/uploads/vehicle/'.$v_media->media->image,['width'=>'250','height' => '250','class'=>'rounded']) ?>
+                        </div>
+
+                    <?php } ?>
+                </div>
+            </div>
         </div>
     <?php } ?>
 </div>

@@ -76,9 +76,9 @@ class Vehicle extends \common\models\BaseModels\Vehicle
     public function vehicleStatusList()
     {
         return [
-            self::VEHICLE_PENDING => 9/*Yii::t('app','pending')*/,
-            self::VEHICLE_ACTIVE => 10/*Yii::t('app','active')*/,
-            self::VEHICLE_BLOCKED => -1/*Yii::t('app','blocked')*/,
+             9 => self::VEHICLE_PENDING /*Yii::t('app','pending')*/,
+             10 => self::VEHICLE_ACTIVE /*Yii::t('app','active')*/,
+            -1 => self::VEHICLE_BLOCKED /*Yii::t('app','active')*/,
         ];
     }
 
@@ -105,6 +105,34 @@ class Vehicle extends \common\models\BaseModels\Vehicle
             }
             return false;
         }
+    }
+
+    public function updateVehicle($vehicle, $media){
+        $transaction = Yii::$app->db->beginTransaction();
+        if ($this->imageFile = UploadedFile::getInstance($this, 'imageFile')) {
+            $this->main_image = time() . '_' . $this->imageFile->name;
+        }
+            if ($this->save()) {
+                $vehicle->vehicle_id = $this->id;
+                if ($vehicle->save()) {
+                    if ($this->imageFile && !$this->imageFile->saveAs('uploads/vehicle/' . time() . '_' . $this->imageFile)) {
+                        $transaction->rollBack();
+                        return false;
+                    }
+
+                    if ($media->imageFile = UploadedFile::getInstances($media, 'imageFile')) {
+                        $uploads = $this->MultiUploadImages($media);
+                        if (!$uploads) {
+                            $transaction->rollBack();
+                            return false;
+                        }
+                    }
+                    $transaction->commit();
+                    return true;
+                }
+                $transaction->rollBack();
+            }
+        return false;
     }
 
     public function MultiUploadImages($media)

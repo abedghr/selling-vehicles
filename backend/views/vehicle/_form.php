@@ -20,17 +20,18 @@ use \yii\helpers\Url;
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <div class="row">
         <div class="col-lg-4">
-            <?= $form->field($model, 'user_id')->dropdownList(ArrayHelper::map($users, 'id', 'username'),['prompt'=>'Select User']) ?>
+            <?= $form->field($model, 'user_id')->dropdownList(ArrayHelper::map($users, 'id', 'username'), ['prompt' => 'Select User']) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'make_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::MAKE])->all(), 'id', 'title_en'), ['id'=>'make_id','prompt'=>'Select Make']) ?>
+            <?= $form->field($model, 'make_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::MAKE])->all(), 'id', 'title_en'), ['id' => 'make_id', 'prompt' => 'Select Make']) ?>
         </div>
         <div class="col-lg-4">
-            <?=  $form->field($model, 'model_id')->widget(DepDrop::class, [
-                'options'=>['id'=>'model_id'],
-                'pluginOptions'=>[
-                    'depends'=>['make_id'],
-                    'url'=>Url::to(['/taxonomy/models-depends'])
+            <?= $form->field($model, 'model_id')->widget(DepDrop::class, [
+                'data' => ArrayHelper::map(Taxonomy::findAll(['type' => Taxonomy::MODEL, 'parent_id' => $model->make_id]), 'id', 'title_en'),
+                'options' => ['id' => 'model_id'],
+                'pluginOptions' => [
+                    'depends' => ['make_id'],
+                    'url' => Url::to(['/taxonomy/models-depends'])
                 ]
             ]); ?>
         </div>
@@ -70,12 +71,12 @@ use \yii\helpers\Url;
             <?= $form->field($model, 'imageFile')->fileInput(['class' => 'form-control']) ?>
         </div>
         <div class="col-lg-6">
-            <?= $form->field($media, 'imageFile[]')->fileInput(['multiple' => true,'class' => 'form-control']) ?>
+            <?= $form->field($media, 'imageFile[]')->fileInput(['multiple' => true, 'class' => 'form-control']) ?>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-4">
-            <?= $form->field($model, 'type')->textInput(['maxlength' => true , 'readonly' => true ]) ?>
+            <?= $form->field($model, 'type')->textInput(['maxlength' => true, 'readonly' => true]) ?>
         </div>
         <div class="col-lg-4">
             <?= $form->field($model, 'status')->dropdownList($vehicle_status_list) ?>
@@ -85,7 +86,7 @@ use \yii\helpers\Url;
         </div>
     </div>
 
-    <?php if($model->type == \common\models\Vehicle::TYPE_NEW){ ?>
+    <?php if ($model->type == \common\models\Vehicle::TYPE_NEW) { ?>
 
         <div class="row">
             <div class="col-lg-4">
@@ -122,7 +123,7 @@ use \yii\helpers\Url;
         </div>
 
     <?php } ?>
-    <?php if ($model->type ==\common\models\Vehicle::TYPE_USED) { ?>
+    <?php if ($model->type == \common\models\Vehicle::TYPE_USED) { ?>
 
         <div class="row">
             <div class="col-lg-4">
@@ -137,6 +138,27 @@ use \yii\helpers\Url;
         </div>
 
     <?php } ?>
+
+    <?php if (isset($vehicle_media)) { ?>
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3>Vehicle Images</h3>
+            </div>
+            <div class="card-body container-fluid pb-5">
+                <div class="row">
+                    <?php foreach ($vehicle_media as $v_media) { ?>
+
+                        <div class="col-auto mt-4">
+                            <a href="/vehicle/delete-image?id=<?= $v_media->media->id ?>" class="bg-danger p-2 pl-3 pr-3 rounded" style="position: absolute; top: 10px; right: 27px" onclick="return confirm('Are you sure ?')"><i class="fa fa-trash text-light"></i></a>
+                            <?= HTML::img('/uploads/vehicle/'.$v_media->media->image,['width'=>'250','height' => '250','class'=>'rounded']) ?>
+                        </div>
+
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>

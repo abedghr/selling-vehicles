@@ -10,6 +10,7 @@ use common\models\VehicleMedia;
 use Yii;
 use common\models\Vehicle;
 use common\models\VehicleSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -26,6 +27,15 @@ class VehicleController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -115,13 +125,31 @@ class VehicleController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $users = User::find()->where(['type' => User::COMPANY_TYPE])->all();
+        $vehicle_media = $model->vehicleMedia;
+        $media = new Media(['scenario' => Media::SCENARIO_UPDATE]);
+        $vehicle = null;
+        if($model->type == Vehicle::TYPE_NEW){
+            $vehicle = $model->newVehicle;
+        }
+        if($model->type == Vehicle::TYPE_USED){
+            $vehicle = $model->usedVehicle;
+        }
+        $vehicle_status_list = $model->vehicleStatusList();
+        $formData = Yii::$app->request->post();
+        if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData)) {
+            $update = $model->updateVehicle($vehicle, $media);
+            if($update)
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'vehicle' => $vehicle,
+            'users' => $users,
+            'media' => $media,
+            'vehicle_media' => $vehicle_media,
+            'vehicle_status_list' => $vehicle_status_list
         ]);
     }
 
@@ -137,6 +165,13 @@ class VehicleController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+
+    public function actionDeleteImage($id)
+    {
+        Media::findOne($id)->delete();
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
     }
 
     /**

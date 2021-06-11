@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Taxonomy;
 use common\models\TaxonomySearch;
+use yii\filters\AccessControl;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -21,6 +22,15 @@ class TaxonomyController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+            'class' => AccessControl::className(),
+            'rules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['@'],
+                ],
+            ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
