@@ -1,8 +1,10 @@
 <?php
 namespace backend\controllers;
 
+use common\models\Taxonomy;
 use common\models\User;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -101,4 +103,5 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
 }

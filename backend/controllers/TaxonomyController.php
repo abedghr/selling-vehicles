@@ -5,6 +5,8 @@ namespace backend\controllers;
 use Yii;
 use common\models\Taxonomy;
 use common\models\TaxonomySearch;
+use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +22,15 @@ class TaxonomyController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+            'class' => AccessControl::className(),
+            'rules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['@'],
+                ],
+            ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -128,5 +139,26 @@ class TaxonomyController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public function actionModelsDepends(){
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $make_id = $parents[0];
+                $models = Taxonomy::findAll([
+                    'type' => Taxonomy::MODEL,
+                    'parent_id' => $make_id
+                ]);
+                foreach ($models as $model){
+                    $out[] = ['id'=> $model->id , 'name' => $model->title_en];
+                }
+
+                return ['output'=>$out, 'selected'=>''];
+            }
+        }
+        return ['output' => '', 'selected' => ''];
     }
 }

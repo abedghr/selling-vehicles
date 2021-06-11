@@ -1,0 +1,22 @@
+{
+  "name": "selling-vehicles",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">     <a href=\"https://github.com/yiisoft\" target=\"_blank\">         <img src=\"https://avatars0.githubusercontent.com/u/993323\" height=\"100px\">     </a>     <h1 align=\"center\">Yii 2 Advanced Project Template</h1>     <br> </p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abedghr/selling-vehicles.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abedghr/selling-vehicles/issues"
+  },
+  "homepage": "https://github.com/abedghr/selling-vehicles#readme",
+  "devDependencies": {
+
+  }
+}

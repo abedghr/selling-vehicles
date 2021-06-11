@@ -30,18 +30,17 @@ AppAsset::register($this);
 <div class="wrap h-100">
 
     <div class="content d-flex min-vh-100">
-        <main class="w-25 text-light" style="background-color: #0e1c2a">
-            <div style="padding: 15px">
+        <aside class="w-25 text-light" style="background-color: #0e1c2a">
+            <div style="padding: 15px; border-bottom: 1px solid gray;">
                 <h4>Dashboard</h4>
                 <p>Selling vehicles Admin Dashboard</p>
             </div>
             <ul class="list-group" style="list-style:none; background-color: #0d1d2cc7 !important;">
-                <a href="<?= Url::to(['/user/index']) ?>" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px;">Manage User</li></a>
-                <a href="<?= Url::to(['/taxonomy/index']) ?>" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px;">Manage Taxonomy</li></a>
-                <a href="" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px;">Manage New Vehicles</li></a>
-                <a href="" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px;">Manage Used Vehicles</li></a>
+                <a href="<?= Url::to(['/user/index']) ?>" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px; border-bottom-color: gray !important;">Manage User</li></a>
+                <a href="<?= Url::to(['/taxonomy/index']) ?>" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px; border-bottom-color: gray !important;">Manage Taxonomy</li></a>
+                <a href="<?= Url::to(['/vehicle/index']) ?>" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px; border-bottom-color: gray !important;">Manage Vehicles</li></a>
             </ul>
-        </main>
+        </aside>
         <div class="w-100 d-flex flex-column">
             <?php
             NavBar::begin([
