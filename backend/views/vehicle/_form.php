@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
 use \yii\helpers\ArrayHelper;
 use \common\models\Taxonomy;
+use \kartik\depdrop\DepDrop;
+use \yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Vehicle */
@@ -15,16 +17,22 @@ use \common\models\Taxonomy;
 
 <div class="vehicle-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <div class="row">
         <div class="col-lg-4">
             <?= $form->field($model, 'user_id')->dropdownList(ArrayHelper::map($users, 'id', 'username'),['prompt'=>'Select User']) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'make_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::MAKE])->all(), 'id', 'title_en')) ?>
+            <?= $form->field($model, 'make_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::MAKE])->all(), 'id', 'title_en'), ['id'=>'make_id','prompt'=>'Select Make']) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'model_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::MODEL])->all(), 'id', 'title_en')) ?>
+            <?=  $form->field($model, 'model_id')->widget(DepDrop::class, [
+                'options'=>['id'=>'model_id'],
+                'pluginOptions'=>[
+                    'depends'=>['make_id'],
+                    'url'=>Url::to(['/taxonomy/models-depends'])
+                ]
+            ]); ?>
         </div>
     </div>
     <div class="row">
@@ -59,10 +67,10 @@ use \common\models\Taxonomy;
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <?= $form->field($model, 'main_image')->fileInput(['class' => 'form-control']) ?>
+            <?= $form->field($model, 'imageFile')->fileInput(['class' => 'form-control']) ?>
         </div>
         <div class="col-lg-6">
-            <?= $form->field($media, 'imageFile')->fileInput(['multiple' => true, 'accept' => 'image/*','class' => 'form-control']) ?>
+            <?= $form->field($media, 'imageFile[]')->fileInput(['multiple' => true,'class' => 'form-control']) ?>
         </div>
     </div>
     <div class="row">
@@ -70,7 +78,7 @@ use \common\models\Taxonomy;
             <?= $form->field($model, 'type')->textInput(['maxlength' => true , 'readonly' => true ]) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'status')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'status')->dropdownList($vehicle_status_list) ?>
         </div>
         <div class="col-lg-4">
             <?= $form->field($model, 'manufacturing_year')->textInput(['maxlength' => true]) ?>
@@ -102,10 +110,13 @@ use \common\models\Taxonomy;
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-4">
+                <?= $form->field($vehicle, 'engine_capacity')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-lg-4">
                 <?= $form->field($vehicle, 'video_url')->textInput(['maxlength' => true]) ?>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <?= $form->field($vehicle, 'horse_power')->textInput(['maxlength' => true]) ?>
             </div>
         </div>

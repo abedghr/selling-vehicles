@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php foreach ($all_taxonomy as $taxonomy){ ?>
 
-        <?= Html::a($taxonomy, ['create','type'=>$taxonomy], ['class' => 'btn btn-success col-auto']) ?>
+        <?= Html::a($taxonomy, ['create','type'=>$taxonomy], ['class' => 'btn btn-success col-auto mt-2']) ?>
 
     <?php } ?>
 

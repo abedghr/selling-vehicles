@@ -6,6 +6,7 @@ use yii\helpers\Html;
 /* @var $model common\models\Vehicle */
 /* @var $media common\models\Media */
 /* @var $users array */
+/* @var $vehicle_status_list array */
 /* @var $vehicle \common\models\NewVehicle|\common\models\UsedVehicle */
 
 $this->title = Yii::t('app', 'Create Vehicle');
@@ -20,7 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'vehicle' => $vehicle,
         'users' => $users,
-        'media' => $media
+        'media' => $media,
+        'vehicle_status_list' => $vehicle_status_list
     ]) ?>
 
 </div>

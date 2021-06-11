@@ -64,17 +64,17 @@ class Taxonomy extends \common\models\BaseModels\Taxonomy
             self::YEAR => Yii::t('app','year'),
             self::CITY => Yii::t('app','city'),
             self::COLOR => Yii::t('app','color'),
-            self::BODY_TYPE => Yii::t('app','body type'),
+            self::BODY_TYPE => Yii::t('app','body_type'),
             self::ENGINE => Yii::t('app','engine'),
-            self::ENGINE_CAPACITY => Yii::t('app','engine capacity'),
-            self::FUEL_TYPE => Yii::t('app','fuel type'),
-            self::LIGHT_TYPE => Yii::t('app','light type'),
-            self::PROPULSION_SYSTEM => Yii::t('app','propulsion system'),
-            self::GASOLINE_AMOUNT => Yii::t('app','gasoline amount'),
+            self::ENGINE_CAPACITY => Yii::t('app','engine_capacity'),
+            self::FUEL_TYPE => Yii::t('app','fuel_type'),
+            self::LIGHT_TYPE => Yii::t('app','light_type'),
+            self::PROPULSION_SYSTEM => Yii::t('app','propulsion_system'),
+            self::GASOLINE_AMOUNT => Yii::t('app','gasoline_amount'),
             self::MILEAGE => Yii::t('app','mileage'),
-            self::VEHICLE_CHECKING => Yii::t('app','vehicle checking'),
-            self::GEAR_BOX => Yii::t('app','gear box'),
-            self::WHEELS_SIZE => Yii::t('app','wheels size'),
+            self::VEHICLE_CHECKING => Yii::t('app','vehicle_checking'),
+            self::GEAR_BOX => Yii::t('app','gear_box'),
+            self::WHEELS_SIZE => Yii::t('app','wheels_size'),
         ];
     }
 
@@ -91,7 +91,7 @@ class Taxonomy extends \common\models\BaseModels\Taxonomy
         $this->imageFile = UploadedFile::getInstance($this,'imageFile');
         if($this->imageFile){
             $this->image = time() .'_' .$this->imageFile->name;
-            if(!$this->imageFile->saveAs('uploads/taxonomy/'.time() .'_' .$this->imageFile)) {
+            if(!$this->imageFile->saveAs('@backend/uploads/taxonomy/'.time() .'_' .$this->imageFile)) {
                 return false;
             }
         }

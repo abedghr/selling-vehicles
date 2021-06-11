@@ -30,25 +30,32 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'user_id',
-            'make_id',
-            'model_id',
-            'color_id',
-            'body_type_id',
-            'gear_box_id',
+            'user.username',
+            'make.title_en',
+            'model.title_en',
+            'color.title_en',
+            'bodyType.title_en',
+            'gearBox.title_en',
             'title',
             'title_en',
             'price',
             'description:ntext',
             'description_en:ntext',
-            'main_image',
             'type',
             'status',
             'manufacturing_year',
-            'is_deleted',
-            'created_at',
-            'updated_at',
+            [
+                'attribute' => 'main_image',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::img('/uploads/vehicle/' . $model->main_image, ['width' => '250px', 'class' => 'rounded']);
+                }
+            ],
         ],
     ]) ?>
-
+    <?php foreach ($vehicle_media as $media) { ?>
+        <div class="col-auto">
+            <?= HTML::img('/uploads/vehicle/'.$media->media->image,['width'=>'100','height' => '100']) ?>
+        </div>
+    <?php } ?>
 </div>

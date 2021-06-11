@@ -6,12 +6,14 @@ use common\models\Media;
 use common\models\NewVehicle;
 use common\models\UsedVehicle;
 use common\models\User;
+use common\models\VehicleMedia;
 use Yii;
 use common\models\Vehicle;
 use common\models\VehicleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * VehicleController implements the CRUD actions for Vehicle model.
@@ -57,8 +59,10 @@ class VehicleController extends Controller
      */
     public function actionView($id)
     {
+        $vehicle_media = VehicleMedia::find()->where(['vehicle_id'=>$id])->with('media')->all();
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'vehicle_media' => $vehicle_media
         ]);
     }
 
@@ -66,14 +70,17 @@ class VehicleController extends Controller
      * Creates a new Vehicle model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     * @param $type
      */
     public function actionCreate($type)
     {
-        $model = new Vehicle();
+        $model = new Vehicle(['scenario' => Vehicle::SCENARIO_CREATE]);
         $media = new Media(['scenario' => Media::SCENARIO_CREATE]);
+        $vehicle_status_list = $model->vehicleStatusList();
         $model->type = $type;
+        $users = User::find()->where(['type' => User::COMPANY_TYPE])->all();
+
         $vehicle = null;
-        $users = User::find()->where(['type' => User::COMPANY_TYPE ])->all();
         if ($type == Vehicle::TYPE_NEW) {
             $vehicle = new NewVehicle();
         }
@@ -81,24 +88,20 @@ class VehicleController extends Controller
             $vehicle = new UsedVehicle();
         }
 
-        if ($model->load(Yii::$app->request->post()) && $vehicle->load((Yii::$app->request->post()))) {
-            $transaction = Yii::$app->db->beginTransaction();
-            if ($model->save()) {
-                $vehicle->vehicle_id = $model->id;
-                if($vehicle->save()){
-                    $transaction->commit();
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
-                $transaction->rollBack();
+        $formData = Yii::$app->request->post();
+        if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData)) {
+            $create = $model->createVehicle($vehicle , $media);
+            if($create){
+                return $this->redirect(['view', 'id' => $model->id]);
             }
-            $transaction->rollBack();
         }
 
         return $this->render('create', [
             'model' => $model,
             'vehicle' => $vehicle,
             'users' => $users,
-            'media' => $media
+            'media' => $media,
+            'vehicle_status_list' => $vehicle_status_list
         ]);
     }
 
