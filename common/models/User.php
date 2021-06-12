@@ -33,6 +33,8 @@ use yii\web\UploadedFile;
  */
 class User extends \common\models\BaseModels\User
 {
+    const SUPER_ADMIN = 'super_admin';
+    const ADMIN = 'admin';
     const INDVIDUAL_USER_TYPE = 'individual';
     const COMPANY_TYPE = 'company';
 
@@ -49,6 +51,7 @@ class User extends \common\models\BaseModels\User
         return [
             self::INDVIDUAL_USER_TYPE => 'individual',
             self::COMPANY_TYPE => 'company',
+            self::ADMIN => 'admin',
         ];
     }
 
@@ -165,7 +168,7 @@ class User extends \common\models\BaseModels\User
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['type' => [self::SUPER_ADMIN, self::ADMIN ],'username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
