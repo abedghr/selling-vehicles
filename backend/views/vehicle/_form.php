@@ -13,6 +13,9 @@ use \yii\helpers\Url;
 /* @var $vehicle \common\models\NewVehicle|\common\models\UsedVehicle */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $users array */
+/* @var $camera array */
+/* @var $sensor array */
+/* @var $vehicle_status_list array */
 ?>
 
 <div class="vehicle-form">
@@ -23,10 +26,17 @@ use \yii\helpers\Url;
             <?= $form->field($model, 'user_id')->dropdownList(ArrayHelper::map($users, 'id', 'username'), ['prompt' => 'Select User']) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'make_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::MAKE])->all(), 'id', 'title_en'), ['id' => 'make_id', 'prompt' => 'Select Make']) ?>
+            <?= $form->field($model, 'make_id')->widget(\kartik\select2\Select2::classname(), [
+                'data' => ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::MAKE])->all(), 'id', 'title_en'),
+                'options' => ['placeholder' => 'Select a state ...', 'id' => 'make_id'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]); ?>
         </div>
         <div class="col-lg-4">
             <?= $form->field($model, 'model_id')->widget(DepDrop::class, [
+                'type' => DepDrop::TYPE_SELECT2,
                 'data' => ArrayHelper::map(Taxonomy::findAll(['type' => Taxonomy::MODEL, 'parent_id' => $model->make_id]), 'id', 'title_en'),
                 'options' => ['id' => 'model_id'],
                 'pluginOptions' => [
@@ -121,6 +131,15 @@ use \yii\helpers\Url;
                 <?= $form->field($vehicle, 'horse_power')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-4">
+                <?= $form->field($model,'vehicleFeatures[0]')->checkboxList($camera)->label('Camera') ?>
+            </div>
+            <div class="col-md-4">
+                <?= $form->field($model,'vehicleFeatures[1]')->checkboxList($sensor)->label('Sensors') ?>
+            </div>
+        </div>
+
 
     <?php } ?>
     <?php if ($model->type == \common\models\Vehicle::TYPE_USED) { ?>

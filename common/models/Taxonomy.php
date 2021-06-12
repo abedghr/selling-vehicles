@@ -53,7 +53,8 @@ class Taxonomy extends \common\models\BaseModels\Taxonomy
     const VEHICLE_CHECKING = 'vehicle_checking';
     const GEAR_BOX = 'gear_box';
     const WHEELS_SIZE = 'wheels_size';
-
+    const CAMERA = 'camera';
+    const SENSOR = 'sensor';
     public $imageFile;
 
     public function getAllTypes()
@@ -75,6 +76,8 @@ class Taxonomy extends \common\models\BaseModels\Taxonomy
             self::VEHICLE_CHECKING => Yii::t('app','vehicle_checking'),
             self::GEAR_BOX => Yii::t('app','gear_box'),
             self::WHEELS_SIZE => Yii::t('app','wheels_size'),
+            self::CAMERA => Yii::t('app','camera'),
+            self::SENSOR => Yii::t('app','sensor'),
         ];
     }
 

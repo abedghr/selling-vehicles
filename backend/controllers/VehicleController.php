@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\Media;
 use common\models\NewVehicle;
+use common\models\Taxonomy;
 use common\models\UsedVehicle;
 use common\models\User;
 use common\models\VehicleMedia;
@@ -11,6 +12,7 @@ use Yii;
 use common\models\Vehicle;
 use common\models\VehicleSearch;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -90,6 +92,14 @@ class VehicleController extends Controller
         $model->type = $type;
         $users = User::find()->where(['type' => User::COMPANY_TYPE])->all();
 
+
+        $camera = ArrayHelper::map(Taxonomy::findAll([
+            'type' => Taxonomy::CAMERA
+        ]),'id' , 'title_en');
+        $sensor = ArrayHelper::map(Taxonomy::findAll([
+            'type' => Taxonomy::SENSOR
+        ]),'id' , 'title_en');
+
         $vehicle = null;
         if ($type == Vehicle::TYPE_NEW) {
             $vehicle = new NewVehicle();
@@ -100,18 +110,23 @@ class VehicleController extends Controller
 
         $formData = Yii::$app->request->post();
         if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData)) {
-            $create = $model->createVehicle($vehicle , $media);
+            $features = array_filter($formData['Vehicle']['vehicleFeatures']);
+
+            $create = $model->createVehicle($vehicle , $media , $features);
             if($create){
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
+
 
         return $this->render('create', [
             'model' => $model,
             'vehicle' => $vehicle,
             'users' => $users,
             'media' => $media,
-            'vehicle_status_list' => $vehicle_status_list
+            'vehicle_status_list' => $vehicle_status_list,
+            'camera' => $camera,
+            'sensor' => $sensor
         ]);
     }
 

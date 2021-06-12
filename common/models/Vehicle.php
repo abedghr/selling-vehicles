@@ -76,18 +76,31 @@ class Vehicle extends \common\models\BaseModels\Vehicle
     public function vehicleStatusList()
     {
         return [
-             9 => self::VEHICLE_PENDING /*Yii::t('app','pending')*/,
-             10 => self::VEHICLE_ACTIVE /*Yii::t('app','active')*/,
+            9 => self::VEHICLE_PENDING /*Yii::t('app','pending')*/,
+            10 => self::VEHICLE_ACTIVE /*Yii::t('app','active')*/,
             -1 => self::VEHICLE_BLOCKED /*Yii::t('app','active')*/,
         ];
     }
 
-    public function createVehicle($vehicle, $media)
+    public function createVehicle($vehicle, $media, $feautres = null)
     {
         $transaction = Yii::$app->db->beginTransaction();
         if ($this->imageFile = UploadedFile::getInstance($this, 'imageFile')) {
             $this->main_image = time() . '_' . $this->imageFile->name;
             if ($this->save()) {
+
+                if ($feautres) {
+                    foreach ($feautres as $feautre) {
+                        foreach ($feautre as $item) {
+                            $v_feature = new VehicleFeature();
+                            $v_feature->vehicle_id = $this->id;
+                            $v_feature->taxonomy_id = $item;
+                            $v_feature->save();
+
+                        }
+                    }
+                }
+
                 $vehicle->vehicle_id = $this->id;
                 if ($vehicle->save()) {
                     if (!$this->imageFile->saveAs('uploads/vehicle/' . time() . '_' . $this->imageFile)) {
@@ -102,36 +115,38 @@ class Vehicle extends \common\models\BaseModels\Vehicle
                     $transaction->rollBack();
                     return false;
                 }
+                $transaction->rollBack();
             }
             return false;
         }
     }
 
-    public function updateVehicle($vehicle, $media){
+    public function updateVehicle($vehicle, $media)
+    {
         $transaction = Yii::$app->db->beginTransaction();
         if ($this->imageFile = UploadedFile::getInstance($this, 'imageFile')) {
             $this->main_image = time() . '_' . $this->imageFile->name;
         }
-            if ($this->save()) {
-                $vehicle->vehicle_id = $this->id;
-                if ($vehicle->save()) {
-                    if ($this->imageFile && !$this->imageFile->saveAs('uploads/vehicle/' . time() . '_' . $this->imageFile)) {
+        if ($this->save()) {
+            $vehicle->vehicle_id = $this->id;
+            if ($vehicle->save()) {
+                if ($this->imageFile && !$this->imageFile->saveAs('uploads/vehicle/' . time() . '_' . $this->imageFile)) {
+                    $transaction->rollBack();
+                    return false;
+                }
+
+                if ($media->imageFile = UploadedFile::getInstances($media, 'imageFile')) {
+                    $uploads = $this->MultiUploadImages($media);
+                    if (!$uploads) {
                         $transaction->rollBack();
                         return false;
                     }
-
-                    if ($media->imageFile = UploadedFile::getInstances($media, 'imageFile')) {
-                        $uploads = $this->MultiUploadImages($media);
-                        if (!$uploads) {
-                            $transaction->rollBack();
-                            return false;
-                        }
-                    }
-                    $transaction->commit();
-                    return true;
                 }
-                $transaction->rollBack();
+                $transaction->commit();
+                return true;
             }
+            $transaction->rollBack();
+        }
         return false;
     }
 

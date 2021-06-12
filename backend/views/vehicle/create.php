@@ -6,6 +6,8 @@ use yii\helpers\Html;
 /* @var $model common\models\Vehicle */
 /* @var $media common\models\Media */
 /* @var $users array */
+/* @var $camera array */
+/* @var $sensor array */
 /* @var $vehicle_status_list array */
 /* @var $vehicle \common\models\NewVehicle|\common\models\UsedVehicle */
 
@@ -22,7 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'vehicle' => $vehicle,
         'users' => $users,
         'media' => $media,
-        'vehicle_status_list' => $vehicle_status_list
+        'vehicle_status_list' => $vehicle_status_list,
+        'camera' => $camera,
+        'sensor' => $sensor
     ]) ?>
 
 </div>
