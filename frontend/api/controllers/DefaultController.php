@@ -4,6 +4,11 @@ namespace app\api\controllers;
 
 use yii\web\Controller;
 use Yii;
+
+
+
+
+
 /**
  * @OA\Info(
  *   version="1.0",
@@ -15,12 +20,8 @@ use Yii;
  *   ),
  * ),
  * @OA\Server(
- *   url="https://example.com/api",
+ *   url="http://frontend.selling-vehicles/api/",
  *   description="main server",
- * )
- * @OA\Server(
- *   url="https://dev.example.com/api",
- *   description="dev server",
  * )
  */
 class DefaultController extends Controller
@@ -28,13 +29,6 @@ class DefaultController extends Controller
     public function actions()
     {
         return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
             'index' => [
                 'class' => 'genxoft\swagger\ViewAction',
                 'apiJsonUrl' => \yii\helpers\Url::to(['api-json'], true),
@@ -42,8 +36,8 @@ class DefaultController extends Controller
             'api-json' => [
                 'class' => 'genxoft\swagger\JsonAction',
                 'dirs' => [
-                    Yii::getAlias('app\api\controllers'),
-                    Yii::getAlias('app\api\models'),
+                    Yii::getAlias('@app/api/controllers'),
+                    Yii::getAlias('@app/api/models'),
                 ],
             ],
         ];

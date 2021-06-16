@@ -89,6 +89,12 @@ class Taxonomy extends \common\models\BaseModels\Taxonomy
             ->all();
     }
 
+    public static function getAllMakes(){
+        return Taxonomy::find()
+            ->where(['type' => self::MAKE])
+            ->all();
+    }
+
     public function beforeSave($insert)
     {
         $this->imageFile = UploadedFile::getInstance($this,'imageFile');
