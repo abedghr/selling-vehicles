@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use yii\helpers\Html;
@@ -25,35 +26,34 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<!--<div class="top-header border-bottom border-primary">
+<div class="top-header border-bottom border-primary">
     <div class="container">
         <div class="row pt-2 pb-2">
             <div class="col-md-6">
-                <span class="font-weight-bold mr-2"> Welcome to Motory </span> | <span class="ml-2"><i class="fa fa-user"></i> <a
-                            href="" class="text-dark">Sign in</a></span>
+                <span class="font-weight-bold mr-2"> Welcome to Selling Vehicle </span> | <span class="ml-2"><i class="fa fa-user"></i> <a href="" class="text-dark">Sign in</a></span>
             </div>
             <div class="col-md-6 text-right">
-                <a href="#" class="text-dark">Browse To Arabic</a>
+                <a href="#" class="text-dark">تصفح باللغة العربية</a>
             </div>
         </div>
     </div>
 </div>
-<div class="top-logo border-bottom border-primary">
+<div class="top-logo border-primary">
     <div class="container">
         <div class="row pt-2 pb-2">
             <div class="col-lg-12">
-                <a href=""><img src="" alt=""></a>
+                <a href="" style="text-decoration: none"><img src="/images/sv_logo1.png" style="width: 150px; height: 100px;" alt=""></a>
             </div>
         </div>
     </div>
-</div>-->
+</div>
 <div class="wrap">
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar navbar-expand-lg navbar-light border-bottom',
+            'class' => 'navbar navbar-expand-lg navbar-light border-bottom border-top',
         ],
     ]);
     $menuItems = [
@@ -68,8 +68,7 @@ AppAsset::register($this);
                 'Logout (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'btn btn-link logout']
             )
-            . Html::endForm()
-        ;
+            . Html::endForm();
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav ml-auto'],
@@ -78,7 +77,7 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-    <div class="container">
+    <div class="">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
