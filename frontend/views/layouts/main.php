@@ -38,19 +38,10 @@ AppAsset::register($this);
         </div>
     </div>
 </div>
-<div class="top-logo border-primary">
-    <div class="container">
-        <div class="row pt-2 pb-2">
-            <div class="col-lg-12">
-                <a href="" style="text-decoration: none"><img src="/images/sv_logo1.png" style="width: 150px; height: 100px;" alt=""></a>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => \yii\bootstrap4\Html::img('/images/sv_logo1.png',['width' => '25' , 'height' => '25']) . ' Selling Vehicle',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar navbar-expand-lg navbar-light border-bottom border-top',
