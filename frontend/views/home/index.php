@@ -23,7 +23,7 @@ $this->title = 'My Yii Application';
                     <div class="card-body text-center">
                         <h4 class="card-title">New Cars</h4>
                         <p class="card-text">You can browse all new cars and check if your order is available or not.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <a href="<?= \yii\helpers\Url::to('/vehicle/new-vehicle-list') ?>" class="btn btn-primary">Buy new car</a>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@ $this->title = 'My Yii Application';
                     <div class="card-body text-center">
                         <h4 class="card-title">Used Car</h4>
                         <p class="card-text">You can browse all used cars and check if your order is available or not.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <a href="#" class="btn btn-primary">Buy used car</a>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@ $this->title = 'My Yii Application';
                     <div class="card-body text-center">
                         <h5 class="card-title">Sell Cars</h5>
                         <p class="card-text">You can add your car to the website and wait any customer to buy it.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <a href="#" class="btn btn-primary">Sell your car</a>
                     </div>
                 </div>
             </div>
