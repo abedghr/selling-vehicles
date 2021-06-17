@@ -143,6 +143,14 @@ class VehicleController extends Controller
         $users = User::find()->where(['type' => User::COMPANY_TYPE])->all();
         $vehicle_media = $model->vehicleMedia;
         $media = new Media(['scenario' => Media::SCENARIO_UPDATE]);
+
+        $camera = ArrayHelper::map(Taxonomy::findAll([
+            'type' => Taxonomy::CAMERA
+        ]),'id' , 'title_en');
+        $sensor = ArrayHelper::map(Taxonomy::findAll([
+            'type' => Taxonomy::SENSOR
+        ]),'id' , 'title_en');
+
         $vehicle = null;
         if($model->type == Vehicle::TYPE_NEW){
             $vehicle = $model->newVehicle;
@@ -164,7 +172,9 @@ class VehicleController extends Controller
             'users' => $users,
             'media' => $media,
             'vehicle_media' => $vehicle_media,
-            'vehicle_status_list' => $vehicle_status_list
+            'vehicle_status_list' => $vehicle_status_list,
+            'camera' => $camera,
+            'sensor' => $sensor
         ]);
     }
 

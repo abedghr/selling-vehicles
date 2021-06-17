@@ -38,9 +38,20 @@ class VehicleSearch extends Vehicle
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$type = null)
     {
         $query = Vehicle::find();
+        if ($type == self::TYPE_NEW) {
+            $query = $query->with([
+                'make' => function ($q) {
+                    $q->select(['id', 'title', 'title_en']);
+                },
+                'model' => function ($q) {
+                    $q->select(['id', 'title', 'title_en']);
+                },
+                'user','user.company','user.city',
+                'newVehicle']);
+        }
 
         // add conditions that should always apply here
 

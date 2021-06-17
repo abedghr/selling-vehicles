@@ -173,4 +173,14 @@ class Vehicle extends \common\models\BaseModels\Vehicle
         }
         return $check;
     }
+
+    public function type($type){
+        return $this->andWhere(['type'=>$type]);
+    }
+
+    public function vehicleList($type)
+    {
+        $vehicle = new VehicleSearch();
+        return $vehicle->search([])->query->JoinWith('newVehicle')->where(['type'=>$type]);
+    }
 }
