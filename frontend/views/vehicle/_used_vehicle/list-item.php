@@ -22,7 +22,7 @@
                     </li>
                 </ul>
                 <span style="font-size: 25px;" class="font-weight-bold mt-3">Price: <?= $data->price ?> JOD</span>
-                <a href="<?= \yii\helpers\Url::to(['/new-vehicle/vehicle-details/','id' =>$data->id]) ?>" class="btn btn-primary btn-block text-light"><i class="fas fa-eye mr-2"></i>View Details</a>
+                <a href="<?= \yii\helpers\Url::to(['/used-vehicle/vehicle-details/','id' =>$data->id]) ?>" class="btn btn-primary btn-block text-light"><i class="fas fa-eye mr-2"></i>View Details</a>
             </div>
         </article>
     </main>

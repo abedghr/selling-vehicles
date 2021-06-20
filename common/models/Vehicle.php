@@ -89,7 +89,7 @@ class Vehicle extends \common\models\BaseModels\Vehicle
             $this->main_image = time() . '_' . $this->imageFile->name;
             if ($this->save()) {
 
-                if ($feautres) {
+                /*if ($feautres) {
                     foreach ($feautres as $feautre) {
                         foreach ($feautre as $item) {
                             $v_feature = new VehicleFeature();
@@ -99,7 +99,7 @@ class Vehicle extends \common\models\BaseModels\Vehicle
 
                         }
                     }
-                }
+                }*/
 
                 $vehicle->vehicle_id = $this->id;
                 if ($vehicle->save()) {
@@ -182,5 +182,45 @@ class Vehicle extends \common\models\BaseModels\Vehicle
     {
         $vehicle = new VehicleSearch();
         return $vehicle->search([])->query->JoinWith('newVehicle')->where(['type'=>$type]);
+    }
+
+    public function vehicleNewDetail($id)
+    {
+        return Vehicle::find()->where(['id'=>$id])
+                        ->andWhere(['type'=>Vehicle::TYPE_NEW])
+                        ->with([
+                            'make',
+                            'model',
+                            'user',
+                            'user.company',
+                            'user.city',
+                            'newVehicle',
+                            'vehicleMedia',
+                            'vehicleMedia.media',
+                            'bodyType',
+                            'taxonomies',
+                            'comments',
+                            'vehicleFeatures.vehicle',
+                            'vehicleFeatures.taxonomy',
+                        ])->one();
+    }
+
+    public function vehicleUsedDetail($id)
+    {
+        return Vehicle::find()->where(['id'=>$id])
+            ->andWhere(['type'=>Vehicle::TYPE_USED])
+            ->with([
+                'make',
+                'model',
+                'user',
+                'user.individualUser',
+                'user.company',
+                'user.city',
+                'usedVehicle',
+                'vehicleMedia',
+                'vehicleMedia.media',
+                'bodyType',
+                'comments',
+            ])->one();
     }
 }
