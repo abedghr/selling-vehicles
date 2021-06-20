@@ -89,9 +89,28 @@ class Taxonomy extends \common\models\BaseModels\Taxonomy
             ->all();
     }
 
-    public static function getAllMakes(){
+    public static function getAllMakes()
+    {
         return Taxonomy::find()
-            ->where(['type' => self::MAKE])
+            ->where(['taxonomy.type' => self::MAKE])
+            ->all();
+    }
+
+    public static function getAllMakesNew()
+    {
+        return Taxonomy::find()
+            ->where(['taxonomy.type' => self::MAKE])
+            ->andWhere(['vehicle.type' => Vehicle::TYPE_NEW])
+            ->innerJoinWith('vehicles2')
+            ->all();
+    }
+
+    public static function getAllMakesUsed()
+    {
+        return Taxonomy::find()
+            ->where(['taxonomy.type' => self::MAKE])
+            ->andWhere(['vehicle.type' => Vehicle::TYPE_USED])
+            ->innerJoinWith('vehicles2')
             ->all();
     }
 
@@ -100,7 +119,7 @@ class Taxonomy extends \common\models\BaseModels\Taxonomy
         $this->imageFile = UploadedFile::getInstance($this,'imageFile');
         if($this->imageFile){
             $this->image = time() .'_' .$this->imageFile->name;
-            if(!$this->imageFile->saveAs('@backend/uploads/taxonomy/'.time() .'_' .$this->imageFile)) {
+            if(!$this->imageFile->saveAs('@backend'.'/'.time() .'_' .$this->imageFile)) {
                 return false;
             }
         }

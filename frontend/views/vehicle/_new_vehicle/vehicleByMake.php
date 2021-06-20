@@ -7,8 +7,7 @@ use \yii\widgets\ListView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Vehicles');
-$this->params['breadcrumbs'] = $breadcrumbs;
-
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
 
@@ -24,7 +23,7 @@ $this->params['breadcrumbs'] = $breadcrumbs;
 
             'itemView' => function ($model){
                 return $this->render('list-item',[
-                        'data' => $model
+                    'data' => $model
                 ]);
             },
             'pager' => [

@@ -42,6 +42,7 @@ class VehicleSearch extends Vehicle
     {
         $query = Vehicle::find();
         if ($type == self::TYPE_NEW) {
+            $query->where(['type' => $type]);
             $query = $query->with([
                 'make' => function ($q) {
                     $q->select(['id', 'title', 'title_en']);
@@ -49,8 +50,19 @@ class VehicleSearch extends Vehicle
                 'model' => function ($q) {
                     $q->select(['id', 'title', 'title_en']);
                 },
-                'user','user.company','user.city',
+                'user', 'user.company', 'user.city',
                 'newVehicle']);
+        } if($type == self::TYPE_USED) {
+            $query->where(['type' => $type]);
+            $query = $query->with([
+                'make' => function ($q) {
+                    $q->select(['id', 'title', 'title_en']);
+                },
+                'model' => function ($q) {
+                    $q->select(['id', 'title', 'title_en']);
+                },
+                'user', 'user.individualUser','user.company', 'user.city',
+                'usedVehicle']);
         }
 
         // add conditions that should always apply here
