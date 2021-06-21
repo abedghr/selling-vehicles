@@ -23,6 +23,14 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <style>
+        .navbar {
+            background-color: #0c1837;
+        }
+        .navbar a {
+            color: white;
+        }
+    </style>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -41,10 +49,10 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => \yii\bootstrap4\Html::img('/images/sv_logo1.png',['width' => '25' , 'height' => '25']) . ' Selling Vehicle',
+        'brandLabel' => \yii\bootstrap4\Html::img('/images/sv_logo.png',['width' => '25' , 'height' => '25']) . ' Selling Vehicle',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar navbar-expand-lg navbar-light border-bottom border-top',
+            'class' => 'navbar navbar-expand-lg border-bottom border-to',
         ],
     ]);
     $menuItems = [
