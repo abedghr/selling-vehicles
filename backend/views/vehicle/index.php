@@ -30,10 +30,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'user_id',
-            'make_id',
-            'model_id',
-            'color_id',
+            [
+                'attribute' => 'user',
+                'value' => 'user.username'
+            ],
+            [
+                'attribute' => 'make',
+                'value' => 'make.title_en'
+            ],
+            [
+                'attribute' => 'model',
+                'value' => 'model.title_en'
+            ],
+            //'color_id',
             //'body_type_id',
             //'gear_box_id',
             //'title',
@@ -42,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'description:ntext',
             //'description_en:ntext',
             //'main_image',
-            //'type',
+            'type',
             //'status',
             //'manufacturing_year',
             //'is_deleted',

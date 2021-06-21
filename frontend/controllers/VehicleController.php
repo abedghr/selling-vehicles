@@ -46,15 +46,4 @@ class VehicleController extends Controller
         ]);
     }
 
-    public function actionNewVehicleList()
-    {
-        $searchModel = new VehicleSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, Vehicle::TYPE_NEW);
-        $dataProvider->query->where(['type' => Vehicle::TYPE_NEW]);
-        $dataProvider->pagination->setPageSize(1);
-        return $this->render('_new_vehicle/index',[
-            'dataProvider' => $dataProvider
-        ]);
-    }
-
 }

@@ -55,7 +55,7 @@ class User extends \common\models\BaseModels\User
         ];
     }
 
-    public function registerUser($user)
+    public function registerUser($user = null)
     {
         if($this->type == self::COMPANY_TYPE){
             $user->imageFile = UploadedFile::getInstance($user , 'imageFile');
@@ -66,19 +66,24 @@ class User extends \common\models\BaseModels\User
         $this->generateAuthKey();
         $this->generateEmailVerificationToken();
         if ($this->save()) {
-            $user->user_id = $this->id;
-            if ($user->save()) {
-                if($this->type == self::COMPANY_TYPE){
-                    if($user->imageFile->saveAs('uploads/company/'. $user->imageFile)){
+            if ($user) {
+                $user->user_id = $this->id;
+                if ($user->save()) {
+                    if ($this->type == self::COMPANY_TYPE) {
+                        if ($user->imageFile->saveAs('uploads/company/' . $user->imageFile)) {
+                            $transaction->commit();
+                            return true;
+                        }
+                        $transaction->rollBack();
+                    } else {
                         $transaction->commit();
                         return true;
                     }
-                    $transaction->rollBack();
-                }else{
-                    $transaction->commit();
-                    return true;
                 }
+                $transaction->rollBack();
             }
+            $transaction->commit();
+            return true;
         }
         $transaction->rollBack();
         return false;

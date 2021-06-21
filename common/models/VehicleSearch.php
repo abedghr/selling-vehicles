@@ -11,6 +11,9 @@ use common\models\Vehicle;
  */
 class VehicleSearch extends Vehicle
 {
+    public $user;
+    public $make;
+    public $model;
     /**
      * {@inheritdoc}
      */
@@ -18,7 +21,7 @@ class VehicleSearch extends Vehicle
     {
         return [
             [['id', 'user_id', 'make_id', 'model_id', 'color_id', 'body_type_id', 'gear_box_id', 'is_deleted'], 'integer'],
-            [['title', 'title_en', 'price', 'description', 'description_en', 'main_image', 'type', 'status', 'manufacturing_year', 'created_at', 'updated_at'], 'safe'],
+            [['title', 'title_en', 'price', 'description', 'description_en', 'main_image', 'type', 'user', 'make', 'model', 'status', 'manufacturing_year', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -41,27 +44,25 @@ class VehicleSearch extends Vehicle
     public function search($params,$type = null)
     {
         $query = Vehicle::find();
+        $query->joinWith([
+            'make' => function ($q) {
+                $q->select(['id', 'title', 'title_en']);
+            },
+            'model AS model_taxonomy' => function ($q) {
+                $q->select(['id', 'title', 'title_en']);
+            },
+            'user'
+        ]);
         if ($type == self::TYPE_NEW) {
-            $query->where(['type' => $type]);
+            $query->where(['vehicle.type' => $type]);
             $query = $query->with([
-                'make' => function ($q) {
-                    $q->select(['id', 'title', 'title_en']);
-                },
-                'model' => function ($q) {
-                    $q->select(['id', 'title', 'title_en']);
-                },
-                'user', 'user.company', 'user.city',
+                'user.company',
+                'user.city',
                 'newVehicle']);
         } if($type == self::TYPE_USED) {
-            $query->where(['type' => $type]);
+            $query->where(['vehicle.type' => $type]);
             $query = $query->with([
-                'make' => function ($q) {
-                    $q->select(['id', 'title', 'title_en']);
-                },
-                'model' => function ($q) {
-                    $q->select(['id', 'title', 'title_en']);
-                },
-                'user', 'user.individualUser','user.company', 'user.city',
+                'user.individualUser','user.company', 'user.city',
                 'usedVehicle']);
         }
 
@@ -82,9 +83,6 @@ class VehicleSearch extends Vehicle
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'make_id' => $this->make_id,
-            'model_id' => $this->model_id,
             'color_id' => $this->color_id,
             'body_type_id' => $this->body_type_id,
             'gear_box_id' => $this->gear_box_id,
@@ -96,6 +94,9 @@ class VehicleSearch extends Vehicle
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'title_en', $this->title_en])
             ->andFilterWhere(['like', 'price', $this->price])
+            ->andFilterWhere(['like', 'user.username', $this->user])
+            ->andFilterWhere(['like', 'taxonomy.title_en', $this->make])
+            ->andFilterWhere(['like', 'model_taxonomy.title_en', $this->model])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'description_en', $this->description_en])
             ->andFilterWhere(['like', 'main_image', $this->main_image])

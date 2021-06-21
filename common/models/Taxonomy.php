@@ -119,7 +119,7 @@ class Taxonomy extends \common\models\BaseModels\Taxonomy
         $this->imageFile = UploadedFile::getInstance($this,'imageFile');
         if($this->imageFile){
             $this->image = time() .'_' .$this->imageFile->name;
-            if(!$this->imageFile->saveAs('@backend'.'/'.time() .'_' .$this->imageFile)) {
+            if(!$this->imageFile->saveAs('uploads/'.time() .'_' .$this->imageFile)) {
                 return false;
             }
         }

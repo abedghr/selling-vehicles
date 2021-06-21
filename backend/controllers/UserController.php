@@ -93,12 +93,21 @@ class UserController extends Controller
             $model->type = $type;
             $user = new Company(['scenario'=>Company::SCENARIO_CREATE]);
         }
-
-        $form_data = Yii::$app->request->post();
-        if ($model->load($form_data) && $user->load($form_data)) {
-            if ($model->registerUser($user))
-                return $this->redirect(['view', 'id' => $model->id]);
+        if ($user) {
+            $form_data = Yii::$app->request->post();
+            if ($model->load($form_data) && $user->load($form_data)) {
+                if ($model->registerUser($user))
+                    return $this->redirect(['view', 'id' => $model->id]);
+            }
+        }else {
+            $model->type = User::ADMIN;
+            $form_data = Yii::$app->request->post();
+            if ($model->load($form_data)) {
+                if ($model->registerUser($user))
+                    return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+
 
         return $this->render('create', [
             'model' => $model,
@@ -129,13 +138,24 @@ class UserController extends Controller
         if($model->type == User::COMPANY_TYPE){
             $user = $model->company;
         }
-        if ($model->load(Yii::$app->request->post()) && $user->load(Yii::$app->request->post())) {
-            $transaction = Yii::$app->db->beginTransaction();
-            if($model->save() && $user->save()){
-                $transaction->commit();
-                return $this->redirect(['view', 'id' => $model->id]);
+        if($user){
+            if ($model->load(Yii::$app->request->post()) && $user->load(Yii::$app->request->post())) {
+                $transaction = Yii::$app->db->beginTransaction();
+                if($model->save() && $user->save()){
+                    $transaction->commit();
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+                $transaction->rollBack();
             }
-            $transaction->rollBack();
+        }else{
+            if ($model->load(Yii::$app->request->post())) {
+                $transaction = Yii::$app->db->beginTransaction();
+                if($model->save()){
+                    $transaction->commit();
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+                $transaction->rollBack();
+            }
         }
 
         return $this->render('update', [

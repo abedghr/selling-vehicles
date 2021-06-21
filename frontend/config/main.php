@@ -47,6 +47,12 @@ return [
             'rules' => [
             ],
         ],
+        'urlManagerBackend' => [
+            'class' => 'yii\web\urlManager',
+            'baseUrl' => '@backend/uploads/',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+        ],
     ],
     'params' => $params,
 ];

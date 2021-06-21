@@ -82,32 +82,32 @@ $this->params['breadcrumbs'] = $breadcrumbs;
                 <div class="container tab-pane fade show active p-3" id="overview" role="tabpanel" aria-labelledby="home-tab">
                     <div class="row mt-3">
                         <div class="col-xs-4 col-sm-4 d-flex align-items-center">
-                            <i class="fa fa-user-circle fa-2x"></i><span class="ml-1 font-weight-bold"><?= $vehicle->bodyType->title_en ?></span>
+                            <span class="mr-1 font-weight-bold">Body Type:</span><?= $vehicle->bodyType->title_en ?>
                         </div>
                         <div class="col-xs-4 col-sm-4 d-flex align-items-center">
-                            <i class="fa fa-user-circle fa-2x"></i><span class="ml-1 font-weight-bold"><?= $vehicle->gearBox->title_en ?></span>
+                            <span class="mr-1 font-weight-bold">Gear Box:</span><?= $vehicle->gearBox->title_en ?>
                         </div>
                         <div class="col-xs-4 col-sm-4 d-flex align-items-center">
-                            <i class="fa fa-user-circle fa-2x"></i><span class="ml-1 font-weight-bold"><?= $vehicle->newVehicle->engine->title_en ?></span>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-xs-4 col-sm-4 d-flex align-items-center">
-                            <i class="fa fa-user-circle fa-2x"></i><span class="ml-1 font-weight-bold"><?= $vehicle->newVehicle->gasolineAmount->title_en ?></span>
-                        </div>
-                        <div class="col-xs-4 col-sm-4 d-flex align-items-center">
-                            <i class="fa fa-user-circle fa-2x"></i><span class="ml-1 font-weight-bold"><?= $vehicle->newVehicle->wheelsSize->title_en ?></span>
-                        </div>
-                        <div class="col-xs-4 col-sm-4 d-flex align-items-center">
-                            <i class="fa fa-user-circle fa-2x"></i><span class="ml-1 font-weight-bold"><?= $vehicle->newVehicle->lightType->title_en ?></span>
+                            <span class="mr-1 font-weight-bold">Engine:</span><?= $vehicle->newVehicle->engine->title_en ?>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-xs-4 col-sm-4 d-flex align-items-center">
-                            <i class="fa fa-user-circle fa-2x"></i><span class="ml-1 font-weight-bold"><?= $vehicle->newVehicle->propulsionSystem->title_en ?></span>
+                            <span class="mr-1 font-weight-bold">Gasoline Amount:</span><?= $vehicle->newVehicle->gasolineAmount->title_en ?>
                         </div>
                         <div class="col-xs-4 col-sm-4 d-flex align-items-center">
-                            <i class="fa fa-user-circle fa-2x"></i><span class="ml-1 font-weight-bold"><?= $vehicle->newVehicle->fuelType->title_en ?></span>
+                            <span class="mr-1 font-weight-bold">Wheel Size:</span><?= $vehicle->newVehicle->wheelsSize->title_en ?>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 d-flex align-items-center">
+                            <span class="mr-1 font-weight-bold">Light Type:</span><?= $vehicle->newVehicle->lightType->title_en ?>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-xs-4 col-sm-4 d-flex align-items-center">
+                            <span class="mr-1 font-weight-bold">Propulsion System:</span><?= $vehicle->newVehicle->propulsionSystem->title_en ?></span>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 d-flex align-items-center">
+                            <span class="mr-1 font-weight-bold">Fuel Type:</span><?= $vehicle->newVehicle->fuelType->title_en ?>
                         </div>
                     </div>
                 </div>
@@ -124,7 +124,7 @@ $this->params['breadcrumbs'] = $breadcrumbs;
     </div>
     <div class="row">
         <div class="col-md-8 mb-5">
-            <h3 class="border-bottom">Comments</h3>
+            <h3 class="border-bottom font-weight-bold">Comments</h3>
             <ul class="list-group border" style="overflow-y: scroll; height: 350px;" >
                 <?php foreach ($vehicle_comment as $comment){ ?>
                     <li class="list-group-item">

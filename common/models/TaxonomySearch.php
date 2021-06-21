@@ -11,6 +11,7 @@ use common\models\Taxonomy;
  */
 class TaxonomySearch extends Taxonomy
 {
+    public $parent;
     /**
      * {@inheritdoc}
      */
@@ -18,7 +19,7 @@ class TaxonomySearch extends Taxonomy
     {
         return [
             [['id', 'parent_id'], 'integer'],
-            [['title', 'title_en', 'type', 'image'], 'safe'],
+            [['title', 'title_en', 'type', 'image','parent'], 'safe'],
         ];
     }
 
@@ -41,7 +42,6 @@ class TaxonomySearch extends Taxonomy
     public function search($params)
     {
         $query = Taxonomy::find();
-
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -49,23 +49,24 @@ class TaxonomySearch extends Taxonomy
         ]);
 
         $this->load($params);
-
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
 
+        $query->joinWith('parent AS Parent');
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'parent_id' => $this->parent_id,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'title_en', $this->title_en])
             ->andFilterWhere(['like', 'type', $this->type])
-            ->andFilterWhere(['like', 'image', $this->image]);
+            ->andFilterWhere(['like', 'image', $this->image])
+            ->andFilterWhere(['like', 'Parent.title_en', $this->parent]);
 
         return $dataProvider;
     }

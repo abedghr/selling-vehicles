@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $model->username;
             'individualUser.last_name_en'
         ]);
     }
-    if ($model->type == \common\models\User::COMPANY_TYPE) {
+    elseif ($model->type == \common\models\User::COMPANY_TYPE) {
         $all_columns = array_merge($columns, [
             'company.name',
             'company.name_en',
@@ -70,6 +70,8 @@ $this->params['breadcrumbs'][] = $model->username;
 
             ],
         ]);
+    } else {
+        $all_columns = $columns;
     }
 
     ?>

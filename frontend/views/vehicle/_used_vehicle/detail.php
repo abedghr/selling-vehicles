@@ -79,21 +79,21 @@ $this->params['breadcrumbs'] = $breadcrumbs;
                 <div class="container tab-pane fade show active p-3" id="overview" role="tabpanel" aria-labelledby="home-tab">
                     <div class="row mt-3">
                         <div class="col-xs-4 col-sm-4 d-flex align-items-center">
-                            <i class="fa fa-user-circle fa-2x"></i><span class="ml-1 font-weight-bold"><?= $vehicle->bodyType->title_en ?></span>
+                            <span class="mr-1 font-weight-bold">Body Type:</span><?= $vehicle->bodyType->title_en ?>
                         </div>
                         <div class="col-xs-4 col-sm-4 d-flex align-items-center">
-                            <i class="fa fa-user-circle fa-2x"></i><span class="ml-1 font-weight-bold"><?= $vehicle->gearBox->title_en ?></span>
+                            <span class="mr-1 font-weight-bold">Gear Box:</span><?= $vehicle->gearBox->title_en ?></span>
                         </div>
                         <div class="col-xs-4 col-sm-4 d-flex align-items-center">
-                            <i class="fa fa-user-circle fa-2x"></i><span class="ml-1 font-weight-bold"><?= $vehicle->usedVehicle->city->title_en ?></span>
+                            <span class="mr-1 font-weight-bold">City:</span><?= $vehicle->usedVehicle->city->title_en ?></span>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-xs-4 col-sm-4 d-flex align-items-center">
-                            <i class="fa fa-user-circle fa-2x"></i><span class="ml-1 font-weight-bold"><?= $vehicle->usedVehicle->mileage->title_en ?></span>
+                            <span class="mr-1 font-weight-bold">Mileage:</span><?= $vehicle->usedVehicle->mileage->title_en ?></span>
                         </div>
                         <div class="col-xs-4 col-sm-4 d-flex align-items-center">
-                            <i class="fa fa-user-circle fa-2x"></i><span class="ml-1 font-weight-bold"><?= $vehicle->usedVehicle->vehicleChecking->title_en ?></span>
+                            <span class="mr-1 font-weight-bold">Vehicle Checking:</span><?= $vehicle->usedVehicle->vehicleChecking->title_en ?></span>
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@ $this->params['breadcrumbs'] = $breadcrumbs;
     </div>
     <div class="row">
         <div class="col-md-8 mb-5">
-            <h3 class="border-bottom">Comments</h3>
+            <h3 class="border-bottom font-weight-bold">Comments</h3>
             <ul class="list-group" style="overflow-y: scroll; height: 350px;" >
                 <li class="list-group-item">
                     <span style="font-size: 18px;" class="font-weight-bold mb-2">Cras justo odio</span>
