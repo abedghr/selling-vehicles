@@ -7,28 +7,7 @@ namespace common\models\BaseModels\Query;
  *
  * @see \common\models\BaseModels\VehicleMedia
  */
-class VehicleMediaQuery extends \yii\db\ActiveQuery
+class VehicleMediaQuery extends \common\models\BaseModels\Query\BaseQuery\VehicleMediaQuery
 {
-    /*public function active()
-    {
-        return $this->andWhere('[[status]]=1');
-    }*/
 
-    /**
-     * {@inheritdoc}
-     * @return \common\models\BaseModels\VehicleMedia[]|array
-     */
-    public function all($db = null)
-    {
-        return parent::all($db);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return \common\models\BaseModels\VehicleMedia|array|null
-     */
-    public function one($db = null)
-    {
-        return parent::one($db);
-    }
 }

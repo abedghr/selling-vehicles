@@ -7,28 +7,7 @@ namespace common\models\BaseModels\Query;
  *
  * @see \common\models\BaseModels\Comment
  */
-class CommentQuery extends \yii\db\ActiveQuery
+class CommentQuery extends \common\models\BaseModels\Query\BaseQuery\CommentQuery
 {
-    /*public function active()
-    {
-        return $this->andWhere('[[status]]=1');
-    }*/
 
-    /**
-     * {@inheritdoc}
-     * @return \common\models\BaseModels\Comment[]|array
-     */
-    public function all($db = null)
-    {
-        return parent::all($db);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return \common\models\BaseModels\Comment|array|null
-     */
-    public function one($db = null)
-    {
-        return parent::one($db);
-    }
 }

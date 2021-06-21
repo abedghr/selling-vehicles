@@ -38,7 +38,11 @@ AppAsset::register($this);
     <div class="container">
         <div class="row pt-2 pb-2">
             <div class="col-md-6">
-                <span class="font-weight-bold mr-2"> Welcome to Selling Vehicle </span> | <span class="ml-2"><i class="fa fa-user"></i> <a href="" class="text-dark">Sign in</a></span>
+                <span class="font-weight-bold mr-2"> Welcome to Selling Vehicle </span> |
+                <span class="ml-2 font-weight-bold">
+                    <i class="fa fa-user"></i> <a href="" class="text-dark ">Sign in</a> /
+                    <a href="" class="text-dark">Sign Up</a>
+                </span>
             </div>
             <div class="col-md-6 text-right">
                 <a href="#" class="text-dark">تصفح باللغة العربية</a>
@@ -52,14 +56,17 @@ AppAsset::register($this);
         'brandLabel' => \yii\bootstrap4\Html::img('/images/sv_logo.png',['width' => '25' , 'height' => '25']) . ' Selling Vehicle',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar navbar-expand-lg border-bottom border-to',
+            'class' => 'navbar navbar-expand-lg border-bottom border-to ml-auto',
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'All Makes', 'options'=>['class'=>'border-left border-right border-secondary'], 'url' => ['index'],'linkOptions' => ['class' =>'mx-3']],
+        ['label' => 'New Cars', 'options'=>['class'=>'border-left border-right border-secondary'], 'url' => ['/new-vehicle/vehicle-by-make'],'linkOptions' => ['class' =>'mx-3']],
+        ['label' => 'Used Cars', 'options'=>['class'=>'border-left border-right border-secondary'], 'url' => ['/used-vehicle/vehicle-by-make'],'linkOptions' => ['class' =>'mx-3']],
+        ['label' => 'SELL YOUR CAR', 'url' => ['/used-vehicle/vehicle-by-make'],'linkOptions' => ['class' =>'mx-3 px-4 btn btn-primary btn-sm']]
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+
     } else {
         $menuItems[] =
             Html::beginForm(['/site/logout'], 'post')
@@ -70,8 +77,8 @@ AppAsset::register($this);
             . Html::endForm();
     }
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav ml-auto'],
         'items' => $menuItems,
+        'options' => ['class' => 'navbar-nav ml-auto'],
     ]);
     NavBar::end();
     ?>

@@ -7,28 +7,7 @@ namespace common\models\BaseModels\Query;
  *
  * @see \common\models\BaseModels\Vehicle
  */
-class VehicleQuery extends \yii\db\ActiveQuery
+class VehicleQuery extends \common\models\BaseModels\Query\BaseQuery\VehicleQuery
 {
-    /*public function active()
-    {
-        return $this->andWhere('[[status]]=1');
-    }*/
 
-    /**
-     * {@inheritdoc}
-     * @return \common\models\BaseModels\Vehicle[]|array
-     */
-    public function all($db = null)
-    {
-        return parent::all($db);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return \common\models\BaseModels\Vehicle|array|null
-     */
-    public function one($db = null)
-    {
-        return parent::one($db);
-    }
 }

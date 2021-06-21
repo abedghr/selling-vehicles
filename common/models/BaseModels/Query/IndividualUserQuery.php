@@ -7,28 +7,7 @@ namespace common\models\BaseModels\Query;
  *
  * @see \common\models\BaseModels\IndividualUser
  */
-class IndividualUserQuery extends \yii\db\ActiveQuery
+class IndividualUserQuery extends \common\models\BaseModels\Query\BaseQuery\IndividualUserQuery
 {
-    /*public function active()
-    {
-        return $this->andWhere('[[status]]=1');
-    }*/
 
-    /**
-     * {@inheritdoc}
-     * @return \common\models\BaseModels\IndividualUser[]|array
-     */
-    public function all($db = null)
-    {
-        return parent::all($db);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return \common\models\BaseModels\IndividualUser|array|null
-     */
-    public function one($db = null)
-    {
-        return parent::one($db);
-    }
 }

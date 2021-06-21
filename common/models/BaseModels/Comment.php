@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property int $user_id
- * @property int $comment
+ * @property string $comment
  * @property string|null $created_at
  * @property string|null $updated_at
  *
@@ -34,7 +34,8 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'comment'], 'required'],
-            [['user_id', 'comment'], 'integer'],
+            [['user_id'], 'integer'],
+            [['comment'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];

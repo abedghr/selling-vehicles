@@ -7,28 +7,7 @@ namespace common\models\BaseModels\Query;
  *
  * @see \common\models\BaseModels\Media
  */
-class MediaQuery extends \yii\db\ActiveQuery
+class MediaQuery extends \common\models\BaseModels\Query\BaseQuery\MediaQuery
 {
-    /*public function active()
-    {
-        return $this->andWhere('[[status]]=1');
-    }*/
 
-    /**
-     * {@inheritdoc}
-     * @return \common\models\BaseModels\Media[]|array
-     */
-    public function all($db = null)
-    {
-        return parent::all($db);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return \common\models\BaseModels\Media|array|null
-     */
-    public function one($db = null)
-    {
-        return parent::one($db);
-    }
 }

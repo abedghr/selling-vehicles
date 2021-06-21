@@ -1,13 +1,13 @@
 <?php
 
-namespace common\models\BaseModels\Query;
+namespace common\models\BaseModels\Query\BaseQuery;
 
 /**
- * This is the ActiveQuery class for [[\common\models\BaseModels\Migration]].
+ * This is the ActiveQuery class for [[\common\models\BaseModels\User]].
  *
- * @see \common\models\BaseModels\Migration
+ * @see \common\models\BaseModels\User
  */
-class MigrationQuery extends \yii\db\ActiveQuery
+class UserQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class MigrationQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return \common\models\BaseModels\Migration[]|array
+     * @return \common\models\BaseModels\User[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class MigrationQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return \common\models\BaseModels\Migration|array|null
+     * @return \common\models\BaseModels\User|array|null
      */
     public function one($db = null)
     {
