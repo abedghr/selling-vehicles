@@ -2,7 +2,6 @@
 
 namespace backend\controllers;
 
-use Codeception\Lib\Generator\Feature;
 use common\models\Media;
 use common\models\NewVehicle;
 use common\models\Taxonomy;
@@ -14,11 +13,9 @@ use Yii;
 use common\models\Vehicle;
 use common\models\VehicleSearch;
 use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 
 /**
  * VehicleController implements the CRUD actions for Vehicle model.
@@ -93,19 +90,22 @@ class VehicleController extends Controller
         $vehicle_status_list = $model->vehicleStatusList();
         $model->type = $type;
         $feature = new VehicleFeature();
-        $users = User::find()->where(['type' => User::COMPANY_TYPE])->all();
+        $users = User::find();
         $features = Taxonomy::find()->where(['type' => [Taxonomy::CAMERA,Taxonomy::SENSOR]])->all();
 
 
         $vehicle = null;
         if ($type == Vehicle::TYPE_NEW) {
+            $users = $users->where(['type' => User::COMPANY_TYPE]);
             $vehicle = new NewVehicle();
         }
         if ($type == Vehicle::TYPE_USED) {
             $vehicle = new UsedVehicle();
         }
 
+        $users = $users->all();
         $formData = Yii::$app->request->post();
+
         if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData) && $feature->load($formData)) {
             $create_vehicle = $model->createVehicle($vehicle , $media, $feature);
             if($create_vehicle){
@@ -120,8 +120,8 @@ class VehicleController extends Controller
             'users' => $users,
             'media' => $media,
             'vehicle_status_list' => $vehicle_status_list,
-            'features' => $features,
-            'feature' => $feature
+            'feature' => $feature,
+            'features' => $features
         ]);
     }
 
@@ -135,20 +135,25 @@ class VehicleController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $users = User::find()->where(['type' => User::COMPANY_TYPE])->all();
+
         $vehicle_media = $model->vehicleMedia;
         $media = new Media(['scenario' => Media::SCENARIO_UPDATE]);
 
         $feature = VehicleFeature::find()->all();
         $features = Taxonomy::find()->where(['type' => [Taxonomy::CAMERA,Taxonomy::SENSOR]])->all();
 
+        $users = User::find();
         $vehicle = null;
         if($model->type == Vehicle::TYPE_NEW){
+            $users = $users->where(['type' => User::COMPANY_TYPE]);
             $vehicle = $model->newVehicle;
         }
         if($model->type == Vehicle::TYPE_USED){
             $vehicle = $model->usedVehicle;
         }
+
+        $users = $users->all();
+
         $vehicle_status_list = $model->vehicleStatusList();
         $formData = Yii::$app->request->post();
         if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData)) {

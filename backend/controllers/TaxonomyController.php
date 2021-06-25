@@ -74,6 +74,7 @@ class TaxonomyController extends Controller
      * Creates a new Taxonomy model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     * @var $type string
      */
     public function actionCreate($type)
     {

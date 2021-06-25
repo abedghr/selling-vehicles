@@ -41,8 +41,8 @@ class User extends \common\models\BaseModels\User
     public function userStatusList()
     {
         return [
-            self::STATUS_ACTIVE => Yii::t('app','active'),
-            self::STATUS_INACTIVE => Yii::t('app','inactive')
+            self::STATUS_ACTIVE => Yii::t('app', 'active'),
+            self::STATUS_INACTIVE => Yii::t('app', 'inactive')
         ];
     }
 
@@ -57,14 +57,16 @@ class User extends \common\models\BaseModels\User
 
     public function registerUser($user = null)
     {
-        if($this->type == self::COMPANY_TYPE){
-            $user->imageFile = UploadedFile::getInstance($user , 'imageFile');
+        if ($this->type == self::COMPANY_TYPE) {
+            $user->imageFile = UploadedFile::getInstance($user, 'imageFile');
             $user->image = $user->imageFile->name;
         }
+
         $transaction = Yii::$app->db->beginTransaction();
         $this->setPassword($this->password_hash);
         $this->generateAuthKey();
         $this->generateEmailVerificationToken();
+
         if ($this->save()) {
             if ($user) {
                 $user->user_id = $this->id;
@@ -173,7 +175,7 @@ class User extends \common\models\BaseModels\User
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['type' => [self::SUPER_ADMIN, self::ADMIN ],'username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['type' => [self::SUPER_ADMIN, self::ADMIN], 'username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -200,7 +202,8 @@ class User extends \common\models\BaseModels\User
      * @param string $token verify email token
      * @return static|null
      */
-    public static function findByVerificationToken($token) {
+    public static function findByVerificationToken($token)
+    {
         return static::findOne([
             'verification_token' => $token,
             'status' => self::STATUS_INACTIVE
@@ -219,7 +222,7 @@ class User extends \common\models\BaseModels\User
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }

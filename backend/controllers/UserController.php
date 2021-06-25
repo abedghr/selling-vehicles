@@ -76,6 +76,7 @@ class UserController extends Controller
      * Creates a new User model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     * @var $type string
      */
     public function actionCreate($type)
     {
@@ -84,6 +85,7 @@ class UserController extends Controller
         $vehicle = new Vehicle();
         $cities = $taxonomy->getAllCity();
         $vehicle_types = $vehicle->vehicleTypeList();
+
         $user = null;
         if ($type == User::INDVIDUAL_USER_TYPE) {
             $model->type = $type;
@@ -93,19 +95,26 @@ class UserController extends Controller
             $model->type = $type;
             $user = new Company(['scenario'=>Company::SCENARIO_CREATE]);
         }
-        if ($user) {
-            $form_data = Yii::$app->request->post();
-            if ($model->load($form_data) && $user->load($form_data)) {
-                if ($model->registerUser($user))
-                    return $this->redirect(['view', 'id' => $model->id]);
+        $form_data = Yii::$app->request->post();
+//        if ($user) {
+//            if ($model->load($form_data) && $user->load($form_data)) {
+//                if ($model->registerUser($user))
+//                    return $this->redirect(['view', 'id' => $model->id]);
+//            }
+//        }else {
+//            $model->type = User::ADMIN;
+//            if ($model->load($form_data)) {
+//                if ($model->registerUser($user))
+//                    return $this->redirect(['view', 'id' => $model->id]);
+//            }
+//        }
+
+        if ($model->load($form_data)) {
+            if ($user) {
+                $user->load($form_data);
             }
-        }else {
-            $model->type = User::ADMIN;
-            $form_data = Yii::$app->request->post();
-            if ($model->load($form_data)) {
-                if ($model->registerUser($user))
-                    return $this->redirect(['view', 'id' => $model->id]);
-            }
+            if ($model->registerUser($user))
+                return $this->redirect(['view', 'id' => $model->id]);
         }
 
 
