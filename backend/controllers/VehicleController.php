@@ -2,11 +2,13 @@
 
 namespace backend\controllers;
 
+use Codeception\Lib\Generator\Feature;
 use common\models\Media;
 use common\models\NewVehicle;
 use common\models\Taxonomy;
 use common\models\UsedVehicle;
 use common\models\User;
+use common\models\VehicleFeature;
 use common\models\VehicleMedia;
 use Yii;
 use common\models\Vehicle;
@@ -90,15 +92,10 @@ class VehicleController extends Controller
         $media = new Media(['scenario' => Media::SCENARIO_CREATE]);
         $vehicle_status_list = $model->vehicleStatusList();
         $model->type = $type;
+        $feature = new VehicleFeature();
         $users = User::find()->where(['type' => User::COMPANY_TYPE])->all();
+        $features = Taxonomy::find()->where(['type' => [Taxonomy::CAMERA,Taxonomy::SENSOR]])->all();
 
-
-        $camera = ArrayHelper::map(Taxonomy::findAll([
-            'type' => Taxonomy::CAMERA
-        ]),'id' , 'title_en');
-        $sensor = ArrayHelper::map(Taxonomy::findAll([
-            'type' => Taxonomy::SENSOR
-        ]),'id' , 'title_en');
 
         $vehicle = null;
         if ($type == Vehicle::TYPE_NEW) {
@@ -109,11 +106,9 @@ class VehicleController extends Controller
         }
 
         $formData = Yii::$app->request->post();
-        if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData)) {
-//            $features = array_filter($formData['Vehicle']['vehicleFeatures']);
-
-            $create = $model->createVehicle($vehicle , $media/* , $features*/);
-            if($create){
+        if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData) && $feature->load($formData)) {
+            $create_vehicle = $model->createVehicle($vehicle , $media, $feature);
+            if($create_vehicle){
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -125,8 +120,8 @@ class VehicleController extends Controller
             'users' => $users,
             'media' => $media,
             'vehicle_status_list' => $vehicle_status_list,
-            'camera' => $camera,
-            'sensor' => $sensor
+            'features' => $features,
+            'feature' => $feature
         ]);
     }
 
@@ -144,12 +139,8 @@ class VehicleController extends Controller
         $vehicle_media = $model->vehicleMedia;
         $media = new Media(['scenario' => Media::SCENARIO_UPDATE]);
 
-        $camera = ArrayHelper::map(Taxonomy::findAll([
-            'type' => Taxonomy::CAMERA
-        ]),'id' , 'title_en');
-        $sensor = ArrayHelper::map(Taxonomy::findAll([
-            'type' => Taxonomy::SENSOR
-        ]),'id' , 'title_en');
+        $feature = VehicleFeature::find()->all();
+        $features = Taxonomy::find()->where(['type' => [Taxonomy::CAMERA,Taxonomy::SENSOR]])->all();
 
         $vehicle = null;
         if($model->type == Vehicle::TYPE_NEW){
@@ -173,8 +164,8 @@ class VehicleController extends Controller
             'media' => $media,
             'vehicle_media' => $vehicle_media,
             'vehicle_status_list' => $vehicle_status_list,
-            'camera' => $camera,
-            'sensor' => $sensor
+            'features' => $features,
+            'feature' => $feature
         ]);
     }
 

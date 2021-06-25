@@ -23,8 +23,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         'media' => $media,
         'vehicle_media' => $vehicle_media,
         'vehicle_status_list' => $vehicle_status_list,
-        'camera' => $camera,
-        'sensor' => $sensor
+        'features' => $features,
+        'feature' => $feature
     ]) ?>
 
 </div>

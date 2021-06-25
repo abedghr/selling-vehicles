@@ -15,9 +15,8 @@ $this->title = 'My Yii Application';
     </div>
 
     <div class="body-content container" style="margin-top: -100px">
-
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-4 mb-3">
                 <div class="card">
                     <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRosZrqoqV876uZSA5HbKXfJw9r6M5we9WCsw&usqp=CAU" alt="Card image cap">
                     <div class="card-body text-center">
@@ -27,7 +26,7 @@ $this->title = 'My Yii Application';
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 mb-3">
                 <div class="card rounded">
                     <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRosZrqoqV876uZSA5HbKXfJw9r6M5we9WCsw&usqp=CAU" alt="Card image cap">
                     <div class="card-body text-center">
@@ -37,7 +36,7 @@ $this->title = 'My Yii Application';
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 mb-3">
                 <div class="card rounded">
                     <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRosZrqoqV876uZSA5HbKXfJw9r6M5we9WCsw&usqp=CAU" alt="Card image cap">
                     <div class="card-body text-center">
@@ -48,6 +47,28 @@ $this->title = 'My Yii Application';
                 </div>
             </div>
         </div>
-
+        <div class="row mt-5 text-center mb-5">
+            <div class="col-12 d-flex flex-column align-items-center">
+                <h3 class="text-center pb-1" style="max-width: max-content; border-bottom: 4px solid seagreen">Featured Makes</h3>
+            </div>
+            <div class="col-12 mt-3">
+                <div class="bg-light shadow" style="border-radius: 15px;" >
+                    <table class="table table-borderless table-hover">
+                        <tbody>
+                        <tr>
+                            <td>LOGO</td>
+                            <td>MAKE NAME</td>
+                            <td>Vehicle Numbers</td>
+                        </tr>
+                        <tr>
+                            <td>LOGO</td>
+                            <td>MAKE NAME</td>
+                            <td>Vehicle Numbers</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -11,11 +11,13 @@ use \yii\helpers\Url;
 /* @var $model common\models\Vehicle */
 /* @var $media common\models\Media */
 /* @var $vehicle \common\models\NewVehicle|\common\models\UsedVehicle */
+/* @var $feature \common\models\VehicleFeature */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $users array */
-/* @var $camera array */
+/* @var $features array */
 /* @var $sensor array */
 /* @var $vehicle_status_list array */
+
 ?>
 
 <div class="vehicle-form">
@@ -131,15 +133,20 @@ use \yii\helpers\Url;
                 <?= $form->field($vehicle, 'horse_power')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4">
-                <?= $form->field($model,'vehicleFeatures[0]')->checkboxList($camera)->label('Camera') ?>
+        <?php if (isset($create) && $create == 'create') { ?>
+            <div class="row">
+                <?php foreach (ArrayHelper::map($features, 'id', 'title_en', 'type') as $type => $items) { ?>
+                    <div class="col-md-4">
+                        <?= $form->field($feature, "features[$type][]")->checkboxList($items)->label($type); ?>
+                    </div>
+                <?php } ?>
+                <div class="col-md-4">
+                </div>
             </div>
-            <div class="col-md-4">
-                <?= $form->field($model,'vehicleFeatures[1]')->checkboxList($sensor)->label('Sensors') ?>
-            </div>
-        </div>
+        <?php } ?>
 
+        <div class="row">
+        </div>
 
     <?php } ?>
     <?php if ($model->type == \common\models\Vehicle::TYPE_USED) { ?>
@@ -168,8 +175,11 @@ use \yii\helpers\Url;
                     <?php foreach ($vehicle_media as $v_media) { ?>
 
                         <div class="col-auto mt-4">
-                            <a href="/vehicle/delete-image?id=<?= $v_media->media->id ?>" class="bg-danger p-2 pl-3 pr-3 rounded" style="position: absolute; top: 10px; right: 27px" onclick="return confirm('Are you sure ?')"><i class="fa fa-trash text-light"></i></a>
-                            <?= HTML::img('/uploads/vehicle/'.$v_media->media->image,['width'=>'250','height' => '250','class'=>'rounded']) ?>
+                            <a href="/vehicle/delete-image?id=<?= $v_media->media->id ?>"
+                               class="bg-danger p-2 pl-3 pr-3 rounded"
+                               style="position: absolute; top: 10px; right: 27px"
+                               onclick="return confirm('Are you sure ?')"><i class="fa fa-trash text-light"></i></a>
+                            <?= HTML::img('/uploads/vehicle/' . $v_media->media->image, ['width' => '250', 'height' => '250', 'class' => 'rounded']) ?>
                         </div>
 
                     <?php } ?>

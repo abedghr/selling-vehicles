@@ -40,8 +40,8 @@ AppAsset::register($this);
             <div class="col-md-6">
                 <span class="font-weight-bold mr-2"> Welcome to Selling Vehicle </span> |
                 <span class="ml-2 font-weight-bold">
-                    <i class="fa fa-user"></i> <a href="" class="text-dark ">Sign in</a> /
-                    <a href="" class="text-dark">Sign Up</a>
+                    <i class="fa fa-user"></i> <a href="<?= \yii\helpers\Url::to('/site/login') ?>" class="text-dark ">Sign in</a> /
+                    <a href="<?= \yii\helpers\Url::to('/site/signup') ?>" class="text-dark">Sign Up</a>
                 </span>
             </div>
             <div class="col-md-6 text-right">
@@ -84,9 +84,13 @@ AppAsset::register($this);
     ?>
 
     <div class="">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+        <div style="background-color: #e9ecef">
+            <div class="container">
+                <?= Breadcrumbs::widget([
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ]) ?>
+            </div>
+        </div>
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>

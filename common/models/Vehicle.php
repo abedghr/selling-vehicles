@@ -82,24 +82,25 @@ class Vehicle extends \common\models\BaseModels\Vehicle
         ];
     }
 
-    public function createVehicle($vehicle, $media, $feautres = null)
+    public function createVehicle($vehicle, $media, $feautre = null)
     {
         $transaction = Yii::$app->db->beginTransaction();
         if ($this->imageFile = UploadedFile::getInstance($this, 'imageFile')) {
             $this->main_image = time() . '_' . $this->imageFile->name;
             if ($this->save()) {
-
-                /*if ($feautres) {
-                    foreach ($feautres as $feautre) {
-                        foreach ($feautre as $item) {
+                if ($feautre->features) {
+                    foreach ($feautre->features as $single_feature) {
+                        foreach ($single_feature as $item) {
                             $v_feature = new VehicleFeature();
                             $v_feature->vehicle_id = $this->id;
                             $v_feature->taxonomy_id = $item;
-                            $v_feature->save();
-
+                            if (!$v_feature->save()) {
+                                $transaction->rollBack();
+                                return false;
+                            }
                         }
                     }
-                }*/
+                }
 
                 $vehicle->vehicle_id = $this->id;
                 if ($vehicle->save()) {
@@ -156,7 +157,7 @@ class Vehicle extends \common\models\BaseModels\Vehicle
         $check = true;
         foreach ($media->imageFile as $single_image) {
             $v_media = new Media();
-            $v_media->user_id = 26;
+            $v_media->user_id = Yii::$app->user->id;
             $v_media->image = time() . '_' . $single_image->name;
             if ($v_media->save(false)) {
                 if (!$single_image->saveAs('uploads/vehicle/' . time() . '_' . $single_image)) {
@@ -174,41 +175,42 @@ class Vehicle extends \common\models\BaseModels\Vehicle
         return $check;
     }
 
-    public function type($type){
-        return $this->andWhere(['type'=>$type]);
+    public function type($type)
+    {
+        return $this->andWhere(['type' => $type]);
     }
 
     public function vehicleList($type)
     {
         $vehicle = new VehicleSearch();
-        return $vehicle->search([])->query->JoinWith('newVehicle')->where(['type'=>$type]);
+        return $vehicle->search([])->query->JoinWith('newVehicle')->where(['type' => $type]);
     }
 
     public function vehicleNewDetail($id)
     {
-        return Vehicle::find()->where(['id'=>$id])
-                        ->andWhere(['type'=>Vehicle::TYPE_NEW])
-                        ->with([
-                            'make',
-                            'model',
-                            'user',
-                            'user.company',
-                            'user.city',
-                            'newVehicle',
-                            'vehicleMedia',
-                            'vehicleMedia.media',
-                            'bodyType',
-                            'taxonomies',
-                            'comments',
-                            'vehicleFeatures.vehicle',
-                            'vehicleFeatures.taxonomy',
-                        ])->one();
+        return Vehicle::find()->where(['id' => $id])
+            ->andWhere(['type' => Vehicle::TYPE_NEW])
+            ->with([
+                'make',
+                'model',
+                'user',
+                'user.company',
+                'user.city',
+                'newVehicle',
+                'vehicleMedia',
+                'vehicleMedia.media',
+                'bodyType',
+                'taxonomies',
+                'comments',
+                'vehicleFeatures.vehicle',
+                'vehicleFeatures.taxonomy',
+            ])->one();
     }
 
     public function vehicleUsedDetail($id)
     {
-        return Vehicle::find()->where(['id'=>$id])
-            ->andWhere(['type'=>Vehicle::TYPE_USED])
+        return Vehicle::find()->where(['id' => $id])
+            ->andWhere(['type' => Vehicle::TYPE_USED])
             ->with([
                 'make',
                 'model',
