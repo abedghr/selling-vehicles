@@ -16,12 +16,14 @@ class HomeController extends Controller
         return $this->render('index');
     }
 
-    public function actionMakeListView($type){
+    public function actionMakeListView($type = null){
         $makes = '';
         if ($type == Vehicle::TYPE_NEW) {
             $makes = Taxonomy::getAllMakesNew();
-        } else {
+        } elseif ($type == Vehicle::TYPE_USED) {
             $makes = Taxonomy::getAllMakesUsed();
+        } else {
+            $makes = Taxonomy::getAllMakes();
         }
 
         return $this->render('makes',[
