@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers;
 
 use common\models\Taxonomy;
@@ -16,19 +17,24 @@ class HomeController extends Controller
         return $this->render('index');
     }
 
-    public function actionMakeListView($type = null){
-        $makes = '';
-        if ($type == Vehicle::TYPE_NEW) {
-            $makes = Taxonomy::getAllMakesNew();
-        } elseif ($type == Vehicle::TYPE_USED) {
-            $makes = Taxonomy::getAllMakesUsed();
-        } else {
-            $makes = Taxonomy::getAllMakes();
+    public function actionMakeListView($type = null)
+    {
+
+        if (($makes = \Yii::$app->cache->get('makesList')) === false) {
+            $makes = '';
+            if ($type == Vehicle::TYPE_NEW) {
+                $makes = Taxonomy::getAllMakesNew();
+            } elseif ($type == Vehicle::TYPE_USED) {
+                $makes = Taxonomy::getAllMakesUsed();
+            } else {
+                $makes = Taxonomy::getAllMakes();
+            }
+            \Yii::$app->cache->set('makesList', $makes);
         }
 
-        return $this->render('makes',[
+        return $this->render('makes', [
             'breadcrumbs' => [
-                ['label' => 'Makes','url' => null],
+                ['label' => 'Makes', 'url' => null],
             ],
             'makes' => $makes,
             'type' => $type

@@ -43,7 +43,7 @@ use \yii\helpers\Url;
                 'options' => ['id' => 'model_id'],
                 'pluginOptions' => [
                     'depends' => ['make_id'],
-                    'url' => Url::to(['/taxonomy/models-depends'])
+                    'url' => Url::to('/taxonomy/models-depends/')
                 ]
             ]); ?>
         </div>

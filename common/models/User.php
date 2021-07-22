@@ -68,24 +68,21 @@ class User extends \common\models\BaseModels\User
         $this->generateEmailVerificationToken();
 
         if ($this->save()) {
-            if ($user) {
+            if ($user != null) {
                 $user->user_id = $this->id;
                 if ($user->save()) {
                     if ($this->type == self::COMPANY_TYPE) {
-                        if ($user->imageFile->saveAs('uploads/company/' . $user->imageFile)) {
-                            $transaction->commit();
-                            return true;
-                        }
-                        $transaction->rollBack();
+                        $user->imageFile->saveAs('uploads/company/' . $user->imageFile);
+                        $transaction->commit();
+                        return true;
                     } else {
                         $transaction->commit();
                         return true;
                     }
                 }
                 $transaction->rollBack();
+                return false;
             }
-            $transaction->commit();
-            return true;
         }
         $transaction->rollBack();
         return false;

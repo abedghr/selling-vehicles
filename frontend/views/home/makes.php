@@ -18,12 +18,12 @@ $this->params['breadcrumbs'] = $breadcrumbs;
     </div>
     <div class="row mt-5">
         <?php foreach ($makes as $make) { ?>
-            <div class="col-lg-2 col-sm-3">
-                <?php if ($type == \common\models\Vehicle::TYPE_NEW){ ?>
-                <a href="<?= \yii\helpers\Url::to(['/new-vehicle/vehicle-by-make', 'id' => $make->id]) ?>">
+            <div class="col-lg-2 col-sm-3 mb-4">
+                <?php if ($type == \common\models\Vehicle::TYPE_USED){ ?>
+                <a href="<?= \yii\helpers\Url::to(['/used-vehicle/vehicle-by-make', 'id' => $make->id]) ?>">
                     <?php }
                     else{ ?>
-                    <a href="<?= \yii\helpers\Url::to(['/used-vehicle/vehicle-by-make', 'id' => $make->id]) ?>">
+                    <a href="<?= \yii\helpers\Url::to(['/new-vehicle/vehicle-by-make', 'id' => $make->id]) ?>">
                         <?php } ?>
                         <div class="card">
                             <img
