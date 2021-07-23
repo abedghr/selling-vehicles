@@ -40,7 +40,7 @@ class HomeController extends Controller
 //        if (($makes = \Yii::$app->cache->get('makesList')) === false) {
 //            sleep(10);
             $makes = '';
-            sleep(10);
+            sleep(5);
             if ($type == Vehicle::TYPE_NEW) {
                 $makes = Taxonomy::getAllMakesNew();
             } elseif ($type == Vehicle::TYPE_USED) {
