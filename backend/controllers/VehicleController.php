@@ -106,7 +106,10 @@ class VehicleController extends Controller
         $users = $users->all();
         $formData = Yii::$app->request->post();
 
-        if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData) && $feature->load($formData)) {
+        if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData)) {
+            if($feature){
+                $feature->load($formData);
+            }
             $create_vehicle = $model->createVehicle($vehicle , $media, $feature);
             if($create_vehicle){
                 return $this->redirect(['view', 'id' => $model->id]);

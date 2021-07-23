@@ -88,7 +88,6 @@ class Vehicle extends \common\models\BaseModels\Vehicle
         if ($this->imageFile = UploadedFile::getInstance($this, 'imageFile')) {
             $this->main_image = time() . '_' . $this->imageFile->name;
             if ($this->save()) {
-
                 if ($feautre->features) {
                     foreach ($feautre->features as $single_feature) {
                         foreach ($single_feature as $item) {

@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\caching\TagDependency;
 use yii\web\UploadedFile;
 
 /**
