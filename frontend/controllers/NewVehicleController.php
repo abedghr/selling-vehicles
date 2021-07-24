@@ -41,10 +41,10 @@ class NewVehicleController extends Controller
     public function actionIndex()
     {
         $vehicle_search = new VehicleSearch();
-        $vehicles = $vehicle_search->search(Yii::$app->request->queryParams,Vehicle::TYPE_NEW);
-        return $this->render('/vehicle/_new_vehicle/index',[
+        $vehicles = $vehicle_search->search(Yii::$app->request->queryParams, Vehicle::TYPE_NEW);
+        return $this->render('/vehicle/_new_vehicle/index', [
             'breadcrumbs' => [
-                ['label' => 'Vehicles','url' => null],
+                ['label' => 'Vehicles', 'url' => null],
             ],
             'dataProvider' => $vehicles,
         ]);
@@ -53,13 +53,13 @@ class NewVehicleController extends Controller
     public function actionVehicleByMake($id)
     {
         $vehicle_search = new VehicleSearch();
-        $vehicles = $vehicle_search->search(Yii::$app->request->queryParams,Vehicle::TYPE_NEW);
+        $vehicles = $vehicle_search->search(Yii::$app->request->queryParams, Vehicle::TYPE_NEW);
         $vehicles->query->andWhere(['make_id' => $id]);
-        $make = Taxonomy::find()->where(['id' => $id])->select(['title_en' , 'title'])->asArray()->one();
-        return $this->render('/vehicle/_new_vehicle/index',[
+        $make = Taxonomy::find()->where(['id' => $id])->select(['title_en', 'title'])->asArray()->one();
+        return $this->render('/vehicle/_new_vehicle/index', [
             'breadcrumbs' => [
-                ['label' => 'Makes','url' => ['/home/make-list-view']],
-                ['label' => 'Vehicles','url' => null],
+                ['label' => 'Makes', 'url' => ['/home/make-list-view']],
+                ['label' => 'Vehicles', 'url' => null],
             ],
             'dataProvider' => $vehicles,
             'make' => $make
@@ -71,15 +71,15 @@ class NewVehicleController extends Controller
         $vehicles = new Vehicle();
         $comments = new Comment();
         $vehicle_comment = VehicleComment::find()
-                                    ->where(['vehicle_id'=>$id])
-                                    ->innerJoinWith(['vehicle','comment'])
-                                    ->all();
+            ->where(['vehicle_id' => $id])
+            ->innerJoinWith(['vehicle', 'comment'])
+            ->all();
         $single_vehicle = $vehicles->vehicleNewDetail($id);
-        return $this->render('/vehicle/_new_vehicle/detail',[
+        return $this->render('/vehicle/_new_vehicle/detail', [
             'breadcrumbs' => [
-                ['label' => 'Makes','url' => ['/home/make-list-view']],
-                ['label' => 'Vehicles','url' => ['vehicle-by-make','id'=>$single_vehicle->make_id]],
-                ['label' => $single_vehicle->title_en,'url' => null],
+                ['label' => 'Makes', 'url' => ['/home/make-list-view']],
+                ['label' => 'Vehicles', 'url' => ['vehicle-by-make', 'id' => $single_vehicle->make_id]],
+                ['label' => $single_vehicle->title_en, 'url' => null],
             ],
             'vehicle' => $single_vehicle,
             'comments' => $comments,
