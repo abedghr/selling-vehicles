@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Comment;
+use common\models\Taxonomy;
 use common\models\Vehicle;
 use common\models\VehicleComment;
 use common\models\VehicleSearch;
@@ -39,12 +40,13 @@ class NewVehicleController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new NewVehicleSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+        $vehicle_search = new VehicleSearch();
+        $vehicles = $vehicle_search->search(Yii::$app->request->queryParams,Vehicle::TYPE_NEW);
+        return $this->render('/vehicle/_new_vehicle/index',[
+            'breadcrumbs' => [
+                ['label' => 'Vehicles','url' => null],
+            ],
+            'dataProvider' => $vehicles,
         ]);
     }
 
@@ -53,12 +55,14 @@ class NewVehicleController extends Controller
         $vehicle_search = new VehicleSearch();
         $vehicles = $vehicle_search->search(Yii::$app->request->queryParams,Vehicle::TYPE_NEW);
         $vehicles->query->andWhere(['make_id' => $id]);
+        $make = Taxonomy::find()->where(['id' => $id])->select(['title_en' , 'title'])->asArray()->one();
         return $this->render('/vehicle/_new_vehicle/index',[
             'breadcrumbs' => [
                 ['label' => 'Makes','url' => ['/home/make-list-view']],
                 ['label' => 'Vehicles','url' => null],
             ],
             'dataProvider' => $vehicles,
+            'make' => $make
         ]);
     }
 

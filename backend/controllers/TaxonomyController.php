@@ -10,12 +10,20 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\View;
 
 /**
  * TaxonomyController implements the CRUD actions for Taxonomy model.
  */
 class TaxonomyController extends Controller
 {
+    public function __construct($id, $module, $config = [])
+    {
+        $this->view->registerJs("var base_url = '" . Yii::getAlias('@urlManagerBackend')  . "'", View::POS_HEAD);
+
+        parent::__construct($id, $module, $config);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -51,6 +59,20 @@ class TaxonomyController extends Controller
         $all_taxonomy = $searchModel->getAllTypes();
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'all_taxonomy' => $all_taxonomy
+        ]);
+    }
+
+    public function actionMakes()
+    {
+        $searchModel = new TaxonomySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->where(['taxonomy.type' => Taxonomy::MAKE]);
+        $all_taxonomy = $searchModel->getAllTypes();
+
+        return $this->render('make', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'all_taxonomy' => $all_taxonomy

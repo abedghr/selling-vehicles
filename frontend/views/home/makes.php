@@ -19,7 +19,7 @@ $this->params['breadcrumbs'] = $breadcrumbs;
 <!--        --><?php //if($this->beginCache('makesList')){ ?>
             <?php foreach ($makes as $make) { ?>
                 <div class="col-lg-2 col-sm-3 mb-4">
-                    <?php if ($type == \common\models\Vehicle::TYPE_USED){ ?>
+                    <?php if (isset($type) && $type == \common\models\Vehicle::TYPE_USED){ ?>
                             <a href="<?= \yii\helpers\Url::to(['/used-vehicle/vehicle-by-make', 'id' => $make->id]) ?>">
                         <?php }
                         else{ ?>

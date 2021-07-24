@@ -97,22 +97,30 @@ class Taxonomy extends \common\models\BaseModels\Taxonomy
             ->all();
     }
 
-    public static function getAllMakesNew()
+    public static function getAllMakesNew($featured = null)
     {
-        return Taxonomy::find()
+        $makes =  Taxonomy::find()
             ->where(['taxonomy.type' => self::MAKE])
             ->andWhere(['vehicle.type' => Vehicle::TYPE_NEW])
-            ->innerJoinWith('vehicles2')
-            ->all();
+            ->innerJoinWith('vehicles2');
+            if($featured) {
+                $makes = $makes->where(['is_featured' => 1]);
+            }
+            $makes = $makes->all();
+        return $makes;
     }
 
-    public static function getAllMakesUsed()
+    public static function getAllMakesUsed($featured = null)
     {
-        return Taxonomy::find()
+        $makes = Taxonomy::find()
             ->where(['taxonomy.type' => self::MAKE])
             ->andWhere(['vehicle.type' => Vehicle::TYPE_USED])
-            ->innerJoinWith('vehicles2')
-            ->all();
+            ->innerJoinWith('vehicles2');
+            if($featured) {
+                $makes = $makes->where(['is_featured' => 1]);
+            }
+            $makes = $makes->all();
+            return $makes;
     }
 
     public function beforeSave($insert)

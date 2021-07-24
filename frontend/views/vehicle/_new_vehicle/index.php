@@ -2,6 +2,7 @@
 
 
 use \yii\widgets\ListView;
+
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\VehicleSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -16,7 +17,13 @@ $this->params['breadcrumbs'] = $breadcrumbs;
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h1>New Cars</h1>
+            <h1>
+                <?php if (isset($make['title_en'])) { ?>
+                    New Cars (<?= $make['title_en'] ?>)
+                <?php } else { ?>
+                    All New Cars
+                <?php } ?>
+            </h1>
         </div>
     </div>
     <div class="row">
@@ -24,20 +31,20 @@ $this->params['breadcrumbs'] = $breadcrumbs;
             <?= ListView::widget([
 //                'layout' => "{summary}\n<div class=''>{items}</div>\n{pager}",
                 'dataProvider' => $dataProvider,
-                'options' =>['class' =>'w-100'],
-                'itemOptions' => ['class' =>'w-100'],
-                'itemView' => function ($model){
-                    return $this->render('list-item',[
+                'options' => ['class' => 'w-100'],
+                'itemOptions' => ['class' => 'w-100'],
+                'itemView' => function ($model) {
+                    return $this->render('list-item', [
                         'data' => $model
                     ]);
                 },
                 'pager' => [
-                    'options'=>['class'=>'pagination'],   // set clas name used in ui list of pagination
+                    'options' => ['class' => 'pagination'],   // set clas name used in ui list of pagination
                     'prevPageLabel' => '<i class="fa fa-arrow-alt-circle-left"></i> Prev',   // Set the label for the “previous” page button
                     'nextPageLabel' => 'Next <i class="fa fa-arrow-alt-circle-right"></i>',   // Set the label for the “next” page button
-                    'nextPageCssClass'=>'next mx-3',    // Set CSS class for the “next” page button
-                    'prevPageCssClass'=>'prev mx-3',    // Set CSS class for the “previous” page button
-                    'maxButtonCount'=>5,    // Set maximum number of page buttons that can be displayed
+                    'nextPageCssClass' => 'next mx-3',    // Set CSS class for the “next” page button
+                    'prevPageCssClass' => 'prev mx-3',    // Set CSS class for the “previous” page button
+                    'maxButtonCount' => 5,    // Set maximum number of page buttons that can be displayed
                     'pageCssClass' => 'page-item mx-2',
                     'linkOptions' => ['class' => 'page-link'],
                     'disabledPageCssClass' => 'page-link',
