@@ -9,6 +9,8 @@ use common\models\VehicleSearch;
 use Yii;
 use common\models\UsedVehicle;
 use common\models\UsedVehicleSearch;
+use yii\caching\TagDependency;
+use yii\filters\PageCache;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -30,6 +32,15 @@ class UsedVehicleController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+//            [
+//                'class' => PageCache::className(),
+//                'only' => ['vehicle-details'],
+//                'duration' => 20,
+//                'dependency' => [
+//                    'class' => TagDependency::className(),
+//                    'tags' => ['usedVehicleDetailTag']
+//                ],
+//            ]
         ];
     }
 
