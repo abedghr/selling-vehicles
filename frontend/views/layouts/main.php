@@ -60,9 +60,10 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'All Makes', 'options'=>['class'=>'border-left border-right border-secondary'], 'url' => ['index'],'linkOptions' => ['class' =>'mx-3']],
-        ['label' => 'New Cars', 'options'=>['class'=>'border-left border-right border-secondary'], 'url' => ['/new-vehicle/vehicle-by-make'],'linkOptions' => ['class' =>'mx-3']],
-        ['label' => 'Used Cars', 'options'=>['class'=>'border-left border-right border-secondary'], 'url' => ['/used-vehicle/vehicle-by-make'],'linkOptions' => ['class' =>'mx-3']],
+        ['label' => 'Home', 'options'=>['class'=>'border-left border-right border-secondary'], 'url' => ['/home/index'],'linkOptions' => ['class' =>'mx-3']],
+        ['label' => 'All Makes', 'options'=>['class'=>'border-left border-right border-secondary'], 'url' => ['/home/make-list-view'],'linkOptions' => ['class' =>'mx-3']],
+        ['label' => 'New Cars', 'options'=>['class'=>'border-left border-right border-secondary'], 'url' => ['/new-vehicle/'],'linkOptions' => ['class' =>'mx-3']],
+        ['label' => 'Used Cars', 'options'=>['class'=>'border-left border-right border-secondary'], 'url' => ['/used-vehicle/'],'linkOptions' => ['class' =>'mx-3']],
         ['label' => 'SELL YOUR CAR', 'url' => ['/used-vehicle/vehicle-by-make'],'linkOptions' => ['class' =>'mx-3 px-4 btn btn-primary btn-sm']]
     ];
     if (Yii::$app->user->isGuest) {

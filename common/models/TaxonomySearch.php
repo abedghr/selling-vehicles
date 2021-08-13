@@ -57,14 +57,18 @@ class TaxonomySearch extends Taxonomy
 
         $query->joinWith('parent AS Parent');
 
+        $dataProvider->sort->attributes['parent'] = [
+            'asc' => ['Parent.title_en' => SORT_ASC],
+            'desc' => ['Parent.title_en' => SORT_DESC],
+        ];
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'title_en', $this->title_en])
-            ->andFilterWhere(['like', 'type', $this->type])
+        $query->andFilterWhere(['like', 'taxonomy.title', $this->title])
+            ->andFilterWhere(['like', 'taxonomy.title_en', $this->title_en])
+            ->andFilterWhere(['like', 'taxonomy.type', $this->type])
             ->andFilterWhere(['like', 'image', $this->image])
             ->andFilterWhere(['like', 'Parent.title_en', $this->parent]);
 

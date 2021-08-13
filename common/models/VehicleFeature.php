@@ -15,7 +15,7 @@ use Yii;
  */
 class VehicleFeature extends \common\models\BaseModels\VehicleFeature
 {
-    public $features;
+    public $features_new , $features_used;
 
     /**
      * {@inheritdoc}
@@ -23,7 +23,7 @@ class VehicleFeature extends \common\models\BaseModels\VehicleFeature
     public function rules()
     {
         return array_merge(parent::rules(),[
-            [['features'], 'safe'],
+            [['features_new','features_used'], 'safe'],
         ]);
     }
 

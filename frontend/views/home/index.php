@@ -22,7 +22,7 @@ $this->title = 'My Yii Application';
                     <div class="card-body text-center">
                         <h4 class="card-title">New Cars</h4>
                         <p class="card-text">You can browse all new cars and check if your order is available or not.</p>
-                        <a href="<?= \yii\helpers\Url::to(['/home/make-list-view','type' => \common\models\Vehicle::TYPE_NEW]) ?>" class="btn btn-primary">Buy new car</a>
+                        <a href="<?= \yii\helpers\Url::to(['/home/makes-by-type','type' => \common\models\Vehicle::TYPE_NEW]) ?>" class="btn btn-primary">Buy new car</a>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@ $this->title = 'My Yii Application';
                     <div class="card-body text-center">
                         <h4 class="card-title">Used Car</h4>
                         <p class="card-text">You can browse all used cars and check if your order is available or not.</p>
-                        <a href="<?= \yii\helpers\Url::to(['/home/make-list-view','type' => \common\models\Vehicle::TYPE_USED]) ?>" class="btn btn-primary">Buy used car</a>
+                        <a href="<?= \yii\helpers\Url::to(['/home/makes-by-type','type' => \common\models\Vehicle::TYPE_USED]) ?>" class="btn btn-primary">Buy used car</a>
                     </div>
                 </div>
             </div>
@@ -49,22 +49,41 @@ $this->title = 'My Yii Application';
         </div>
         <div class="row mt-5 text-center mb-5">
             <div class="col-12 d-flex flex-column align-items-center">
-                <h3 class="text-center pb-1" style="max-width: max-content; border-bottom: 4px solid seagreen">Featured Makes</h3>
+                <h3 class="text-center pb-1" style="max-width: max-content; border-bottom: 4px solid seagreen">Featured Makes For New Cars</h3>
             </div>
             <div class="col-12 mt-3">
                 <div class="bg-light shadow" style="border-radius: 15px;" >
                     <table class="table table-borderless table-hover">
                         <tbody>
-                        <tr>
-                            <td>LOGO</td>
-                            <td>MAKE NAME</td>
-                            <td>Vehicle Numbers</td>
-                        </tr>
-                        <tr>
-                            <td>LOGO</td>
-                            <td>MAKE NAME</td>
-                            <td>Vehicle Numbers</td>
-                        </tr>
+                        <?php foreach ($new_makes as $make){ ?>
+                            <tr>
+                                <td><img src="<?= (\yii\helpers\Url::to(Yii::getAlias('@urlManagerBackend') . '/uploads/' . $make->image)) ?>" width="50" height="50" class="rounded-circle" /></td>
+                                <td class="pt-4 font-weight-bold"><?= $make->title_en ?></td>
+<!--                                <td class="pt-4">Vehicle Numbers</td>-->
+                                <td class="pt-4"><a href="<?= \yii\helpers\Url::to(['/new-vehicle/vehicle-by-make', 'id' => $make->id]) ?>" class="font-weight-bold">View</a></td>
+                            </tr>
+                        <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5 text-center mb-5">
+            <div class="col-12 d-flex flex-column align-items-center">
+                <h3 class="text-center pb-1" style="max-width: max-content; border-bottom: 4px solid seagreen">Featured Makes For Used Cars</h3>
+            </div>
+            <div class="col-12 mt-3">
+                <div class="bg-light shadow" style="border-radius: 15px;" >
+                    <table class="table table-borderless table-hover">
+                        <tbody>
+                        <?php foreach ($used_makes as $make){ ?>
+                            <tr>
+                                <td><img src="<?= (\yii\helpers\Url::to(Yii::getAlias('@urlManagerBackend') . '/uploads/' . $make->image)) ?>" width="50" height="50" class="rounded-circle" /></td>
+                                <td class="pt-4 font-weight-bold"><?= $make->title_en ?></td>
+<!--                                <td class="pt-4">Vehicle Numbers</td>-->
+                                <td class="pt-4 font-weight-bold"><a href="<?= \yii\helpers\Url::to(['/used-vehicle/vehicle-by-make', 'id' => $make->id]) ?>" class="font-weight-bold">View</a></td>
+                            </tr>
+                        <?php } ?>
                         </tbody>
                     </table>
                 </div>

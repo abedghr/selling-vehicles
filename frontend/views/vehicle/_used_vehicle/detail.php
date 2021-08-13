@@ -33,18 +33,18 @@ $this->params['breadcrumbs'] = $breadcrumbs;
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img class="d-block w-100"
-                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRosZrqoqV876uZSA5HbKXfJw9r6M5we9WCsw&usqp=CAU"
-                             width="100%" alt="First slide">
+                             src="<?= \yii\helpers\Url::to(Yii::getAlias('@urlManagerBackend') . '/uploads/vehicle/' . $vehicle->main_image) ?>"
+                             width="100%" height="450" alt="First slide">
                     </div>
                     <div class="carousel-item">
                         <img class="d-block w-100"
-                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRosZrqoqV876uZSA5HbKXfJw9r6M5we9WCsw&usqp=CAU"
-                             width="100%" alt="Second slide">
+                             src="<?= \yii\helpers\Url::to(Yii::getAlias('@urlManagerBackend') . '/uploads/vehicle/' . $vehicle->main_image) ?>"
+                             width="100%" height="450" alt="Second slide">
                     </div>
                     <div class="carousel-item">
                         <img class="d-block w-100"
-                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRosZrqoqV876uZSA5HbKXfJw9r6M5we9WCsw&usqp=CAU"
-                             width="100%" alt="Third slide">
+                             src="<?= \yii\helpers\Url::to(Yii::getAlias('@urlManagerBackend') . '/uploads/vehicle/' . $vehicle->main_image) ?>"
+                             width="100%" height="450" alt="Third slide">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -59,10 +59,9 @@ $this->params['breadcrumbs'] = $breadcrumbs;
         </div>
         <div class="col-md-4">
             <div class="bg-light h-100 p-4">
-                <h2><?= $vehicle->user->company->name_en ?></h2>
+                <h2><?= $vehicle->user->company ? $vehicle->user->company->name_en : $vehicle->user->individualUser->first_name_en ?></h2>
                 <p class="font-weight-bold" style="font-size: 20px">Retail Price <?= $vehicle->price ?> JOD</p>
-                <p class="font-weight-bold" style="font-size: 20px">Company Location: <?= $vehicle->user->location ?></p>
-                <p class="font-weight-bold" style="font-size: 20px">Number Of Branches: <?= $vehicle->user->company->branch_number ?></p>
+                <p class="font-weight-bold" style="font-size: 20px">Location: <?= $vehicle->user->location ?></p>
                 <button class="btn btn-success btn-block"><i class="fa fa-phone fa-lg"></i> <?= $vehicle->user->phone ?></button>
             </div>
         </div>

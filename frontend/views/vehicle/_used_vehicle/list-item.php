@@ -1,8 +1,8 @@
 <div class="list-box">
-    <main class="container py-4">
+    <main class="py-4">
         <article class="postcard list-item-box text-dark">
             <a class="postcard__img_link" href="#">
-                <img class="postcard__img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRosZrqoqV876uZSA5HbKXfJw9r6M5we9WCsw&usqp=CAU" alt="Image Title" />
+                <img src="<?= \yii\helpers\Url::to(Yii::getAlias('@urlManagerBackend') . '/uploads/vehicle/' . $data->main_image) ?>" alt="Image Title" width="500" height="275"/>
             </a>
             <div class="postcard__text">
                 <h1 class="postcard__title"><a href="#"><?= $data->title_en ?></a></h1>
@@ -12,7 +12,7 @@
                     </time>
                 </div>
                 <div class="postcard__bar"></div>
-                <div class="postcard__preview-txt" style="height: 75px;"><?= $data->description_en ?></div>
+                <div class="postcard__preview-txt"><?= $data->description_en ?></div>
                 <ul class="postcard__tagbox">
                     <li class="tag__item"><i class="fas fa-tag mr-2"></i>Make: <?= $data->make->title_en ?></li>
                     <li class="tag__item"><i class="fas fa-tag mr-2"></i>Model: <?= $data->model->title_en ?></li>

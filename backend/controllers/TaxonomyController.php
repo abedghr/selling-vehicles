@@ -5,17 +5,25 @@ namespace backend\controllers;
 use Yii;
 use common\models\Taxonomy;
 use common\models\TaxonomySearch;
+use yii\caching\TagDependency;
 use yii\filters\AccessControl;
-use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\View;
 
 /**
  * TaxonomyController implements the CRUD actions for Taxonomy model.
  */
 class TaxonomyController extends Controller
 {
+    public function __construct($id, $module, $config = [])
+    {
+        $this->view->registerJs("var base_url = '" . Yii::getAlias('@urlManagerBackend')  . "'", View::POS_HEAD);
+
+        parent::__construct($id, $module, $config);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -34,7 +42,7 @@ class TaxonomyController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['GET'],
                 ],
             ],
         ];
@@ -51,6 +59,20 @@ class TaxonomyController extends Controller
         $all_taxonomy = $searchModel->getAllTypes();
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'all_taxonomy' => $all_taxonomy
+        ]);
+    }
+
+    public function actionMakes()
+    {
+        $searchModel = new TaxonomySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->where(['taxonomy.type' => Taxonomy::MAKE]);
+        $all_taxonomy = $searchModel->getAllTypes();
+
+        return $this->render('make', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'all_taxonomy' => $all_taxonomy
@@ -82,6 +104,9 @@ class TaxonomyController extends Controller
         $model->type = $type;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if($model->type == Taxonomy::MAKE){
+                TagDependency::invalidate(Yii::$app->cache,'makesListTag');
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -121,8 +146,13 @@ class TaxonomyController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
+        $model = $this->findModel($id);
+        $type = $model->type;
+        $model->delete();
+        if($type == Taxonomy::MAKE) {
+            TagDependency::invalidate(Yii::$app->cache,'makesListTag');
+        }
         return $this->redirect(['index']);
     }
 

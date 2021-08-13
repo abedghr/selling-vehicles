@@ -14,7 +14,13 @@ $this->params['breadcrumbs'] = $breadcrumbs;
 
 </style>
 <div class="container">
-    <h1>New Cars</h1>
+    <h3>
+        <?php if (isset($make['title_en'])) { ?>
+            Used Cars (<?= $make['title_en'] ?>)
+        <?php } else { ?>
+            All Used Cars
+        <?php } ?>
+    </h3>
     <div class="vehicle-index d-flex justify-content-center">
         <?= ListView::widget([
             'layout' => "{summary}\n<div class='row'>{items}</div>\n{pager}",

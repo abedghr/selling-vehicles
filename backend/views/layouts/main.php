@@ -38,6 +38,7 @@ AppAsset::register($this);
             <ul class="list-group" style="list-style:none; background-color: #0d1d2cc7 !important;">
                 <a href="<?= Url::to(['/user/index']) ?>" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px; border-bottom-color: gray !important;">Manage User</li></a>
                 <a href="<?= Url::to(['/taxonomy/index']) ?>" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px; border-bottom-color: gray !important;">Manage Taxonomy</li></a>
+                <a href="<?= Url::to(['/taxonomy/makes']) ?>" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px; border-bottom-color: gray !important;">Manage Makes</li></a>
                 <a href="<?= Url::to(['/vehicle/index']) ?>" class="text-light text-decoration-none"><li class="border-bottom" style="padding: 25px 0; margin: 0px 15px; border-bottom-color: gray !important;">Manage Vehicles</li></a>
             </ul>
         </aside>

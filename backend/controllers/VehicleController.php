@@ -12,6 +12,7 @@ use common\models\VehicleMedia;
 use Yii;
 use common\models\Vehicle;
 use common\models\VehicleSearch;
+use yii\caching\TagDependency;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -106,7 +107,10 @@ class VehicleController extends Controller
         $users = $users->all();
         $formData = Yii::$app->request->post();
 
-        if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData) && $feature->load($formData)) {
+        if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData)) {
+            if($feature){
+                $feature->load($formData);
+            }
             $create_vehicle = $model->createVehicle($vehicle , $media, $feature);
             if($create_vehicle){
                 return $this->redirect(['view', 'id' => $model->id]);
