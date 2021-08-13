@@ -104,7 +104,7 @@ class Taxonomy extends \common\models\BaseModels\Taxonomy
             ->andWhere(['vehicle.type' => Vehicle::TYPE_NEW])
             ->innerJoinWith('vehicles2');
             if($featured) {
-                $makes = $makes->where(['is_featured' => 1]);
+                $makes = $makes->where(['is_featured_new' => 1]);
             }
             $makes = $makes->all();
         return $makes;
@@ -117,7 +117,7 @@ class Taxonomy extends \common\models\BaseModels\Taxonomy
             ->andWhere(['vehicle.type' => Vehicle::TYPE_USED])
             ->innerJoinWith('vehicles2');
             if($featured) {
-                $makes = $makes->where(['is_featured' => 1]);
+                $makes = $makes->where(['is_featured_used' => 1]);
             }
             $makes = $makes->all();
             return $makes;

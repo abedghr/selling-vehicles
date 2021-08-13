@@ -31,16 +31,7 @@ class UsedVehicleController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
-//            [
-//                'class' => PageCache::className(),
-//                'only' => ['vehicle-details'],
-//                'duration' => 20,
-//                'dependency' => [
-//                    'class' => TagDependency::className(),
-//                    'tags' => ['usedVehicleDetailTag']
-//                ],
-//            ]
+            ]
         ];
     }
 
@@ -79,8 +70,13 @@ class UsedVehicleController extends Controller
     public function actionVehicleDetails($id)
     {
         $vehicles = new Vehicle();
-        $single_vehicle = $vehicles->vehicleUsedDetail($id);
         $comments = new Comment();
+        $single_vehicle = Yii::$app->cache->get($id);
+        if($single_vehicle === false) {
+            $single_vehicle = $vehicles->vehicleUsedDetail($id);
+            Yii::$app->cache->set($id, $single_vehicle, 20, new TagDependency());
+            sleep(3);
+        }
         return $this->render('/vehicle/_used_vehicle/detail',[
             'breadcrumbs' => [
                 ['label' => 'Makes','url' => ['/home/make-list-view']],

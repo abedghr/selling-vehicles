@@ -24,12 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'options' => ['class'=>'mt-4'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            [
-                'attribute' => 'parent',
-                'value' => 'parent.title_en'
-            ],
             'title',
             'title_en',
             'type',
@@ -37,16 +31,29 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\CheckboxColumn',
-                'header' => 'Features',
+                'header' => 'Featured New',
                 'checkboxOptions' => function($dataProvider) {
                     return [
-                            'attribute' => 'Features',
+                            'attribute' => 'new',
                             "value" => ($dataProvider['id']) ? $dataProvider['id'] : '',
                             "style" => ($dataProvider['title_en'] == 0) ? '' : 'display:none',
                             "class" => 'featureCheckBox',
-                            'checked' => ($dataProvider['is_featured']) ? true : false,
+                            'checked' => ($dataProvider['is_featured_new']) ? true : false,
                     ];
                  },
+            ],
+            [
+                'class' => 'yii\grid\CheckboxColumn',
+                'header' => 'Featured Used',
+                'checkboxOptions' => function($dataProvider) {
+                    return [
+                        'attribute' => 'used',
+                        "value" => ($dataProvider['id']) ? $dataProvider['id'] : '',
+                        "style" => ($dataProvider['title_en'] == 0) ? '' : 'display:none',
+                        "class" => 'featureCheckBox',
+                        'checked' => ($dataProvider['is_featured_used']) ? true : false,
+                    ];
+                },
             ],
             ['class' => 'yii\grid\ActionColumn'],
         ],

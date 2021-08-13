@@ -15,13 +15,23 @@ class AjaxController extends Controller
     {
         if (\Yii::$app->request->isAjax) {
             $make_id = \Yii::$app->request->post()['make_id'];
-            $data = Taxonomy::find()->where(['type' => Taxonomy::MAKE , 'id' => $make_id])->one();
-            if($data->is_featured == 0){
-                $data->is_featured = 1;
-            }else{
-                $data->is_featured = 0;
+            $type = \Yii::$app->request->post()['featured_type'];
+            $data = Taxonomy::find()->where(['type' => Taxonomy::MAKE, 'id' => $make_id])->one();
+            if ($type == 'new') {
+                if ($data->is_featured_new == 0) {
+                    $data->is_featured_new = 1;
+                } else {
+                    $data->is_featured_new = 0;
+                }
+            } else {
+                if ($data->is_featured_used == 0) {
+                    $data->is_featured_used = 1;
+                } else {
+                    $data->is_featured_used = 0;
+                }
             }
-            TagDependency::invalidate(\Yii::$app->cache,'homePageTag');
+
+            TagDependency::invalidate(\Yii::$app->cache, 'homePageTag');
             return $data->save();
         }
     }

@@ -10,6 +10,7 @@ use common\models\VehicleSearch;
 use Yii;
 use common\models\NewVehicle;
 use common\models\NewVehicleSearch;
+use yii\caching\TagDependency;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -74,7 +75,12 @@ class NewVehicleController extends Controller
             ->where(['vehicle_id' => $id])
             ->innerJoinWith(['vehicle', 'comment'])
             ->all();
-        $single_vehicle = $vehicles->vehicleNewDetail($id);
+        $single_vehicle = Yii::$app->cache->get($id);
+        if($single_vehicle === false) {
+            $single_vehicle = $vehicles->vehicleNewDetail($id);
+            Yii::$app->cache->set($id, $single_vehicle, 20, new TagDependency());
+            sleep(5);
+        }
         return $this->render('/vehicle/_new_vehicle/detail', [
             'breadcrumbs' => [
                 ['label' => 'Makes', 'url' => ['/home/make-list-view']],

@@ -12,6 +12,7 @@ use common\models\VehicleMedia;
 use Yii;
 use common\models\Vehicle;
 use common\models\VehicleSearch;
+use yii\caching\TagDependency;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

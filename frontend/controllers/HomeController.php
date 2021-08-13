@@ -53,7 +53,7 @@ class HomeController extends Controller
         /*if (($makes = \Yii::$app->cache->get('makesList')) === false) {
             sleep(10);*/
 
-            sleep(5);
+            sleep(3);
             $makes = Taxonomy::getAllMakes();
 
             /*\Yii::$app->cache->set('makesList', $makes,0, new TagDependency(['tags' => 'makesListTag']));
