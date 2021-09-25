@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'main_image',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return Html::img('/uploads/vehicle/' . $model->main_image, ['width' => '250px', 'class' => 'rounded']);
+                    return Html::img('/admin/uploads/vehicle/' . $model->main_image, ['width' => '250px', 'class' => 'rounded']);
                 }
             ],
         ],
@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         <div class="col-auto mt-4">
                             <a class="bg-info p-1 pl-2 pr-2 rounded" style="position: absolute; top: 10px; right: 27px"><i class="fa fa-eye fa-lg text-light"></i></a>
-                            <?= HTML::img('/uploads/vehicle/'.$v_media->media->image,['width'=>'250','height' => '250','class'=>'rounded']) ?>
+                            <?= HTML::img('/admin/uploads/vehicle/'.$v_media->media->image,['width'=>'250','height' => '220','class'=>'rounded']) ?>
                         </div>
 
                     <?php } ?>

@@ -18,7 +18,7 @@ $this->title = 'My Yii Application';
         <div class="row">
             <div class="col-lg-4 mb-3">
                 <div class="card">
-                    <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRosZrqoqV876uZSA5HbKXfJw9r6M5we9WCsw&usqp=CAU" alt="Card image cap">
+                    <img class="card-img-top" src="<?= \yii\helpers\Url::to('/images/vehicle_new.jpeg') ?>" alt="Card image cap">
                     <div class="card-body text-center">
                         <h4 class="card-title">New Cars</h4>
                         <p class="card-text">You can browse all new cars and check if your order is available or not.</p>
@@ -28,7 +28,7 @@ $this->title = 'My Yii Application';
             </div>
             <div class="col-lg-4 mb-3">
                 <div class="card rounded">
-                    <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRosZrqoqV876uZSA5HbKXfJw9r6M5we9WCsw&usqp=CAU" alt="Card image cap">
+                    <img class="card-img-top" src="<?= \yii\helpers\Url::to('/images/vehicle_used.jpg') ?>" alt="Card image cap">
                     <div class="card-body text-center">
                         <h4 class="card-title">Used Car</h4>
                         <p class="card-text">You can browse all used cars and check if your order is available or not.</p>
@@ -38,7 +38,7 @@ $this->title = 'My Yii Application';
             </div>
             <div class="col-lg-4 mb-3">
                 <div class="card rounded">
-                    <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRosZrqoqV876uZSA5HbKXfJw9r6M5we9WCsw&usqp=CAU" alt="Card image cap">
+                    <img class="card-img-top" src="<?= \yii\helpers\Url::to('/images/selling_vehicle.jpg') ?>" alt="Card image cap">
                     <div class="card-body text-center">
                         <h5 class="card-title">Sell Cars</h5>
                         <p class="card-text">You can add your car to the website and wait any customer to buy it.</p>

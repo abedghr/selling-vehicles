@@ -5,6 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Vehicle */
 /* @var $media common\models\Media */
+/* @var $feature common\models\VehicleFeature */
 /* @var $users array */
 /* @var $features array */
 /* @var $vehicle_status_list array */

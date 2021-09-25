@@ -37,8 +37,8 @@ class Company extends \common\models\BaseModels\Company
     {
         $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
         if($this->imageFile){
-            $this->image = $this->imageFile->name;
-            if(!$this->imageFile->saveAs('uploads/company/'.time() .'_' .$this->imageFile)){
+            $this->image = time() .'_' .$this->imageFile->name;
+            if(!$this->imageFile->saveAs('uploads/company/'.$this->image)){
                 return false;
             }
         }

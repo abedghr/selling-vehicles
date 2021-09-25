@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $model->username;
 
                 'value' => function ($model) {
                     if($model->company->image) {
-                        return Html::img('/uploads/company/' . $model->company->image,
+                        return Html::img('/admin/uploads/company/' . $model->company->image,
                             ['width' => '250px']);
                     }
                 },

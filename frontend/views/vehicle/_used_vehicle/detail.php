@@ -32,20 +32,18 @@ $this->params['breadcrumbs'] = $breadcrumbs;
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="d-block w-100"
+                        <img class="d-block w-100" style="object-fit: contain;"
                              src="<?= \yii\helpers\Url::to(Yii::getAlias('@urlManagerBackend') . '/uploads/vehicle/' . $vehicle->main_image) ?>"
                              width="100%" height="450" alt="First slide">
                     </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100"
-                             src="<?= \yii\helpers\Url::to(Yii::getAlias('@urlManagerBackend') . '/uploads/vehicle/' . $vehicle->main_image) ?>"
-                             width="100%" height="450" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100"
-                             src="<?= \yii\helpers\Url::to(Yii::getAlias('@urlManagerBackend') . '/uploads/vehicle/' . $vehicle->main_image) ?>"
-                             width="100%" height="450" alt="Third slide">
-                    </div>
+                    <?php foreach ($vehicle->vehicleMedia as $media) { ?>
+                        <?php /** @var $media \common\models\VehicleMedia */ ?>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" style="object-fit: contain;"
+                                 src="<?= \yii\helpers\Url::to(Yii::getAlias('@urlManagerBackend') . '/uploads/vehicle/' . $media->media->image) ?>"
+                                 width="100%" height="450" alt="Vehicle slide">
+                        </div>
+                    <?php } ?>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -97,7 +95,7 @@ $this->params['breadcrumbs'] = $breadcrumbs;
                     </div>
                 </div>
                 <div class="container tab-pane fade p-3" id="description" role="tabpanel" aria-labelledby="profile-tab">
-                    <p style="max-height: 170px; overflow: hidden"><?= $vehicle->description_en ?></p>
+                    <p style="max-height: 170px; overflow: hidden" class="mt-3"><?= $vehicle->description_en ?></p>
                 </div>
             </div>
         </div>
