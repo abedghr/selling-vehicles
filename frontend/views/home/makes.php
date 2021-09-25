@@ -25,10 +25,10 @@ $this->params['breadcrumbs'] = $breadcrumbs;
                         else{ ?>
                             <a href="<?= \yii\helpers\Url::to(['/new-vehicle/vehicle-by-make', 'id' => $make->id]) ?>">
                         <?php } ?>
-                            <div class="card">
+                            <div class="card card-makes">
                                 <img
                                         src="<?= Url::to(Yii::getAlias('@urlManagerBackend') . '/uploads/' . $make->image) ?>"
-                                        class="card-img-top"
+                                        class="card-img-make-top"
                                         alt="..."
                                 />
                                 <div class="card-body">

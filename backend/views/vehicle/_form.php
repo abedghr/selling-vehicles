@@ -179,7 +179,7 @@ use \yii\helpers\Url;
                                class="bg-danger p-2 pl-3 pr-3 rounded"
                                style="position: absolute; top: 10px; right: 27px"
                                onclick="return confirm('Are you sure ?')"><i class="fa fa-trash text-light"></i></a>
-                            <?= HTML::img('/uploads/vehicle/' . $v_media->media->image, ['width' => '250', 'height' => '250', 'class' => 'rounded']) ?>
+                            <?= HTML::img('/admin/uploads/vehicle/' . $v_media->media->image, ['width' => '250', 'height' => '190', 'class' => 'rounded']) ?>
                         </div>
 
                     <?php } ?>

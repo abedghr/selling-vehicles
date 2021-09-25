@@ -91,13 +91,15 @@ class Vehicle extends \common\models\BaseModels\Vehicle
             if ($this->save()) {
                 if ($feautre->features) {
                     foreach ($feautre->features as $single_feature) {
-                        foreach ($single_feature as $item) {
-                            $v_feature = new VehicleFeature();
-                            $v_feature->vehicle_id = $this->id;
-                            $v_feature->taxonomy_id = $item;
-                            if (!$v_feature->save()) {
-                                $transaction->rollBack();
-                                return false;
+                        if($single_feature) {
+                            foreach ($single_feature as $item) {
+                                $v_feature = new VehicleFeature();
+                                $v_feature->vehicle_id = $this->id;
+                                $v_feature->taxonomy_id = $item;
+                                if (!$v_feature->save()) {
+                                    $transaction->rollBack();
+                                    return false;
+                                }
                             }
                         }
                     }
@@ -123,13 +125,28 @@ class Vehicle extends \common\models\BaseModels\Vehicle
         }
     }
 
-    public function updateVehicle($vehicle, $media)
+    public function updateVehicle($vehicle, $media, $feature = null)
     {
         $transaction = Yii::$app->db->beginTransaction();
         if ($this->imageFile = UploadedFile::getInstance($this, 'imageFile')) {
             $this->main_image = time() . '_' . $this->imageFile->name;
         }
         if ($this->save()) {
+            if ($feature->features) {
+                foreach ($feature->features as $single_feature) {
+                    if($single_feature) {
+                        foreach ($single_feature as $item) {
+                            $v_feature = new VehicleFeature();
+                            $v_feature->vehicle_id = $this->id;
+                            $v_feature->taxonomy_id = $item;
+                            if ($v_feature->isNewRecord && !$v_feature->save()) {
+                                $transaction->rollBack();
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
             $vehicle->vehicle_id = $this->id;
             if ($vehicle->save()) {
                 if ($this->imageFile && !$this->imageFile->saveAs('uploads/vehicle/' . time() . '_' . $this->imageFile)) {

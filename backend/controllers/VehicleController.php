@@ -71,7 +71,7 @@ class VehicleController extends Controller
      */
     public function actionView($id)
     {
-        $vehicle_media = VehicleMedia::find()->where(['vehicle_id'=>$id])->with('media')->all();
+        $vehicle_media = VehicleMedia::find()->where(['vehicle_id' => $id])->with('media')->all();
         return $this->render('view', [
             'model' => $this->findModel($id),
             'vehicle_media' => $vehicle_media
@@ -81,8 +81,8 @@ class VehicleController extends Controller
     /**
      * Creates a new Vehicle model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
      * @param $type
+     * @return mixed
      */
     public function actionCreate($type)
     {
@@ -92,7 +92,7 @@ class VehicleController extends Controller
         $model->type = $type;
         $feature = new VehicleFeature();
         $users = User::find();
-        $features = Taxonomy::find()->where(['type' => [Taxonomy::CAMERA,Taxonomy::SENSOR]])->all();
+        $features = Taxonomy::find()->where(['type' => [Taxonomy::CAMERA, Taxonomy::SENSOR]])->all();
 
 
         $vehicle = null;
@@ -108,11 +108,11 @@ class VehicleController extends Controller
         $formData = Yii::$app->request->post();
 
         if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData)) {
-            if($feature){
+            if ($feature) {
                 $feature->load($formData);
             }
-            $create_vehicle = $model->createVehicle($vehicle , $media, $feature);
-            if($create_vehicle){
+            $create_vehicle = $model->createVehicle($vehicle, $media, $feature);
+            if ($create_vehicle) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -143,16 +143,16 @@ class VehicleController extends Controller
         $vehicle_media = $model->vehicleMedia;
         $media = new Media(['scenario' => Media::SCENARIO_UPDATE]);
 
-        $feature = VehicleFeature::find()->all();
+        $feature = new VehicleFeature();
         $features = Taxonomy::find()->where(['type' => [Taxonomy::CAMERA,Taxonomy::SENSOR]])->all();
 
         $users = User::find();
         $vehicle = null;
-        if($model->type == Vehicle::TYPE_NEW){
+        if ($model->type == Vehicle::TYPE_NEW) {
             $users = $users->where(['type' => User::COMPANY_TYPE]);
             $vehicle = $model->newVehicle;
         }
-        if($model->type == Vehicle::TYPE_USED){
+        if ($model->type == Vehicle::TYPE_USED) {
             $vehicle = $model->usedVehicle;
         }
 
@@ -161,9 +161,13 @@ class VehicleController extends Controller
         $vehicle_status_list = $model->vehicleStatusList();
         $formData = Yii::$app->request->post();
         if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData)) {
-            $update = $model->updateVehicle($vehicle, $media);
-            if($update)
-            return $this->redirect(['view', 'id' => $model->id]);
+            $feature->load($formData);
+            if($feature) {
+                VehicleFeature::deleteAll(['vehicle_id' => $id]);
+            }
+            $update = $model->updateVehicle($vehicle, $media, $feature);
+            if ($update)
+                return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
