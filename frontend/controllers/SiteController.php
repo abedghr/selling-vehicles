@@ -45,7 +45,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['get'],
                 ],
             ],
         ];
@@ -90,7 +90,9 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            Yii::$app->cache->flush(); //backend flush
             return $this->goBack();
+
         } else {
             $model->password = '';
 
@@ -108,7 +110,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
+        Yii::$app->cache->flush(); //backend flush
         return $this->goHome();
     }
 

@@ -176,6 +176,17 @@ class User extends \common\models\BaseModels\User
     }
 
     /**
+     * Finds user by username
+     *
+     * @param string $username
+     * @return \common\models\User|null
+     */
+    public static function findByEndUsername($username)
+    {
+        return static::findOne(['type' => [self::INDVIDUAL_USER_TYPE, self::COMPANY_TYPE], 'username' => $username, 'status' => self::STATUS_ACTIVE]);
+    }
+
+    /**
      * Finds user by password reset token
      *
      * @param string $token password reset token

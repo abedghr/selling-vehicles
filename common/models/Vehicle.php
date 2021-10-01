@@ -54,9 +54,9 @@ class Vehicle extends \common\models\BaseModels\Vehicle
     const TYPE_NEW = 'new';
     const TYPE_USED = 'used';
 
-    const VEHICLE_ACTIVE = 'active';
-    const VEHICLE_PENDING = 'pending';
-    const VEHICLE_BLOCKED = 'blocked';
+    const VEHICLE_ACTIVE = "10";
+    const VEHICLE_PENDING = "9";
+    const VEHICLE_BLOCKED = "-1";
 
     public function rules()
     {
@@ -89,7 +89,7 @@ class Vehicle extends \common\models\BaseModels\Vehicle
         if ($this->imageFile = UploadedFile::getInstance($this, 'imageFile')) {
             $this->main_image = time() . '_' . $this->imageFile->name;
             if ($this->save()) {
-                if ($feautre->features) {
+                if (isset($feautre) && $feautre->features) {
                     foreach ($feautre->features as $single_feature) {
                         if($single_feature) {
                             foreach ($single_feature as $item) {
@@ -107,7 +107,8 @@ class Vehicle extends \common\models\BaseModels\Vehicle
 
                 $vehicle->vehicle_id = $this->id;
                 if ($vehicle->save()) {
-                    if (!$this->imageFile->saveAs('uploads/vehicle/' . time() . '_' . $this->imageFile)) {
+//                    if (!$this->imageFile->saveAs('uploads/vehicle/' . time() . '_' . $this->imageFile)) {
+                    if (!$this->imageFile->saveAs(Yii::getAlias('@backend').'/web/uploads/vehicle/' . time() . '_' . $this->imageFile)) {
                         $transaction->rollBack();
                         return false;
                     }
@@ -149,7 +150,8 @@ class Vehicle extends \common\models\BaseModels\Vehicle
             }
             $vehicle->vehicle_id = $this->id;
             if ($vehicle->save()) {
-                if ($this->imageFile && !$this->imageFile->saveAs('uploads/vehicle/' . time() . '_' . $this->imageFile)) {
+//                if ($this->imageFile && !$this->imageFile->saveAs('uploads/vehicle/' . time() . '_' . $this->imageFile)) {
+                if ($this->imageFile && !$this->imageFile->saveAs(Yii::getAlias('@backend').'/web/uploads/vehicle/' . time() . '_' . $this->imageFile)) {
                     $transaction->rollBack();
                     return false;
                 }
@@ -178,7 +180,8 @@ class Vehicle extends \common\models\BaseModels\Vehicle
             $v_media->user_id = Yii::$app->user->id;
             $v_media->image = time() . '_' . $single_image->name;
             if ($v_media->save(false)) {
-                if (!$single_image->saveAs('uploads/vehicle/' . time() . '_' . $single_image)) {
+//                if (!$single_image->saveAs('uploads/vehicle/' . time() . '_' . $single_image)) {
+                if (!$single_image->saveAs(Yii::getAlias('@backend').'/web/uploads/vehicle/' . time() . '_' . $single_image)) {
                     return false;
                 }
                 $vehicle_media = new VehicleMedia();

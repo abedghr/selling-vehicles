@@ -175,7 +175,7 @@ use \yii\helpers\Url;
                     <?php foreach ($vehicle_media as $v_media) { ?>
 
                         <div class="col-auto mt-4">
-                            <a href="/vehicle/delete-image?id=<?= $v_media->media->id ?>"
+                            <a href="<?= Url::to(['vehicle/delete-image', 'id' => $v_media->media->id]); ?>"
                                class="bg-danger p-2 pl-3 pr-3 rounded"
                                style="position: absolute; top: 10px; right: 27px"
                                onclick="return confirm('Are you sure ?')"><i class="fa fa-trash text-light"></i></a>
