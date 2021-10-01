@@ -39,10 +39,16 @@ AppAsset::register($this);
         <div class="row pt-2 pb-2">
             <div class="col-md-6">
                 <span class="font-weight-bold mr-2"> Welcome to Selling Vehicle </span> |
-                <span class="ml-2 font-weight-bold">
-                    <i class="fa fa-user"></i> <a href="<?= \yii\helpers\Url::to('/site/login') ?>" class="text-dark ">Sign in</a> /
-                    <a href="<?= \yii\helpers\Url::to('/site/signup') ?>" class="text-dark">Sign Up</a>
-                </span>
+                <?php if(Yii::$app->user->isGuest) { ?>
+                    <span class="ml-2 font-weight-bold">
+                        <i class="fa fa-user"></i> <a href="<?= \yii\helpers\Url::to('/site/login') ?>" class="text-dark ">Sign in</a> /
+                        <a href="<?= \yii\helpers\Url::to('/site/signup') ?>" class="text-dark">Sign Up</a>
+                    </span>
+                <?php }else { ?>
+                    <span class="ml-2 font-weight-bold">
+                        <i class="fa fa-user"></i> <a href="<?= \yii\helpers\Url::to('') ?>" class="text-dark "><?= Yii::$app->user->identity->username ?></a>
+                    </span>
+                <?php } ?>
             </div>
             <div class="col-md-6 text-right">
                 <a href="#" class="text-dark">تصفح باللغة العربية</a>
@@ -64,7 +70,7 @@ AppAsset::register($this);
         ['label' => 'All Makes', 'options'=>['class'=>'border-left border-right border-secondary'], 'url' => ['/home/make-list-view'],'linkOptions' => ['class' =>'mx-3']],
         ['label' => 'New Cars', 'options'=>['class'=>'border-left border-right border-secondary'], 'url' => ['/new-vehicle/'],'linkOptions' => ['class' =>'mx-3']],
         ['label' => 'Used Cars', 'options'=>['class'=>'border-left border-right border-secondary'], 'url' => ['/used-vehicle/'],'linkOptions' => ['class' =>'mx-3']],
-        ['label' => 'SELL YOUR CAR', 'url' => ['/used-vehicle/vehicle-by-make'],'linkOptions' => ['class' =>'mx-3 px-4 btn btn-primary btn-sm']]
+        ['label' => 'SELL YOUR CAR', 'url' => ['/used-vehicle/selling-vehicle'],'linkOptions' => ['class' =>'mx-3 px-4 btn btn-primary btn-sm']]
     ];
     if (Yii::$app->user->isGuest) {
 
@@ -72,7 +78,7 @@ AppAsset::register($this);
         $menuItems[] =
             Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
+                'Logout',
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm();

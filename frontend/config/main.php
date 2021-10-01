@@ -3,7 +3,10 @@ $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
     require __DIR__ . '/params.php',
-    require __DIR__ . '/params-local.php'
+    require __DIR__ . '/params-local.php',
+    ['bsVersion' => '4.x'] // this will set globally `bsVersion` to Bootstrap 4.x for all Krajee Extensions
+    // other settings
+    // 'adminEmail' => 'admin@example.com'
 );
 
 return [
