@@ -15,5 +15,10 @@ return [
             'port' => 6379,
             'database' => 0,
         ],
+        'jwt' => [
+            'class' => \sizeg\jwt\Jwt::class,
+            'key' => 'qwer1234',  //typically a long random string
+            'jwtValidationData' => \common\modules\Jwt\JwtValidationData::class,
+        ],
     ],
 ];

@@ -23,7 +23,8 @@
         "kartik-v/yii2-widget-select2": "dev-master",
         "rmrevin/yii2-fontawesome": "~3.5",
         "genxoft/yii2-oas3": "*",
-        "yiisoft/yii2-redis": "^2.0"
+        "yiisoft/yii2-redis": "^2.0",
+        "sizeg/yii2-jwt": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

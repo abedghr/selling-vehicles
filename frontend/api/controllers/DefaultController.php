@@ -20,7 +20,7 @@ use Yii;
  *   ),
  * ),
  * @OA\Server(
- *   url="http://frontend.selling-vehicles/api/",
+ *   url="https://selling-vehicles.com/api/",
  *   description="main server",
  * )
  */

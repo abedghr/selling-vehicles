@@ -159,9 +159,11 @@ class User extends \common\models\BaseModels\User
     /**
      * {@inheritdoc}
      */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+    public static function findIdentityByAccessToken($token, $type = null) {
+        return static::find()
+            ->where(['id' => (string) $token->getClaim('uid') ])
+            ->andWhere(['<>', 'status', 'inactive'])  //adapt this to your needs
+            ->one();
     }
 
     /**
@@ -310,6 +312,15 @@ class User extends \common\models\BaseModels\User
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function afterSave($isInsert, $changedOldAttributes) {
+        // Purge the user tokens when the password is changed
+        if (array_key_exists('usr_password', $changedOldAttributes)) {
+            UserRefreshTokens::deleteAll(['urf_userID' => $this->userID]);
+        }
+
+        return parent::afterSave($isInsert, $changedOldAttributes);
     }
 
 }
