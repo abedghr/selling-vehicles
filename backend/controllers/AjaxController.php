@@ -11,6 +11,9 @@ use yii\web\Controller;
  */
 class AjaxController extends Controller
 {
+    /**
+     * @return bool
+     */
     public function actionFeature()
     {
         if (\Yii::$app->request->isAjax) {
@@ -18,17 +21,9 @@ class AjaxController extends Controller
             $type = \Yii::$app->request->post()['featured_type'];
             $data = Taxonomy::find()->where(['type' => Taxonomy::MAKE, 'id' => $make_id])->one();
             if ($type == 'new') {
-                if ($data->is_featured_new == 0) {
-                    $data->is_featured_new = 1;
-                } else {
-                    $data->is_featured_new = 0;
-                }
+                $data->is_featured_new = !$data->is_featured_new;
             } else {
-                if ($data->is_featured_used == 0) {
-                    $data->is_featured_used = 1;
-                } else {
-                    $data->is_featured_used = 0;
-                }
+                $data->is_featured_used = !$data->is_featured_used;
             }
 
             TagDependency::invalidate(\Yii::$app->cache, 'homePageTag');

@@ -1,5 +1,6 @@
 <?php
 
+use \yii\bootstrap4\Modal;
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
@@ -10,7 +11,7 @@ $this->title = 'My Yii Application';
         <div class="text-center text-light">
             <h1 class="">Welcome!</h1>
             <p class="lead">Everything you need in one place</p>
-            <p class=""><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with SV</a></p>
+            <p class=""><a class="get-started btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with SV</a></p>
         </div>
     </div>
 
@@ -42,7 +43,7 @@ $this->title = 'My Yii Application';
                     <div class="card-body text-center">
                         <h5 class="card-title">Sell Cars</h5>
                         <p class="card-text">You can add your car to the website and wait any customer to buy it.</p>
-                        <a href="#" class="btn btn-primary">Sell your car</a>
+                        <a href="#" data-target="#modal-box" data-toggle="modal" class="btn btn-primary">Sell your car</a>
                     </div>
                 </div>
             </div>
@@ -91,3 +92,22 @@ $this->title = 'My Yii Application';
         </div>
     </div>
 </div>
+
+<?php
+Modal::begin([
+    'id' => 'modal-box',
+    'title' => '<h2>Change Words</h2>',
+    'toggleButton' => ['label' => 'click me'],
+]);
+?>
+
+<?= \yii\bootstrap4\Html::tag('div','Change Words',[
+        'class' => 'btn btn-primary perform-ajax-call',
+        'data' => [
+                'ref' => \yii\helpers\Url::to(['ajax/change-words']),
+                'magic-ajax' => true,
+        ]
+
+]) ?>
+
+<?php Modal::end(); ?>
