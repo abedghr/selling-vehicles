@@ -10,7 +10,9 @@ use \yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\VehicleSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+/* @var $vehicle \common\models\Vehicle */
+/* @var $media \common\models\Media */
+/* @var $model \common\models\UsedVehicle */
 
 $this->title = Yii::t('app', 'Vehicles');
 $this->params['breadcrumbs'] = $breadcrumbs;
