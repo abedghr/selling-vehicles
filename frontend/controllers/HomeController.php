@@ -40,6 +40,9 @@ class HomeController extends Controller
 
     public function actionIndex()
     {
+//        echo "<pre>";
+//        print_r(\Yii::$app->mailer->compose()->setFrom('abed.ghandour7298@gmail.com')->setTo('abed.ghandour7298@gmail.com')->setSubject("Apply for job")->setTextBody('I need Job')->send());
+//        die;
         $new_makes = Taxonomy::getAllMakesNew(true);
         $used_makes = Taxonomy::getAllMakesUsed(true);
         return $this->render('index',[
