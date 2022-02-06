@@ -4,20 +4,14 @@ namespace frontend\controllers;
 
 use common\models\Comment;
 use common\models\Media;
-use common\models\NewVehicle;
 use common\models\Taxonomy;
 use common\models\User;
 use common\models\Vehicle;
-use common\models\VehicleFeature;
 use common\models\VehicleSearch;
 use Yii;
 use common\models\UsedVehicle;
-use common\models\UsedVehicleSearch;
-use yii\caching\TagDependency;
 use yii\filters\AccessControl;
-use yii\filters\PageCache;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
@@ -88,12 +82,8 @@ class UsedVehicleController extends Controller
     {
         $vehicles = new Vehicle();
         $comments = new Comment();
-        $single_vehicle = Yii::$app->cache->get($id);
-        if($single_vehicle === false) {
-            $single_vehicle = $vehicles->vehicleUsedDetail($id);
-            Yii::$app->cache->set($id, $single_vehicle, 20, new TagDependency());
-            sleep(3);
-        }
+        $single_vehicle = $vehicles->vehicleUsedDetail($id);
+
         return $this->render('/vehicle/_used_vehicle/detail', [
             'breadcrumbs' => [
                 ['label' => 'Makes','url' => ['/home/make-list-view']],

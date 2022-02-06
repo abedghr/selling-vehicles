@@ -15,7 +15,7 @@ AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?= Yii::$app->language ?>"  dir="<?= Yii::$app->language == "ar" ? 'rtl' : '' ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -51,7 +51,7 @@ AppAsset::register($this);
                 <?php } ?>
             </div>
             <div class="col-md-6 text-right">
-                <a href="#" class="text-dark">تصفح باللغة العربية</a>
+                <a href="<?= \yii\helpers\Url::to('/site/change-language') ?>" class="text-dark"><?= \Yii::t('app', 'browse_language'); ?></a>
             </div>
         </div>
     </div>

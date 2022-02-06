@@ -183,7 +183,7 @@ class User extends \common\models\BaseModels\User
      */
     public static function findByEndUsername($username)
     {
-        return static::findOne(['type' => [self::INDVIDUAL_USER_TYPE, self::COMPANY_TYPE], 'username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**

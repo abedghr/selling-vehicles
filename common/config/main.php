@@ -5,6 +5,7 @@ return [
         '@npm'   => '@vendor/npm-asset',
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'language' => 'ar',
     'components' => [
         'cache' => [
             'class' => 'yii\redis\Cache',
@@ -14,6 +15,13 @@ return [
             'hostname' => 'localhost',
             'port' => 6379,
             'database' => 0,
+        ],
+        'db' => [
+            'enableSchemaCache' => true,
+            'schemaCacheDuration' => 21600, // 6 hours
+            'schemaCache' => 'cache',
+            'enableQueryCache' => true,
+            'queryCacheDuration' => 1800, // 30 minutes
         ],
     ],
 ];

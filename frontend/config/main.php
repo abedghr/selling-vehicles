@@ -13,6 +13,9 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'on beforeRequest' => function ($event) {
+        Yii::$app->language = Yii::$app->session->get('language', 'en');
+    },
     'modules' => [
         'api' => [
             'class' => 'app\api\Modules'
@@ -55,6 +58,18 @@ return [
             'baseUrl' => '@backend/uploads/',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+        ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    //'basePath' => '@app/messages',
+                    //'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                    ],
+                ],
+            ],
         ],
     ],
     'params' => $params,
