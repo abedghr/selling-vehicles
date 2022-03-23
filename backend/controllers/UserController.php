@@ -2,18 +2,18 @@
 
 namespace backend\controllers;
 
-use common\models\Company;
-use common\models\IndividualUser;
-use common\models\Taxonomy;
-use common\models\Vehicle;
 use Yii;
-use common\models\User;
-use common\models\UserSearch;
-use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
+use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
+
+use common\models\User;
+use common\models\Vehicle;
+use common\models\Company;
+use common\models\Taxonomy;
+use common\models\UserSearch;
+use common\models\IndividualUser;
 
 /**
  * UserController implements the CRUD actions for User model.

@@ -2,6 +2,7 @@
 
 namespace common\models\BaseModels;
 
+use common\components\BaseActiveRecord;
 use Yii;
 
 /**
@@ -41,7 +42,7 @@ use Yii;
  * @property Taxonomy[] $taxonomies
  * @property VehicleMedia[] $vehicleMedia
  */
-class Vehicle extends \yii\db\ActiveRecord
+class Vehicle extends BaseActiveRecord
 {
     /**
      * {@inheritdoc}

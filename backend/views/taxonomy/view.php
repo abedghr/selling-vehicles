@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'label' => 'Image',
                 'value' => function ($model) {
-                    return Html::img('/admin/uploads/' . $model->image, ['width' => '250px', 'class' => 'rounded']);
+                    return Html::img($model->image_taxonomy_preview, ['width' => '250px', 'class' => 'rounded']);
                 }
             ]
         ],

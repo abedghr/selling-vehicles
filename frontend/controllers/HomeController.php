@@ -32,7 +32,8 @@ class HomeController extends BaseController
         ]);
     }
 
-    public function actionMakesByType($type = null) {
+    public function actionMakesByType($type = null)
+    {
         $makes = null;
         if ($type == Vehicle::TYPE_NEW) {
             $makes = Taxonomy::getAllMakesNew();

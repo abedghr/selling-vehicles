@@ -2,6 +2,7 @@
 
 namespace common\models\BaseModels;
 
+use common\components\BaseActiveRecord;
 use Yii;
 
 /**
@@ -34,7 +35,7 @@ use Yii;
  * @property VehicleFeature[] $vehicleFeatures
  * @property Vehicle[] $vehicles4
  */
-class Taxonomy extends \yii\db\ActiveRecord
+class Taxonomy extends BaseActiveRecord
 {
     /**
      * {@inheritdoc}

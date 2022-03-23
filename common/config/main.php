@@ -23,5 +23,15 @@ return [
             'enableQueryCache' => true,
             'queryCacheDuration' => 1800, // 30 minutes
         ],
+        'S3' => [
+            'class' => 'common\components\S3',
+            'credentials' => [
+                'key' => 'AKIA4AAST7OUVQCTTGD7',
+                'secret' => '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',
+            ],
+            'region' => 'us-east-1',
+            'defaultBucket' => 'selling-vehicles',
+            'defaultAcl' => 'public-read',
+        ],
     ],
 ];

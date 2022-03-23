@@ -111,7 +111,8 @@ class VehicleController extends Controller
             if ($feature) {
                 $feature->load($formData);
             }
-            $create_vehicle = $model->createVehicle($vehicle, $media, $feature);
+
+            $create_vehicle = $model->createVehicle($vehicle, $feature);
             if ($create_vehicle) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
