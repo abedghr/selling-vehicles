@@ -8,13 +8,14 @@ use common\models\Vehicle;
 use common\models\VehicleComment;
 use common\models\VehicleSearch;
 use Yii;
+use yii\caching\TagDependency;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 
 /**
  * NewVehicleController implements the CRUD actions for NewVehicle model.
  */
-class NewVehicleController extends Controller
+class NewVehicleController extends BaseController
 {
     /**
      * {@inheritdoc}
@@ -52,7 +53,10 @@ class NewVehicleController extends Controller
         $vehicle_search = new VehicleSearch();
         $vehicles = $vehicle_search->search(Yii::$app->request->queryParams, Vehicle::TYPE_NEW);
         $vehicles->query->andWhere(['make_id' => $id]);
-        $make = Taxonomy::find()->where(['id' => $id])->select(['title_en', 'title'])->asArray()->one();
+        $make =  \Yii::$app->cache->getOrSet(YII_ENV.':AllMakesNew:', function () use ($id) {
+            return $make_data =  Taxonomy::find()->where(['id' => $id])->select(['title_en', 'title'])->asArray()->one();
+        },3600 * 24,new TagDependency(['tags' => [Taxonomy::className() . '_' . $id]]));
+
         return $this->render('/vehicle/_new_vehicle/index', [
             'breadcrumbs' => [
                 ['label' => 'Makes', 'url' => ['/home/make-list-view']],
@@ -67,10 +71,8 @@ class NewVehicleController extends Controller
     {
         $vehicles = new Vehicle();
         $comments = new Comment();
-        $vehicle_comment = VehicleComment::find()
-            ->where(['vehicle_id' => $id])
-            ->innerJoinWith(['vehicle', 'comment'])
-            ->all();
+
+//        if($comments->load(Yii::$app->request->post())){}
 
         $single_vehicle = $vehicles->vehicleNewDetail($id);
 
@@ -82,7 +84,6 @@ class NewVehicleController extends Controller
             ],
             'vehicle' => $single_vehicle,
             'comments' => $comments,
-            'vehicle_comment' => $vehicle_comment
         ]);
 
     }

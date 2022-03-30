@@ -204,9 +204,9 @@ class Vehicle extends \common\models\BaseModels\Vehicle
 
     public function vehicleNewDetail($id)
     {
-        return Vehicle::find()->where(['id' => $id])
-            ->andWhere(['type' => Vehicle::TYPE_NEW])
-            ->with([
+        return Vehicle::find()->where([self::tableName() . '.id' => $id])
+            ->andWhere([self::tableName() . '.type' => Vehicle::TYPE_NEW])
+            ->JoinWith([
                 'make',
                 'model',
                 'user',

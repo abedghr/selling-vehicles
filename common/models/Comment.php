@@ -34,7 +34,7 @@ class Comment extends \common\models\BaseModels\Comment
     {
         return [
             [['user_id', 'comment'], 'required'],
-            [['user_id', 'comment'], 'integer'],
+            [['user_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];

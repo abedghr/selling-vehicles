@@ -8,7 +8,8 @@ return [
     'language' => 'ar',
     'components' => [
         'cache' => [
-            'class' => 'yii\redis\Cache',
+            'class' => \yii\redis\Cache::class,
+            'redis' => 'redis'
         ],
         'redis' => [
             'class' => 'yii\redis\Connection',

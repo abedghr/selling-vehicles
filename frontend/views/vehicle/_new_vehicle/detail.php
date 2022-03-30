@@ -58,12 +58,12 @@ $this->params['breadcrumbs'] = $breadcrumbs;
         </div>
         <div class="col-md-4">
             <div class="bg-light h-100 p-4">
-                <h2><?= $vehicle->user->company->name_en ?></h2>
+                <h2><?= $vehicle->user->company ? $vehicle->user->company->name_en : null ?></h2>
                 <p class="font-weight-bold" style="font-size: 20px">Retail Price <?= $vehicle->price ?> JOD</p>
                 <p class="font-weight-bold" style="font-size: 20px">Company
                     Location: <?= $vehicle->user->location ?></p>
                 <p class="font-weight-bold" style="font-size: 20px">Number Of
-                    Branches: <?= $vehicle->user->company->branch_number ?></p>
+                    Branches: <?= $vehicle->user->company ? $vehicle->user->company->branch_number : null ?></p>
                 <button class="btn btn-success btn-block"><i class="fa fa-phone fa-lg"></i> <?= $vehicle->user->phone ?>
                 </button>
             </div>
@@ -137,12 +137,12 @@ $this->params['breadcrumbs'] = $breadcrumbs;
         <div class="col-md-8 mb-5">
             <h3 class="border-bottom font-weight-bold">Comments</h3>
             <ul class="list-group border" style="overflow-y: scroll; height: 350px;">
-                <?php foreach ($vehicle_comment as $comment) { ?>
+                <?php foreach ($vehicle->comments as $comment) { ?>
                     <li class="list-group-item">
                         <span style="font-size: 18px;"
-                              class="font-weight-bold mb-2"><?= $comment->comment->user->username ?></span>
-                        <small><?= $comment->comment->created_at ?></small>
-                        <p class="mt-3"><?= $comment->comment->comment ?></p>
+                              class="font-weight-bold mb-2"><?= $comment->user->username ?></span>
+                        <small><?= $comment->created_at ?></small>
+                        <p class="mt-3"><?= $comment->comment ?></p>
                     </li>
                 <?php } ?>
             </ul>

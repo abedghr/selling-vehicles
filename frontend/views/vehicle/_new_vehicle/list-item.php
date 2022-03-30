@@ -1,3 +1,4 @@
+
 <div class="list-box">
     <main class="py-4">
         <article class="postcard list-item-box text-dark">
@@ -16,7 +17,9 @@
                 <ul class="postcard__tagbox">
                     <li class="tag__item"><i class="fas fa-tag mr-2"></i>Make: <?= $data->make->title_en ?></li>
                     <li class="tag__item"><i class="fas fa-tag mr-2"></i>Model: <?= $data->model->title_en ?></li>
-                    <li class="tag__item"><i class="fas fa-tag mr-2"></i>City: <?= $data->user->city->title_en ?></li>
+                    <?php if($data->user->city) { ?>
+                        <li class="tag__item"><i class="fas fa-tag mr-2"></i>City: <?= $data->user->city->title_en ?></li>
+                    <?php } ?>
                 </ul>
                 <span style="font-size: 25px;" class="font-weight-bold mt-3">Price: <?= $data->price ?> JOD</span>
                 <a href="<?= \yii\helpers\Url::to(['/new-vehicle/vehicle-details/','id' =>$data->id]) ?>" class="btn btn-primary btn-block text-light"><i class="fas fa-eye mr-2"></i>View Details</a>

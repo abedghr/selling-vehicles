@@ -3,19 +3,18 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\web\View;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 use common\models\Taxonomy;
 use common\models\TaxonomySearch;
-use yii\caching\TagDependency;
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\web\View;
+use common\components\BackendBaseController;
 
 /**
  * TaxonomyController implements the CRUD actions for Taxonomy model.
  */
-class TaxonomyController extends Controller
+class TaxonomyController extends BackendBaseController
 {
     public function __construct($id, $module, $config = [])
     {
@@ -104,9 +103,6 @@ class TaxonomyController extends Controller
         $model->type = $type;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if($model->type == Taxonomy::MAKE){
-                TagDependency::invalidate(Yii::$app->cache,'makesListTag');
-            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -150,9 +146,6 @@ class TaxonomyController extends Controller
         $model = $this->findModel($id);
         $type = $model->type;
         $model->delete();
-        if($type == Taxonomy::MAKE) {
-            TagDependency::invalidate(Yii::$app->cache,'makesListTag');
-        }
         return $this->redirect(['index']);
     }
 
