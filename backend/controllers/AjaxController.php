@@ -2,9 +2,10 @@
 
 namespace backend\controllers;
 
-use common\models\Taxonomy;
-use yii\caching\TagDependency;
 use yii\web\Controller;
+use yii\caching\TagDependency;
+use common\models\Taxonomy;
+use common\models\DynamicFormData;
 
 /**
  * CompanyController implements the CRUD actions for Company model.
@@ -34,5 +35,25 @@ class AjaxController extends Controller
             TagDependency::invalidate(\Yii::$app->cache, 'homePageTag');
             return $data->save();
         }
+    }
+
+    public function actionSubmitDynamicForm()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $request_params = \Yii::$app->request->post();
+        $dynamic_form = new DynamicFormData();
+        $request_params['data'] = json_encode($request_params['data']);
+        if ($dynamic_form->load($request_params, '') && $dynamic_form->save()) {
+            return [
+                'status' => 200,
+                'msg' => 'Success'
+            ];
+        }
+
+        return [
+            'status' => 424,
+            'msg' => 'Failed'
+        ];
+
     }
 }

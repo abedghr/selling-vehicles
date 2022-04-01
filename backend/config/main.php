@@ -15,7 +15,12 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'language' => 'en',
-    'modules' => [],
+    'modules' => [
+        'formio' => [
+            'class' => \mhunesi\formio\Module::class,
+            'userModel' => 'app/models/User'
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
