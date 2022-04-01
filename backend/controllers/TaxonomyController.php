@@ -3,27 +3,22 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\caching\TagDependency;
+use yii\web\NotFoundHttpException;
+
+use backend\components\BaseController;
+
 use common\models\Taxonomy;
 use common\models\TaxonomySearch;
-use yii\caching\TagDependency;
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\web\View;
 
 /**
- * TaxonomyController implements the CRUD actions for Taxonomy model.
+ * Class TaxonomyController
+ * @package backend\controllers
  */
-class TaxonomyController extends Controller
+class TaxonomyController extends BaseController
 {
-    public function __construct($id, $module, $config = [])
-    {
-        $this->view->registerJs("var base_url = '" . Yii::getAlias('@urlManagerBackend')  . "'", View::POS_HEAD);
-
-        parent::__construct($id, $module, $config);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -65,11 +60,14 @@ class TaxonomyController extends Controller
         ]);
     }
 
+    /**
+     * @return string
+     */
     public function actionMakes()
     {
         $searchModel = new TaxonomySearch();
+        $searchModel->type = Taxonomy::MAKE;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->where(['taxonomy.type' => Taxonomy::MAKE]);
         $all_taxonomy = $searchModel->getAllTypes();
 
         return $this->render('make', [
@@ -104,9 +102,6 @@ class TaxonomyController extends Controller
         $model->type = $type;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if($model->type == Taxonomy::MAKE){
-                TagDependency::invalidate(Yii::$app->cache,'makesListTag');
-            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -146,33 +141,26 @@ class TaxonomyController extends Controller
      */
     public function actionDelete($id)
     {
-
-        $model = $this->findModel($id);
-        $type = $model->type;
-        $model->delete();
-        if($type == Taxonomy::MAKE) {
-            TagDependency::invalidate(Yii::$app->cache,'makesListTag');
-        }
-        return $this->redirect(['index']);
+        if($this->findModel($id)->delete())
+            return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Taxonomy model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Taxonomy the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return Taxonomy|null
+     * @throws NotFoundHttpException
      */
     protected function findModel($id)
     {
-        if (($model = Taxonomy::findOne($id)) !== null) {
+        if (($model = Taxonomy::findOne($id))) {
             return $model;
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
-    public function actionModelsDepends(){
+    public function actionModelsDepends()
+    {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = [];
         if (isset($_POST['depdrop_parents'])) {
@@ -183,11 +171,11 @@ class TaxonomyController extends Controller
                     'type' => Taxonomy::MODEL,
                     'parent_id' => $make_id
                 ]);
-                foreach ($models as $model){
-                    $out[] = ['id'=> $model->id , 'name' => $model->title_en];
+                foreach ($models as $model) {
+                    $out[] = ['id' => $model->id, 'name' => $model->title_en];
                 }
 
-                return ['output'=>$out, 'selected'=>''];
+                return ['output' => $out, 'selected' => ''];
             }
         }
         return ['output' => '', 'selected' => ''];
