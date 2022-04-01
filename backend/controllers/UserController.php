@@ -2,18 +2,16 @@
 
 namespace backend\controllers;
 
-use common\models\Company;
-use common\models\IndividualUser;
-use common\models\Taxonomy;
-use common\models\Vehicle;
 use Yii;
-use common\models\User;
-use common\models\UserSearch;
-use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
+use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
+
+use common\models\User;
+use common\models\Vehicle;
+use common\models\UserSearch;
+use common\helpers\TaxonomyHelper;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -81,46 +79,22 @@ class UserController extends Controller
     public function actionCreate($type)
     {
         $model = new User();
-        $taxonomy = new Taxonomy();
         $vehicle = new Vehicle();
-        $cities = $taxonomy->getAllCity();
-        $vehicle_types = $vehicle->vehicleTypeList();
-
-        $user = null;
-        if ($type == User::INDVIDUAL_USER_TYPE) {
-            $model->type = $type;
-            $user = new IndividualUser();
-        }
-        if ($type == User::COMPANY_TYPE) {
-            $model->type = $type;
-            $user = new Company(['scenario'=>Company::SCENARIO_CREATE]);
-        }
+        $taxonomy_helper = new TaxonomyHelper();
         $form_data = Yii::$app->request->post();
-//        if ($user) {
-//            if ($model->load($form_data) && $user->load($form_data)) {
-//                if ($model->registerUser($user))
-//                    return $this->redirect(['view', 'id' => $model->id]);
-//            }
-//        }else {
-//            $model->type = User::ADMIN;
-//            if ($model->load($form_data)) {
-//                if ($model->registerUser($user))
-//                    return $this->redirect(['view', 'id' => $model->id]);
-//            }
-//        }
 
-        if ($model->load($form_data)) {
-            if ($user) {
-                $user->load($form_data);
-            }
-            if ($model->registerUser($user))
+        $cities = $taxonomy_helper->getAllCity();
+        $vehicle_types = $vehicle->vehicleTypeList();
+        $model->type = $type;
+
+        if(in_array($type, $model->userTypeList())) {
+            if ($model->load($form_data) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
-
 
         return $this->render('create', [
             'model' => $model,
-            'user' => $user,
             'cities' => $cities,
             'vehicle_types' => $vehicle_types
         ]);
@@ -135,43 +109,26 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = User::find()->where(['id'=>$id])->with('company','individualUser')->one();
-        $taxonomy = new Taxonomy();
+        $model = User::find()->where(['id' => $id])->with('company', 'individualUser')->one();
+        $taxonomy_helper = new TaxonomyHelper();
         $vehicle = new Vehicle();
-        $cities = $taxonomy->getAllCity();
+        $cities = $taxonomy_helper->getAllCity();
         $vehicle_types = $vehicle->vehicleTypeList();
-        $user = null;
-        if($model->type == User::INDVIDUAL_USER_TYPE){
-            $user = $model->individualUser;
+
+        if ($model->type == User::INDVIDUAL_USER_TYPE) {
+            $model->_individual = $model->individualUser;
+        } elseif ($model->type == User::COMPANY_TYPE) {
+            $model->_company = $model->company;
         }
-        if($model->type == User::COMPANY_TYPE){
-            $user = $model->company;
-        }
-        if($user){
-            if ($model->load(Yii::$app->request->post()) && $user->load(Yii::$app->request->post())) {
-                $transaction = Yii::$app->db->beginTransaction();
-                if($model->save() && $user->save()){
-                    $transaction->commit();
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
-                $transaction->rollBack();
-            }
-        }else{
-            if ($model->load(Yii::$app->request->post())) {
-                $transaction = Yii::$app->db->beginTransaction();
-                if($model->save()){
-                    $transaction->commit();
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
-                $transaction->rollBack();
-            }
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'user' => $user,
             'cities' => $cities,
-            'vehicle_type' => $vehicle_types
+            'vehicle_types' => $vehicle_types
         ]);
     }
 

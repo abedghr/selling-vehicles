@@ -8,6 +8,10 @@ use Yii;
  * This is the model class for table "vehicle".
  *
  * @property int $id
+ * @property string $type
+ * @property string|null $status
+ * @property string|null $slug
+ * @property string|null $slug_en
  * @property int $user_id
  * @property int $make_id
  * @property int $model_id
@@ -20,12 +24,10 @@ use Yii;
  * @property string $description
  * @property string $description_en
  * @property string $main_image
- * @property string $type
- * @property string|null $status
  * @property string|null $manufacturing_year
  * @property int|null $is_deleted
- * @property string|null $created_at
- * @property string|null $updated_at
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property NewVehicle $newVehicle
  * @property UsedVehicle $usedVehicle
@@ -41,7 +43,7 @@ use Yii;
  * @property Taxonomy[] $taxonomies
  * @property VehicleMedia[] $vehicleMedia
  */
-class Vehicle extends \yii\db\ActiveRecord
+class Vehicle extends \common\components\BaseActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -57,15 +59,15 @@ class Vehicle extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'make_id', 'model_id', 'color_id', 'body_type_id', 'gear_box_id', 'title', 'title_en', 'price', 'description', 'description_en', 'main_image', 'type'], 'required'],
+            [['type', 'user_id', 'make_id', 'model_id', 'color_id', 'body_type_id', 'gear_box_id', 'title', 'title_en', 'price', 'description', 'description_en', 'main_image'], 'required'],
             [['user_id', 'make_id', 'model_id', 'color_id', 'body_type_id', 'gear_box_id', 'is_deleted'], 'integer'],
             [['description', 'description_en'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['title', 'title_en'], 'string', 'max' => 255],
-            [['price'], 'string', 'max' => 30],
-            [['main_image'], 'string', 'max' => 500],
             [['type'], 'string', 'max' => 100],
             [['status'], 'string', 'max' => 50],
+            [['slug', 'slug_en', 'title', 'title_en'], 'string', 'max' => 255],
+            [['price'], 'string', 'max' => 30],
+            [['main_image'], 'string', 'max' => 500],
             [['manufacturing_year'], 'string', 'max' => 4],
             [['body_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => Taxonomy::className(), 'targetAttribute' => ['body_type_id' => 'id']],
             [['color_id'], 'exist', 'skipOnError' => true, 'targetClass' => Taxonomy::className(), 'targetAttribute' => ['color_id' => 'id']],
@@ -83,6 +85,10 @@ class Vehicle extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'type' => Yii::t('app', 'Type'),
+            'status' => Yii::t('app', 'Status'),
+            'slug' => Yii::t('app', 'Slug'),
+            'slug_en' => Yii::t('app', 'Slug En'),
             'user_id' => Yii::t('app', 'User ID'),
             'make_id' => Yii::t('app', 'Make ID'),
             'model_id' => Yii::t('app', 'Model ID'),
@@ -95,8 +101,6 @@ class Vehicle extends \yii\db\ActiveRecord
             'description' => Yii::t('app', 'Description'),
             'description_en' => Yii::t('app', 'Description En'),
             'main_image' => Yii::t('app', 'Main Image'),
-            'type' => Yii::t('app', 'Type'),
-            'status' => Yii::t('app', 'Status'),
             'manufacturing_year' => Yii::t('app', 'Manufacturing Year'),
             'is_deleted' => Yii::t('app', 'Is Deleted'),
             'created_at' => Yii::t('app', 'Created At'),
@@ -107,7 +111,7 @@ class Vehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[NewVehicle]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\NewVehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\NewVehicleQuery
      */
     public function getNewVehicle()
     {
@@ -117,7 +121,7 @@ class Vehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UsedVehicle]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\UsedVehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\UsedVehicleQuery
      */
     public function getUsedVehicle()
     {
@@ -127,7 +131,7 @@ class Vehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[BodyType]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getBodyType()
     {
@@ -137,7 +141,7 @@ class Vehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Color]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getColor()
     {
@@ -147,7 +151,7 @@ class Vehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[GearBox]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getGearBox()
     {
@@ -157,7 +161,7 @@ class Vehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Make]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getMake()
     {
@@ -167,7 +171,7 @@ class Vehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Model]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getModel()
     {
@@ -177,7 +181,7 @@ class Vehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[User]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\UserQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\UserQuery
      */
     public function getUser()
     {
@@ -187,7 +191,7 @@ class Vehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[VehicleComments]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleCommentQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleCommentQuery
      */
     public function getVehicleComments()
     {
@@ -197,7 +201,7 @@ class Vehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Comments]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\CommentQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\CommentQuery
      */
     public function getComments()
     {
@@ -207,7 +211,7 @@ class Vehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[VehicleFeatures]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleFeatureQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleFeatureQuery
      */
     public function getVehicleFeatures()
     {
@@ -217,7 +221,7 @@ class Vehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Taxonomies]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getTaxonomies()
     {
@@ -227,7 +231,7 @@ class Vehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[VehicleMedia]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleMediaQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleMediaQuery
      */
     public function getVehicleMedia()
     {
@@ -236,10 +240,10 @@ class Vehicle extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return \common\models\BaseModels\Query\VehicleQuery the active query used by this AR class.
+     * @return \common\models\BaseModels\Query\BaseQuery\VehicleQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\BaseModels\Query\VehicleQuery(get_called_class());
+        return new \common\models\BaseModels\Query\BaseQuery\VehicleQuery(get_called_class());
     }
 }

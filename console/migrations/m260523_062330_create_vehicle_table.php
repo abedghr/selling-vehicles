@@ -14,6 +14,10 @@ class m260523_062330_create_vehicle_table extends Migration
     {
         $this->createTable('{{%vehicle}}', [
             'id' => $this->primaryKey(),
+            'type' => $this->string(100)->notNull(),
+            'status' => $this->string(50)->defaultValue('pending'),
+            'slug' => $this->string(),
+            'slug_en' => $this->string(),
             'user_id' => $this->integer()->notNull(),
             'make_id' => $this->integer()->notNull(),
             'model_id' => $this->integer()->notNull(),
@@ -26,8 +30,6 @@ class m260523_062330_create_vehicle_table extends Migration
             'description' => $this->text()->notNull(),
             'description_en' => $this->text()->notNull(),
             'main_image' => $this->string(500)->notNull(),
-            'type' => $this->string(100)->notNull(),
-            'status' => $this->string(50)->defaultValue('pending'),
             'manufacturing_year' => $this->string(4),
             'is_deleted' => $this->tinyInteger()->defaultValue(0),
             'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),

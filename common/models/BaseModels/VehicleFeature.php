@@ -13,7 +13,7 @@ use Yii;
  * @property Vehicle $vehicle
  * @property Taxonomy $taxonomy
  */
-class VehicleFeature extends \yii\db\ActiveRecord
+class VehicleFeature extends \common\components\BaseActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -51,7 +51,7 @@ class VehicleFeature extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Vehicle]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleQuery
      */
     public function getVehicle()
     {
@@ -61,7 +61,7 @@ class VehicleFeature extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Taxonomy]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getTaxonomy()
     {
@@ -70,10 +70,10 @@ class VehicleFeature extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return \common\models\BaseModels\Query\VehicleFeatureQuery the active query used by this AR class.
+     * @return \common\models\BaseModels\Query\BaseQuery\VehicleFeatureQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\BaseModels\Query\VehicleFeatureQuery(get_called_class());
+        return new \common\models\BaseModels\Query\BaseQuery\VehicleFeatureQuery(get_called_class());
     }
 }

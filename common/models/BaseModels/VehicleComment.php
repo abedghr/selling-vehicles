@@ -13,7 +13,7 @@ use Yii;
  * @property Comment $comment
  * @property Vehicle $vehicle
  */
-class VehicleComment extends \yii\db\ActiveRecord
+class VehicleComment extends \common\components\BaseActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -51,7 +51,7 @@ class VehicleComment extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Comment]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\CommentQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\CommentQuery
      */
     public function getComment()
     {
@@ -61,7 +61,7 @@ class VehicleComment extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Vehicle]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleQuery
      */
     public function getVehicle()
     {
@@ -70,10 +70,10 @@ class VehicleComment extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return \common\models\BaseModels\Query\VehicleCommentQuery the active query used by this AR class.
+     * @return \common\models\BaseModels\Query\BaseQuery\VehicleCommentQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\BaseModels\Query\VehicleCommentQuery(get_called_class());
+        return new \common\models\BaseModels\Query\BaseQuery\VehicleCommentQuery(get_called_class());
     }
 }

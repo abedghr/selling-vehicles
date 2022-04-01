@@ -15,7 +15,7 @@ use Yii;
  *
  * @property User $user
  */
-class IndividualUser extends \yii\db\ActiveRecord
+class IndividualUser extends \common\components\BaseActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -56,7 +56,7 @@ class IndividualUser extends \yii\db\ActiveRecord
     /**
      * Gets query for [[User]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\UserQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\UserQuery
      */
     public function getUser()
     {
@@ -65,10 +65,10 @@ class IndividualUser extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return \common\models\BaseModels\Query\IndividualUserQuery the active query used by this AR class.
+     * @return \common\models\BaseModels\Query\BaseQuery\IndividualUserQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\BaseModels\Query\IndividualUserQuery(get_called_class());
+        return new \common\models\BaseModels\Query\BaseQuery\IndividualUserQuery(get_called_class());
     }
 }

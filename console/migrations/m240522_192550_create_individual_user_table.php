@@ -22,13 +22,7 @@ class m240522_192550_create_individual_user_table extends Migration
 
         $this->addPrimaryKey('individual_user_id_PK','individual_user','user_id');
 
-        $this->addForeignKey(
-            'individual_user_id_FK',
-            'individual_user',
-            'user_id',
-            'user',
-            'id'
-        );
+        $this->addForeignKey('individual_user_id_FK', 'individual_user', 'user_id', 'user', 'id');
     }
 
     /**

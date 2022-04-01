@@ -26,7 +26,7 @@ use Yii;
  * @property Taxonomy $propulsionSystem
  * @property Taxonomy $wheelsSize
  */
-class NewVehicle extends \yii\db\ActiveRecord
+class NewVehicle extends \common\components\BaseActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -79,7 +79,7 @@ class NewVehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Vehicle]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleQuery
      */
     public function getVehicle()
     {
@@ -89,7 +89,7 @@ class NewVehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Engine]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getEngine()
     {
@@ -99,7 +99,7 @@ class NewVehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[FuelType]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getFuelType()
     {
@@ -109,7 +109,7 @@ class NewVehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[GasolineAmount]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getGasolineAmount()
     {
@@ -119,7 +119,7 @@ class NewVehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[LightType]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getLightType()
     {
@@ -129,7 +129,7 @@ class NewVehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[PropulsionSystem]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getPropulsionSystem()
     {
@@ -139,7 +139,7 @@ class NewVehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[WheelsSize]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getWheelsSize()
     {
@@ -148,10 +148,10 @@ class NewVehicle extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return \common\models\BaseModels\Query\NewVehicleQuery the active query used by this AR class.
+     * @return \common\models\BaseModels\Query\BaseQuery\NewVehicleQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\BaseModels\Query\NewVehicleQuery(get_called_class());
+        return new \common\models\BaseModels\Query\BaseQuery\NewVehicleQuery(get_called_class());
     }
 }

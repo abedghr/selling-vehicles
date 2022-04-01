@@ -12,7 +12,12 @@ use Yii;
  * @property string $title
  * @property string $title_en
  * @property string $type
+ * @property int|null $is_featured_new
+ * @property int|null $is_featured_used
+ * @property int|null $is_popular
  * @property string|null $image
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property NewVehicle[] $newVehicles
  * @property NewVehicle[] $newVehicles0
@@ -34,7 +39,7 @@ use Yii;
  * @property VehicleFeature[] $vehicleFeatures
  * @property Vehicle[] $vehicles4
  */
-class Taxonomy extends \yii\db\ActiveRecord
+class Taxonomy extends \common\components\BaseActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -50,8 +55,9 @@ class Taxonomy extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id'], 'integer'],
+            [['parent_id', 'is_featured_new', 'is_featured_used', 'is_popular'], 'integer'],
             [['title', 'title_en', 'type'], 'required'],
+            [['created_at', 'updated_at'], 'safe'],
             [['title', 'title_en', 'type'], 'string', 'max' => 255],
             [['image'], 'string', 'max' => 500],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Taxonomy::className(), 'targetAttribute' => ['parent_id' => 'id']],
@@ -69,14 +75,19 @@ class Taxonomy extends \yii\db\ActiveRecord
             'title' => Yii::t('app', 'Title'),
             'title_en' => Yii::t('app', 'Title En'),
             'type' => Yii::t('app', 'Type'),
+            'is_featured_new' => Yii::t('app', 'Is Featured New'),
+            'is_featured_used' => Yii::t('app', 'Is Featured Used'),
+            'is_popular' => Yii::t('app', 'Is Popular'),
             'image' => Yii::t('app', 'Image'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
 
     /**
      * Gets query for [[NewVehicles]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\NewVehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\NewVehicleQuery
      */
     public function getNewVehicles()
     {
@@ -86,7 +97,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[NewVehicles0]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\NewVehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\NewVehicleQuery
      */
     public function getNewVehicles0()
     {
@@ -96,7 +107,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[NewVehicles1]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\NewVehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\NewVehicleQuery
      */
     public function getNewVehicles1()
     {
@@ -106,7 +117,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[NewVehicles2]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\NewVehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\NewVehicleQuery
      */
     public function getNewVehicles2()
     {
@@ -116,7 +127,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[NewVehicles3]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\NewVehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\NewVehicleQuery
      */
     public function getNewVehicles3()
     {
@@ -126,7 +137,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[NewVehicles4]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\NewVehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\NewVehicleQuery
      */
     public function getNewVehicles4()
     {
@@ -136,7 +147,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Parent]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getParent()
     {
@@ -146,7 +157,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Taxonomies]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getTaxonomies()
     {
@@ -156,7 +167,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UsedVehicles]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\UsedVehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\UsedVehicleQuery
      */
     public function getUsedVehicles()
     {
@@ -166,7 +177,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UsedVehicles0]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\UsedVehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\UsedVehicleQuery
      */
     public function getUsedVehicles0()
     {
@@ -176,7 +187,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UsedVehicles1]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\UsedVehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\UsedVehicleQuery
      */
     public function getUsedVehicles1()
     {
@@ -186,7 +197,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Users]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\UserQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\UserQuery
      */
     public function getUsers()
     {
@@ -196,7 +207,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Vehicles]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleQuery
      */
     public function getVehicles()
     {
@@ -206,7 +217,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Vehicles0]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleQuery
      */
     public function getVehicles0()
     {
@@ -216,7 +227,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Vehicles1]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleQuery
      */
     public function getVehicles1()
     {
@@ -226,7 +237,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Vehicles2]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleQuery
      */
     public function getVehicles2()
     {
@@ -236,7 +247,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Vehicles3]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleQuery
      */
     public function getVehicles3()
     {
@@ -246,7 +257,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[VehicleFeatures]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleFeatureQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleFeatureQuery
      */
     public function getVehicleFeatures()
     {
@@ -256,7 +267,7 @@ class Taxonomy extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Vehicles4]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleQuery
      */
     public function getVehicles4()
     {
@@ -265,10 +276,10 @@ class Taxonomy extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return \common\models\BaseModels\Query\TaxonomyQuery the active query used by this AR class.
+     * @return \common\models\BaseModels\Query\BaseQuery\TaxonomyQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\BaseModels\Query\TaxonomyQuery(get_called_class());
+        return new \common\models\BaseModels\Query\BaseQuery\TaxonomyQuery(get_called_class());
     }
 }

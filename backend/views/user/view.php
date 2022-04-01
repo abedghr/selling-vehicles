@@ -34,7 +34,13 @@ $this->params['breadcrumbs'][] = $model->username;
         'type',
         'phone',
         'phone2',
-        'city.title',
+        [
+            'attribute' => 'city.title',
+            'label' => 'City',
+            'value' => function ($model) {
+                return $model->city ?? null;
+            },
+        ],
         'location',
     ];
     if ($model->type == \common\models\User::INDVIDUAL_USER_TYPE) {

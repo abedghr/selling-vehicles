@@ -14,7 +14,7 @@ use Yii;
  * @property User $user
  * @property VehicleMedia[] $vehicleMedia
  */
-class Media extends \yii\db\ActiveRecord
+class Media extends \common\components\BaseActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -52,7 +52,7 @@ class Media extends \yii\db\ActiveRecord
     /**
      * Gets query for [[User]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\UserQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\UserQuery
      */
     public function getUser()
     {
@@ -62,7 +62,7 @@ class Media extends \yii\db\ActiveRecord
     /**
      * Gets query for [[VehicleMedia]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleMediaQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleMediaQuery
      */
     public function getVehicleMedia()
     {
@@ -71,10 +71,10 @@ class Media extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return \common\models\BaseModels\Query\MediaQuery the active query used by this AR class.
+     * @return \common\models\BaseModels\Query\BaseQuery\MediaQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\BaseModels\Query\MediaQuery(get_called_class());
+        return new \common\models\BaseModels\Query\BaseQuery\MediaQuery(get_called_class());
     }
 }

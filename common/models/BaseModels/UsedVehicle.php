@@ -17,7 +17,7 @@ use Yii;
  * @property Taxonomy $vehicleChecking
  * @property Vehicle $vehicle
  */
-class UsedVehicle extends \yii\db\ActiveRecord
+class UsedVehicle extends \common\components\BaseActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -59,7 +59,7 @@ class UsedVehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Mileage]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getMileage()
     {
@@ -69,7 +69,7 @@ class UsedVehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[City]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getCity()
     {
@@ -79,7 +79,7 @@ class UsedVehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[VehicleChecking]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\TaxonomyQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\TaxonomyQuery
      */
     public function getVehicleChecking()
     {
@@ -89,7 +89,7 @@ class UsedVehicle extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Vehicle]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleQuery
      */
     public function getVehicle()
     {
@@ -98,10 +98,10 @@ class UsedVehicle extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return \common\models\BaseModels\Query\UsedVehicleQuery the active query used by this AR class.
+     * @return \common\models\BaseModels\Query\BaseQuery\UsedVehicleQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\BaseModels\Query\UsedVehicleQuery(get_called_class());
+        return new \common\models\BaseModels\Query\BaseQuery\UsedVehicleQuery(get_called_class());
     }
 }

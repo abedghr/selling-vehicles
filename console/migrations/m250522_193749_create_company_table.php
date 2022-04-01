@@ -25,13 +25,7 @@ class m250522_193749_create_company_table extends Migration
 
         $this->addPrimaryKey('company_user_id_PK','company','user_id');
 
-        $this->addForeignKey(
-            'company_user_id_FK',
-            'company',
-            'user_id',
-            'user',
-            'id'
-        );
+        $this->addForeignKey('company_user_id_FK', 'company', 'user_id', 'user', 'id');
     }
 
     /**

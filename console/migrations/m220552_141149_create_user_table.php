@@ -26,23 +26,14 @@ class m220552_141149_create_user_table extends Migration
             'location' => $this->string(500)->null(),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'is_deleted' => $this->tinyInteger()->notNull()->defaultValue(0),
-            'created_at' => $this->integer()->null(),
-            'updated_at' => $this->integer()->null(),
+            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
         ], $tableOptions);
 
         $this->createIndex('username_index','user','username');
         $this->createIndex('email_index','user','email');
         $this->createIndex('phone_index','user','phone');
-
-        $this->addForeignKey(
-            'tax_city_id_FK',
-            'user',
-            'city_id',
-            'taxonomy',
-            'id',
-            'SET NULL',
-            'cascade'
-        );
+        $this->addForeignKey('tax_city_id_FK', 'user', 'city_id', 'taxonomy', 'id', 'SET NULL', 'cascade');
     }
 
     public function safeDown()

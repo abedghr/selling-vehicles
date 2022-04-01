@@ -3,12 +3,10 @@
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
 
-/* @var $this yii\web\View */
 /* @var $model common\models\User */
 /* @var $cities array */
 /* @var $vehicle_types array */
-/* @var $user common\models\IndividualUser|\common\models\Company */
-/* @var $form yii\bootstrap4\ActiveForm */
+
 ?>
 
 <div class="user-form">
@@ -55,18 +53,18 @@ use yii\bootstrap4\ActiveForm;
     <?php if ($model->type == \common\models\User::INDVIDUAL_USER_TYPE) { ?>
         <div class="row">
             <div class="col-lg-6">
-                <?= $form->field($user, 'first_name')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model->_individual, 'first_name')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-lg-6">
-                <?= $form->field($user, 'first_name_en')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model->_individual, 'first_name_en')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <?= $form->field($user, 'last_name')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model->_individual, 'last_name')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-lg-6">
-                <?= $form->field($user, 'last_name_en')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model->_individual, 'last_name_en')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
 
@@ -75,30 +73,31 @@ use yii\bootstrap4\ActiveForm;
 
         <div class="row">
             <div class="col-lg-6">
-                <?= $form->field($user, 'name')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model->_company, 'name')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-lg-6">
-                <?= $form->field($user, 'name_en')->textInput(['maxlength' => true]) ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6">
-                <?= $form->field($user, 'vehicles_type')->dropdownList($vehicle_types) ?>
-            </div>
-            <div class="col-lg-6">
-                <?= $form->field($user, 'imageFile')->fileInput(['class' => 'form-control']) ?>
+                <?= $form->field($model->_company, 'name_en')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <?= $form->field($user, 'description')->textarea(['rows' => 6]) ?>            </div>
+                <?= $form->field($model->_company, 'vehicles_type')->dropdownList($vehicle_types) ?>
+            </div>
             <div class="col-lg-6">
-                <?= $form->field($user, 'description_en')->textarea(['rows' => 6]) ?>
+                <?= $form->field($model->_company, 'imageFile')->fileInput(['class' => 'form-control']) ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <?= $form->field($model->_company, 'description')->textarea(['rows' => 6]) ?>
+            </div>
+            <div class="col-lg-6">
+                <?= $form->field($model->_company, 'description_en')->textarea(['rows' => 6]) ?>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <?= $form->field($user, 'branch_number')->textInput() ?>
+                <?= $form->field($model->_company, 'branch_number')->textInput() ?>
             </div>
         </div>
 

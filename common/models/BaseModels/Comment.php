@@ -10,14 +10,14 @@ use Yii;
  * @property int $id
  * @property int $user_id
  * @property string $comment
- * @property string|null $created_at
- * @property string|null $updated_at
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property User $user
  * @property VehicleComment[] $vehicleComments
  * @property Vehicle[] $vehicles
  */
-class Comment extends \yii\db\ActiveRecord
+class Comment extends \common\components\BaseActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -58,7 +58,7 @@ class Comment extends \yii\db\ActiveRecord
     /**
      * Gets query for [[User]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\UserQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\UserQuery
      */
     public function getUser()
     {
@@ -68,7 +68,7 @@ class Comment extends \yii\db\ActiveRecord
     /**
      * Gets query for [[VehicleComments]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleCommentQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleCommentQuery
      */
     public function getVehicleComments()
     {
@@ -78,7 +78,7 @@ class Comment extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Vehicles]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\VehicleQuery
+     * @return \yii\db\ActiveQuery|\common\models\BaseModels\Query\BaseQuery\VehicleQuery
      */
     public function getVehicles()
     {
@@ -87,10 +87,10 @@ class Comment extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return \common\models\BaseModels\Query\CommentQuery the active query used by this AR class.
+     * @return \common\models\BaseModels\Query\BaseQuery\CommentQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\BaseModels\Query\CommentQuery(get_called_class());
+        return new \common\models\BaseModels\Query\BaseQuery\CommentQuery(get_called_class());
     }
 }

@@ -2,41 +2,48 @@
 
 namespace common\models;
 
-use common\models\Comment;
-use common\models\Company;
-use common\models\IndividualUser;
-use common\models\Media;
-use common\models\Taxonomy;
-use common\models\Vehicle;
 use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use yii\web\UploadedFile;
+use yii\base\NotSupportedException;
 
 /**
  * User model
- *
- * @property integer $id
- * @property string $username
- * @property string $password_hash
- * @property string $password_reset_token
- * @property string $verification_token
- * @property string $email
- * @property string $auth_key
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
- * @property string $password write-only password
- * @property Company|User $user write-only password
+ * @inheritDoc
+ * @property-write string $password
+ * @property-read null|string $authKey
  */
-class User extends \common\models\BaseModels\User
+class User extends \common\models\BaseModels\User implements IdentityInterface
 {
+    const STATUS_DELETED = 0;
+    const STATUS_INACTIVE = 9;
+    const STATUS_ACTIVE = 10;
+
     const SUPER_ADMIN = 'super_admin';
     const ADMIN = 'admin';
     const INDVIDUAL_USER_TYPE = 'individual';
     const COMPANY_TYPE = 'company';
+
+    public $_individual, $_company;
+    public $multiple_tbl = [
+        '_individual' => [
+            'scenario' => ['create_individual', 'update_individual'],
+            'model' => '\common\models\IndividualUser',
+            'form_name' => 'IndividualUser',
+        ],
+        '_company' => [
+            'scenario' => ['create_company', 'update_company'],
+            'model' => '\common\models\Company',
+            'form_name' => 'Company',
+        ]
+    ];
+
+    public function rules()
+    {
+        return array_merge(parent::rules(), [
+            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+        ]);
+    }
 
     public function userStatusList()
     {
@@ -55,37 +62,34 @@ class User extends \common\models\BaseModels\User
         ];
     }
 
-    public function registerUser($user = null)
+    public function save($runValidation = true, $attributeNames = null)
     {
-        if ($this->type == self::COMPANY_TYPE) {
-            $user->imageFile = UploadedFile::getInstance($user, 'imageFile');
-            $user->image = $user->imageFile->name;
-        }
-
         $transaction = Yii::$app->db->beginTransaction();
         $this->setPassword($this->password_hash);
         $this->generateAuthKey();
         $this->generateEmailVerificationToken();
 
-        if ($this->save()) {
-            if ($user != null) {
-                $user->user_id = $this->id;
-                if ($user->save()) {
-                    if ($this->type == self::COMPANY_TYPE) {
-                        $user->imageFile->saveAs('uploads/company/' . $user->imageFile);
-                        $transaction->commit();
-                        return true;
-                    } else {
-                        $transaction->commit();
-                        return true;
-                    }
-                }
+        if (!parent::save($runValidation, $attributeNames)) {
+            $transaction->rollBack();
+            return false;
+        }
+
+        if ($this->type == self::INDVIDUAL_USER_TYPE) {
+            $this->_individual->user_id = $this->id;
+            if (!$this->_individual->save()) {
+                $transaction->rollBack();
+                return false;
+            }
+        } elseif ($this->type == self::COMPANY_TYPE) {
+            $this->_company->user_id = $this->id;
+            if (!$this->_company->save()) {
                 $transaction->rollBack();
                 return false;
             }
         }
-        $transaction->rollBack();
-        return false;
+
+        $transaction->commit();
+        return true;
     }
 
     /**
@@ -244,7 +248,7 @@ class User extends \common\models\BaseModels\User
     }
 
     /**
-     * {@inheritdoc}
+     * @return string|null
      */
     public function getAuthKey()
     {
