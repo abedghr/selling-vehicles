@@ -3,30 +3,12 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Company;
-use common\models\CompanySearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use backend\components\BaseController;
 
 /**
- * CompanyController implements the CRUD actions for Company model.
+ * Class CompanyController
+ * @package backend\controllers
  */
-class CompanyController extends Controller
+class CompanyController extends BaseController
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
 }

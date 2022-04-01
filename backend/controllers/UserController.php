@@ -3,10 +3,11 @@
 namespace backend\controllers;
 
 use Yii;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
+
+use backend\components\BaseController;
 
 use common\models\User;
 use common\models\Vehicle;
@@ -14,9 +15,10 @@ use common\models\UserSearch;
 use common\helpers\TaxonomyHelper;
 
 /**
- * UserController implements the CRUD actions for User model.
+ * Class UserController
+ * @package backend\controllers
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
     /**
      * {@inheritdoc}
