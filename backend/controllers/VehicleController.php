@@ -2,26 +2,30 @@
 
 namespace backend\controllers;
 
-use common\models\Media;
-use common\models\NewVehicle;
-use common\models\Taxonomy;
-use common\models\UsedVehicle;
-use common\models\User;
-use common\models\VehicleFeature;
-use common\models\VehicleMedia;
+use common\helpers\TaxonomyHelper;
+use common\helpers\UserHelper;
 use Yii;
-use common\models\Vehicle;
-use common\models\VehicleSearch;
-use yii\caching\TagDependency;
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
+
+use backend\components\BaseController;
+
+use common\models\User;
+use common\models\Media;
+use common\models\Vehicle;
+use common\models\Taxonomy;
+use common\models\NewVehicle;
+use common\models\UsedVehicle;
+use common\models\VehicleMedia;
+use common\models\VehicleSearch;
+use common\models\VehicleFeature;
 
 /**
- * VehicleController implements the CRUD actions for Vehicle model.
+ * Class VehicleController
+ * @package backend\controllers
  */
-class VehicleController extends Controller
+class VehicleController extends BaseController
 {
     /**
      * {@inheritdoc}
@@ -79,48 +83,36 @@ class VehicleController extends Controller
     }
 
     /**
-     * Creates a new Vehicle model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
      * @param $type
-     * @return mixed
+     * @return string|\yii\web\Response
      */
     public function actionCreate($type)
     {
         $model = new Vehicle(['scenario' => Vehicle::SCENARIO_CREATE]);
         $media = new Media(['scenario' => Media::SCENARIO_CREATE]);
-        $vehicle_status_list = $model->vehicleStatusList();
-        $model->type = $type;
         $feature = new VehicleFeature();
-        $users = User::find();
-        $features = Taxonomy::find()->where(['type' => [Taxonomy::CAMERA, Taxonomy::SENSOR]])->all();
 
+        $vehicle_status_list = $model->vehicleStatusList();
 
-        $vehicle = null;
-        if ($type == Vehicle::TYPE_NEW) {
-            $users = $users->where(['type' => User::COMPANY_TYPE]);
-            $vehicle = new NewVehicle();
-        }
-        if ($type == Vehicle::TYPE_USED) {
-            $vehicle = new UsedVehicle();
-        }
+        $taxonomy_helper = new TaxonomyHelper();
+        $features = $taxonomy_helper->getFeaturesList();
 
-        $users = $users->all();
-        $formData = Yii::$app->request->post();
+        $user_helper = new UserHelper();
+        $users = $user_helper->getUsersList($type);
+        $model->type = $type;
 
-        if ($model->load($formData) && $vehicle->load($formData) && $media->load($formData)) {
-            if ($feature) {
-                $feature->load($formData);
-            }
-            $create_vehicle = $model->createVehicle($vehicle, $media, $feature);
-            if ($create_vehicle) {
+        if($type && in_array($type, $model->vehicleTypeList())) {
+            echo "<pre>";
+            print_r(Yii::$app->request->post());
+            print_r($_FILES);
+            die;
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
-
         return $this->render('create', [
             'model' => $model,
-            'vehicle' => $vehicle,
             'users' => $users,
             'media' => $media,
             'vehicle_status_list' => $vehicle_status_list,

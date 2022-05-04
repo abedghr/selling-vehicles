@@ -7,12 +7,9 @@ use \common\models\Taxonomy;
 use \kartik\depdrop\DepDrop;
 use \yii\helpers\Url;
 
-/* @var $this yii\web\View */
 /* @var $model common\models\Vehicle */
 /* @var $media common\models\Media */
-/* @var $vehicle \common\models\NewVehicle|\common\models\UsedVehicle */
 /* @var $feature \common\models\VehicleFeature */
-/* @var $form yii\widgets\ActiveForm */
 /* @var $users array */
 /* @var $features array */
 /* @var $sensor array */
@@ -102,35 +99,35 @@ use \yii\helpers\Url;
 
         <div class="row">
             <div class="col-lg-4">
-                <?= $form->field($vehicle, 'engine_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::ENGINE])->all(), 'id', 'title_en')) ?>
+                <?= $form->field($model->_new_vehicle, 'engine_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::ENGINE])->all(), 'id', 'title_en')) ?>
             </div>
             <div class="col-lg-4">
-                <?= $form->field($vehicle, 'gasoline_amount_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::GASOLINE_AMOUNT])->all(), 'id', 'title_en')) ?>
+                <?= $form->field($model->_new_vehicle, 'gasoline_amount_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::GASOLINE_AMOUNT])->all(), 'id', 'title_en')) ?>
             </div>
             <div class="col-lg-4">
-                <?= $form->field($vehicle, 'wheels_size_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::WHEELS_SIZE])->all(), 'id', 'title_en')) ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <?= $form->field($vehicle, 'light_type_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::LIGHT_TYPE])->all(), 'id', 'title_en')) ?>
-            </div>
-            <div class="col-lg-4">
-                <?= $form->field($vehicle, 'propulsion_system_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::PROPULSION_SYSTEM])->all(), 'id', 'title_en')) ?>
-            </div>
-            <div class="col-lg-4">
-                <?= $form->field($vehicle, 'fuel_type_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::FUEL_TYPE])->all(), 'id', 'title_en')) ?>
+                <?= $form->field($model->_new_vehicle, 'wheels_size_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::WHEELS_SIZE])->all(), 'id', 'title_en')) ?>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-4">
-                <?= $form->field($vehicle, 'engine_capacity')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model->_new_vehicle, 'light_type_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::LIGHT_TYPE])->all(), 'id', 'title_en')) ?>
             </div>
             <div class="col-lg-4">
-                <?= $form->field($vehicle, 'video_url')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model->_new_vehicle, 'propulsion_system_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::PROPULSION_SYSTEM])->all(), 'id', 'title_en')) ?>
             </div>
             <div class="col-lg-4">
-                <?= $form->field($vehicle, 'horse_power')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model->_new_vehicle, 'fuel_type_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::FUEL_TYPE])->all(), 'id', 'title_en')) ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <?= $form->field($model->_new_vehicle, 'engine_capacity')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-lg-4">
+                <?= $form->field($model->_new_vehicle, 'video_url')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-lg-4">
+                <?= $form->field($model->_new_vehicle, 'horse_power')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
         <?php if (isset($create) && $create == 'create') { ?>
@@ -153,13 +150,13 @@ use \yii\helpers\Url;
 
         <div class="row">
             <div class="col-lg-4">
-                <?= $form->field($vehicle, 'city_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::CITY])->all(), 'id', 'title_en')) ?>
+                <?= $form->field($model->_used_vehicle, 'city_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::CITY])->all(), 'id', 'title_en')) ?>
             </div>
             <div class="col-lg-4">
-                <?= $form->field($vehicle, 'mileage_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::MILEAGE])->all(), 'id', 'title_en')) ?>
+                <?= $form->field($model->_used_vehicle, 'mileage_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::MILEAGE])->all(), 'id', 'title_en')) ?>
             </div>
             <div class="col-lg-4">
-                <?= $form->field($vehicle, 'vehicle_checking_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::VEHICLE_CHECKING])->all(), 'id', 'title_en')) ?>
+                <?= $form->field($model->_used_vehicle, 'vehicle_checking_id')->dropdownList(ArrayHelper::map(Taxonomy::find()->where(['type' => Taxonomy::VEHICLE_CHECKING])->all(), 'id', 'title_en')) ?>
             </div>
         </div>
 

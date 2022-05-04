@@ -26,7 +26,6 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
     <?= $this->render('_form', [
         'model' => $model,
-        'vehicle' => $vehicle,
         'users' => $users,
         'media' => $media,
         'vehicle_media' => $vehicle_media,

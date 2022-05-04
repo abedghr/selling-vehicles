@@ -9,7 +9,6 @@ use yii\helpers\Html;
 /* @var $users array */
 /* @var $features array */
 /* @var $vehicle_status_list array */
-/* @var $vehicle \common\models\NewVehicle|\common\models\UsedVehicle */
 
 $this->title = Yii::t('app', 'Create Vehicle');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Vehicles'), 'url' => ['index']];
@@ -21,7 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'vehicle' => $vehicle,
         'users' => $users,
         'media' => $media,
         'vehicle_status_list' => $vehicle_status_list,

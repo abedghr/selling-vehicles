@@ -14,4 +14,12 @@ class TaxonomyHelper extends Component
             ->asArray()
             ->all();
     }
+
+    public function getFeaturesList()
+    {
+        return Taxonomy::find()
+            ->where([
+                'type' => [Taxonomy::CAMERA, Taxonomy::SENSOR]
+            ])->all();
+    }
 }
